@@ -20,11 +20,13 @@ import { NoContentComponent } from "./no-content";
 import { XLargeDirective } from "./home/x-large";
 import { DevModuleModule } from "./+dev-module";
 
+/* tslint:disable:no-import-side-effect */
 import "../styles/styles.scss";
+/* tslint:enable */
 import "../styles/headings.css";
 
 // Application wide providers
-const APP_PROVIDERS = [AppState];
+const APP_PROVIDERS: any = [AppState];
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstrapping process

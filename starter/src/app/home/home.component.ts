@@ -27,20 +27,26 @@ export class HomeComponent implements OnInit {
 	/**
 	 * Set our default values
 	 */
-	public localState = { value: "" };
+	public localState: any = { value: "" };
+
+	public appState: AppState;
+	public title: Title;
 	/**
 	 * TypeScript public modifiers
 	 */
-	constructor(public appState: AppState, public title: Title) {}
+	public constructor(appState: AppState, title: Title) {
+		this.appState = appState;
+		this.title = title;
+	}
 
-	public ngOnInit() {
+	public ngOnInit(): void {
 		console.log("hello `Home` component");
 		/**
 		 * this.title.getData().subscribe(data => this.data = data);
 		 */
 	}
 
-	public submitState(value: string) {
+	public submitState(value: string): void {
 		console.log("submitState", value);
 		this.appState.set("value", value);
 		this.localState.value = "";
