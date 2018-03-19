@@ -25,6 +25,8 @@
  *
  * Polyfill: https://github.com/zloirock/core-js
  */
+
+/* tslint:disable */
 import "core-js/es6";
 import "core-js/es7/reflect";
 import "core-js/stage/4";
@@ -62,6 +64,9 @@ import "web-animations-js";
 // workaround for IE11 before loading zone.ks (see: https://github.com/angular/zone.js/issues/933)
 (window as any).__Zone_enable_cross_context_check = true;
 import "zone.js/dist/zone";
+
+/* tslint:enable */
+
 // import 'zone.js/dist/long-stack-trace-zone' // async stack traces with zone.js included for dev
 
 /***************************************************************************************************

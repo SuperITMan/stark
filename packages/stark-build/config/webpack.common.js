@@ -8,12 +8,12 @@ const commonData = require("./webpack.common-data.js"); // common configuration 
  *
  * problem with copy-webpack-plugin
  */
-// const DefinePlugin = require("webpack/lib/DefinePlugin");
+const DefinePlugin = require("webpack/lib/DefinePlugin");
 const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const InlineManifestWebpackPlugin = require("inline-manifest-webpack-plugin");
-// const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+const InlineManifestWebpackPlugin = require("inline-manifest-webpack-plugin");
+const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 const { AngularCompilerPlugin } = require("@ngtools/webpack");
 const { NamedLazyChunksWebpackPlugin } = require("@angular/cli/plugins/webpack");
 const NoEmitOnErrorsPlugin = require("webpack/lib/NoEmitOnErrorsPlugin");
@@ -125,10 +125,10 @@ module.exports = function(options) {
 				// see https://github.com/angular/angular-cli/issues/8594
 				{
 					test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
-					use: METADATA.AOT ? [buildOptimizerLoader, "@ngtools/webpack"] : ["@ngtools/webpack"]
+					use: METADATA.AOT && isProd ? [buildOptimizerLoader, "@ngtools/webpack"] : ["@ngtools/webpack"]
 				},
 
-				...(METADATA.AOT
+				...(METADATA.AOT && isProd
 					? [
 							{
 								test: /\.js$/,
@@ -257,14 +257,14 @@ module.exports = function(options) {
 			//  * See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
 			//  */
 			// // NOTE: when adding more properties make sure you include them in custom-typings.d.ts
-			// new DefinePlugin({
-			//   'ENV': JSON.stringify(METADATA.ENV),
-			//   'HMR': METADATA.HMR,
-			//   'AOT': METADATA.AOT,
-			//   'process.env.ENV': JSON.stringify(METADATA.ENV),
-			//   'process.env.NODE_ENV': JSON.stringify(METADATA.ENV),
-			//   'process.env.HMR': METADATA.HMR
-			// }),
+			new DefinePlugin({
+			  'ENV': JSON.stringify(METADATA.ENV),
+			  'HMR': METADATA.HMR,
+			  'AOT': METADATA.AOT,
+			  'process.env.ENV': JSON.stringify(METADATA.ENV),
+			  'process.env.NODE_ENV': JSON.stringify(METADATA.ENV),
+			  'process.env.HMR': METADATA.HMR
+			}),
 
 			/**
 			 * Plugin: NamedLazyChunksWebpackPlugin
@@ -445,12 +445,12 @@ module.exports = function(options) {
 			 * See: https://github.com/numical/script-ext-html-webpack-plugin
 			 */
 			// TODO evaluate this
-			// new ScriptExtHtmlWebpackPlugin({
-			//   sync: /inline|polyfills|vendor/,
-			//   defaultAttribute: 'async',
-			//   preload: [/polyfills|vendor|main/],
-			//   prefetch: [/chunk/]
-			// }),
+			new ScriptExtHtmlWebpackPlugin({
+			  sync: /inline|polyfills|vendor/,
+			  defaultAttribute: 'async',
+			  preload: [/polyfills|vendor|main/],
+			  prefetch: [/chunk/]
+			}),
 
 			new AngularCompilerPlugin({
 				// Optional params
@@ -478,7 +478,7 @@ module.exports = function(options) {
 
 				// Required params
 				tsConfigPath: METADATA.tsConfigPath
-			})
+			}),
 
 			/**
 			 * Plugin: InlineManifestWebpackPlugin
@@ -487,7 +487,7 @@ module.exports = function(options) {
 			 * https://github.com/szrenwei/inline-manifest-webpack-plugin
 			 */
 			// TODO evaluate this
-			// new InlineManifestWebpackPlugin(),
+			new InlineManifestWebpackPlugin(),
 		],
 
 		/**
@@ -502,7 +502,10 @@ module.exports = function(options) {
 			crypto: "empty",
 			module: false,
 			clearImmediate: false,
-			setImmediate: false
+			setImmediate: false,
+			fs: "empty",
+			tls: "empty",
+			net: "empty"
 		}
 	};
 };
