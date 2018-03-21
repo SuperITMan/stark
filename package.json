@@ -56,7 +56,8 @@
     "clean": "rimraf ./dist",
     "clean:stark-core": "cd packages/stark-core && rimraf ./node_modules/@nationalbankbelgium/stark-build && cd ../..",
     "clean:starter": "cd starter && rimraf ./dist && rimraf ./node_modules/@nationalbankbelgium && cd ..",
-    "clean:all": "npm run clean && npm run clean:stark-core && npm run clean:starter"
+    "clean:all": "npm run clean && npm run clean:stark-core && npm run clean:starter",
+    "lint:starter": "cd starter && npm run lint && cd .."
   },
   "lint-staged": {
     "*.{css,js,json,pcss,scss,ts}": [
