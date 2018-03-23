@@ -1,11 +1,6 @@
 # private variable to track folds within this script
 travisFoldStack=()
 
-if [[ ${TRAVIS:-} ]]; then
-  mkdir -p $LOGS_DIR
-  touch $LOGS_DIR/build-perf.log
-fi
-
 function travisFoldStart() {
   local foldName="${0#./}  ${1}"
   # get current time as nanoseconds since the beginning of the epoch
