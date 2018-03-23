@@ -22,5 +22,8 @@ cache:
 addons:
   chrome: stable
 
+before_script:
+  - mkdir -p $LOGS_DIR
+
 script:
   - npm run lint:starter
