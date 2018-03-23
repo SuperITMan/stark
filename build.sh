@@ -230,7 +230,7 @@ do
           rm -f ${ROOT_OUT_DIR}/${PACKAGE}.js
     
           logInfo "Compile package $PACKAGE"
-          if [[ -z  $TSC_PACKAGES ]]; then
+          if [[ -z  ${TSC_PACKAGES+x} ]]; then
             compilePackage ${SRC_DIR} ${OUT_DIR} ${PACKAGE} "${TSC_PACKAGES[@]}"
           else
             compilePackage ${SRC_DIR} ${OUT_DIR} ${PACKAGE}
