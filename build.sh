@@ -18,6 +18,8 @@ source ${currentDir}/build-functions.sh
 
 cd ${currentDir}
 
+LOGS_DIR="reports"
+
 # List of all packages, separated by a space
 # Packages will be transpiled using NGC (unless if also part of NODE_PACKAGES like the build package)
 PACKAGES=(stark-core)
