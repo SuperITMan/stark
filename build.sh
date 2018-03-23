@@ -262,7 +262,6 @@ do
         travisFoldStart "copy package.json for: ${PACKAGE}" "no-xtrace"
         syncOptions=(-am --include="package.json" --exclude="node_modules/" --exclude="rollup.config.js" --exclude="*.ts" --exclude="*/*.ts" --include="*" --exclude="*")
         syncFiles $SRC_DIR $NPM_DIR "${syncOptions[@]}"
-        #cp $SRC_DIR/package.json $NPM_DIR/
         travisFoldEnd "copy package.json for: ${PACKAGE}"
       travisFoldEnd "build package: ${PACKAGE}"
     fi

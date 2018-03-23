@@ -79,7 +79,7 @@
     "write-file-webpack-plugin": "4.2.0"
   },
   "devDependencies": {
-    "@angular/cli": "1.7.2",
+    "@angular/cli": "1.7.3",
     "@angular/compiler": "5.2.9",
     "@angular/compiler-cli": "5.2.9"
   },
