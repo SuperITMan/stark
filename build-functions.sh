@@ -241,7 +241,7 @@ compilePackage() {
   logTrace "Executing function: ${FUNCNAME[0]}" 1
   logDebug "Compiling package [$3] located in: $1" 1
 
-  if containsElement "${3}" "${4}"; then
+  if containsElement "${3}" "${4:-}"; then
     logTrace "[$3]: Compiling: $TSC -p $1/tsconfig.json" 2
     $TSC -p ${1}/tsconfig.json
   else
@@ -282,7 +282,7 @@ compilePackageES5() {
   logTrace "Executing function: ${FUNCNAME[0]}" 1
   logDebug "Compiling package located in : $1 to ES5" 1 
 
-  if containsElement "${3}" "${4}"; then
+  if containsElement "${3}" "${4:-}"; then
     logTrace "${FUNCNAME[0]}: [${3}]: Compiling: ${TSC} -p ${1}/tsconfig.json --target es5 -d false --outDir ${2} --importHelpers true --sourceMap" 2
     local package_name=$(basename "${2}")
     $TSC -p ${1}/tsconfig.json --target es5 -d false --outDir ${2} --importHelpers true --sourceMap
