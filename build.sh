@@ -37,6 +37,8 @@ VERSION_SUFFIX="-$(git log --oneline -1 | awk '{print $1}')" # last commit id
 COMPILE_SOURCE=true
 TYPECHECK_ALL=true
 
+TRAVIS=${TRAVIS:-}
+
 VERBOSE=false
 TRACE=false
 

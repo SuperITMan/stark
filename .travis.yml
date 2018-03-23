@@ -3,11 +3,11 @@ node_js:
   - "6"
   - "8"
 dist: trusty
-sudo: true
+sudo: required
 
 before_install:
-  # Needed for build-functions.sh (realpath)
-  - sudo apt-get install coreutils
+  - export CHROME_BIN=chromium-browser
+  - TRAVIS=1
 
 install:
   # Create file & folder for Travis logs
