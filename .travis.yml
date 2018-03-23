@@ -7,7 +7,7 @@ sudo: false
 
 env:
   global:
-    - LOGS_DIR=reports
+    - LOGS_DIR=/tmp/stark/logs
 
 branches:
   only:
