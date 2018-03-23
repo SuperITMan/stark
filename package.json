@@ -62,6 +62,8 @@
     "test:stark-core": "cd packages/stark-core && npm run test-fast && cd ../..",
     "test:starter": "cd starter && npm run test-fast && cd ../..",
     "test:all": "npm run test:stark-core && npm run test:starter",
+    "test:ci:stater": "cd starter && npm run test-fast:ci && cd ../..",
+    "test:ci:all": "npm run test:ci:stater",
     "lint:starter": "cd starter && npm run lint && cd .."
   },
   "lint-staged": {

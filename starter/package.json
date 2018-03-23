@@ -79,6 +79,7 @@
     "start:aot": "npm run server:aot:dev",
     "test": "npm run lint && karma start",
     "test-fast": "karma start karma.conf.typescript.js",
+    "test-fast:ci": "karma start karma.conf.typescript.ci.js",
     "tsc": "tsc",
     "tslint": "tslint",
     "typedoc": "typedoc",
