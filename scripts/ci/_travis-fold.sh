@@ -1,8 +1,10 @@
 # private variable to track folds within this script
 travisFoldStack=()
 
-mkdir -p $LOGS_DIR
-touch $LOGS_DIR/build-perf.log
+if [[ ${TRAVIS:-} ]]; then
+  mkdir -p $LOGS_DIR
+  touch $LOGS_DIR/build-perf.log
+fi
 
 function travisFoldStart() {
   local foldName="${0#./}  ${1}"

@@ -6,7 +6,8 @@ dist: trusty
 sudo: true
 
 before_install:
-  - sudo apt-get install coreutils
+  # Needed for build-functions.sh (realpath)
+  - sudo apt-get install realpath
 
 env:
   global:
