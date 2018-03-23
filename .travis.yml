@@ -3,7 +3,10 @@ node_js:
   - "6"
   - "8"
 dist: trusty
-sudo: false
+sudo: true
+
+before_install:
+  - sudo apt-get install coreutils
 
 env:
   global:
@@ -16,9 +19,7 @@ branches:
 
 cache:
   directories:
-    - node_modules
-    - packages/stark-build/node_modules
-    - packages/stark-core/node_modules
+    - $HOME/.npm
 
 addons:
   chrome: stable
