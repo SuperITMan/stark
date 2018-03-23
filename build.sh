@@ -240,7 +240,7 @@ do
           rm -rf ${NPM_DIR} && mkdir -p ${NPM_DIR}
 
           logInfo "Copy $PACKAGE typings from $OUT_DIR to $NPM_DIR"
-          syncOptions=(-a --exclude="*.js" --exclude="*.js.map")   
+          syncOptions=(-a --exclude="*.js" --exclude="*.js.map")
           syncFiles $OUT_DIR $NPM_DIR "${syncOptions[@]}"
        
           #cd $SRC_DIR > /dev/null
