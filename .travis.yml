@@ -5,6 +5,10 @@ node_js:
 dist: trusty
 sudo: false
 
+env:
+  global:
+    - LOGS_DIR=reports
+
 branches:
   only:
   - master
@@ -12,6 +16,8 @@ branches:
 cache:
   directories:
     - node_modules
+    - packages/stark-build/node_modules
+    - packages/stark-core/node_modules
 
 addons:
   chrome: stable

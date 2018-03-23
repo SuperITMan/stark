@@ -12,7 +12,9 @@ set -u -e -o pipefail
 
 readonly currentDir=$(cd $(dirname $0); pwd)
 # TODO review
-LOGS_DIR="reports"
+source ${currentDir}/scripts/ci/_travis-fold.sh
+
+source ${currentDir}/build-functions.sh
 
 cd ${currentDir}
 
@@ -40,20 +42,9 @@ TRACE=false
 
 PROJECT_ROOT_DIR=`pwd`
 ROOT_DIR=${PROJECT_ROOT_DIR}/packages
+logTrace "Root dir: $ROOT_DIR"
 
 export NODE_PATH=${NODE_PATH:-}:${currentDir}/node_modules
-
-TSC=`pwd`/node_modules/.bin/tsc
-NGC="node --max-old-space-size=3000 `pwd`/node_modules/@angular/compiler-cli/src/main"
-UGLIFY=`pwd`/node_modules/.bin/uglifyjs
-TSCONFIG=./tools/tsconfig.json
-ROLLUP=`pwd`/node_modules/.bin/rollup
-
-source ${currentDir}/scripts/ci/_travis-fold.sh
-
-source ${currentDir}/build-functions.sh
-
-logTrace "Root dir: $ROOT_DIR"
 
 for ARG in "$@"; do
   case "$ARG" in
@@ -159,7 +150,12 @@ else
 fi
 logInfo "============================================="
 
+TSC=`pwd`/node_modules/.bin/tsc
 logTrace "TSC Path: $TSC"
+NGC="node --max-old-space-size=3000 `pwd`/node_modules/@angular/compiler-cli/src/main"
+UGLIFY=`pwd`/node_modules/.bin/uglifyjs
+TSCONFIG=./tools/tsconfig.json
+ROLLUP=`pwd`/node_modules/.bin/rollup
 
 if [[ ${BUILD_ALL} == true && ${TYPECHECK_ALL} == true ]]; then
   travisFoldStart "clean dist" "no-xtrace"
