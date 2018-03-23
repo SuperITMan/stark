@@ -241,7 +241,10 @@ compilePackage() {
   logTrace "Executing function: ${FUNCNAME[0]}" 1
   logDebug "Compiling package [$3] located in: $1" 1
   # For TSC_PACKAGES items
-  if [ containsElement "${3}" "${4}" ]; then
+  echo "------------------------------------"
+  echo ${4+"${4}"}
+  echo "------------------------------------"
+  if [ containsElement "${3}" "${4+'${4}'}" ]; then
     logTrace "[$3]: Compiling: $TSC -p $1/tsconfig.json" 2
     $TSC -p ${1}/tsconfig.json
   else
