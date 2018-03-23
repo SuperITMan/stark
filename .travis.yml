@@ -10,7 +10,7 @@ before_install:
   - sudo apt-get install coreutils
 
 install:
-  - npm i -g npm@5.6.0 # this should be deleted once 5.7.X is out of "pre-release"
+  - npm i -g npm@5.7.1 # this should be deleted once 5.7.X is out of "pre-release"
   - npm ci
   # Create file & folder for Travis logs
   - mkdir -p $LOGS_DIR
