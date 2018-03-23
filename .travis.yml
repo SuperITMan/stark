@@ -36,3 +36,4 @@ addons:
 
 script:
   - npm run lint:starter
+  - npm run test:all
