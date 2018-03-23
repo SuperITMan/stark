@@ -6,7 +6,6 @@ dist: trusty
 sudo: required
 
 before_install:
-  - export CHROME_BIN=chromium-browser
   - TRAVIS=1
 
 install:
