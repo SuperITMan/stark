@@ -152,6 +152,7 @@ rollupIndex() {
   logDebug "Rolling up index files recursively. Base source folder: $1. Destination directory: $2. Package name: $3. Is sub dir? ${4:-NO}" 1
   # Iterate over the files in this directory, rolling up each into ${2} directory
   in_file="${1}/${3}.js"
+  echo ${in_file}
   if [ ${4:-} ]; then
     out_file="$(dropLast ${2})/${3}.js"
   else
@@ -163,6 +164,8 @@ rollupIndex() {
   if [[ -f ${in_file} ]]; then
     logTrace "Executing rollup with $ROLLUP -i ${in_file} -o ${out_file} --sourcemap -f es --banner \"$BANNER_TEXT\" >/dev/null 2>&1" 2
     $ROLLUP -i ${in_file} -o ${out_file} --sourcemap -f es --banner "$BANNER_TEXT" >/dev/null 2>&1
+  else
+    echo "ca existe pas :'( ${in_file}"
   fi
 
   # Recurse for sub directories
