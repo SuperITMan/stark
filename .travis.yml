@@ -8,6 +8,7 @@ sudo: false
 env:
   global:
     - LOGS_DIR=/tmp/stark/logs
+    - LOGS_FILE=/tmp/stark/logs/build-perf.log
 
 branches:
   only:
@@ -24,6 +25,7 @@ addons:
 
 before_script:
   - mkdir -p $LOGS_DIR
+  - touch $LOGS_FILE
 
 script:
   - npm run lint:starter

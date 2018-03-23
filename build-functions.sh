@@ -232,6 +232,7 @@ minify() {
 #   param1 - Source directory
 #   param2 - Out dir
 #   param3 - Package Name
+#   param4 - Tsc Packages
 # Returns:
 #   None
 #######################################
@@ -239,7 +240,7 @@ compilePackage() {
   logTrace "Executing function: ${FUNCNAME[0]}" 1
   logDebug "Compiling package [$3] located in: $1" 1
   # For TSC_PACKAGES items
-  if containsElement "${3}" "${TSC_PACKAGES[@]}"; then
+  if containsElement "${3}" "${4}"; then
     logTrace "[$3]: Compiling: $TSC -p $1/tsconfig.json" 2
     $TSC -p ${1}/tsconfig.json
   else
@@ -262,7 +263,7 @@ N="
     BASE_DIR=$(basename "${DIR}")
     # Skip over directories that are not nested entry points
     [[ -e ${DIR}/tsconfig.json && "${BASE_DIR}" != "integrationtest" ]] || continue
-    compilePackage ${DIR} ${2}/${BASE_DIR} ${3}
+    compilePackage ${DIR} ${2}/${BASE_DIR} ${3} ${4}
   done
 }
 

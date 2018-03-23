@@ -230,7 +230,7 @@ do
           rm -f ${ROOT_OUT_DIR}/${PACKAGE}.js
     
           logInfo "Compile package $PACKAGE"
-          compilePackage ${SRC_DIR} ${OUT_DIR} ${PACKAGE}
+          compilePackage ${SRC_DIR} ${OUT_DIR} ${PACKAGE} ${TSC_PACKAGES[@]}
         fi
   
         if [[ ${BUNDLE} == true ]]; then
