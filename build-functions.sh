@@ -81,13 +81,13 @@ syncFiles() {
 #   Boolean
 #######################################
 isIgnoredDirectory() {
-  logTrace "${FUNCNAME[0]}: Checking for ${1}" 1
+  #logTrace "${FUNCNAME[0]}: Checking for ${1}" 1
   name=$(basename ${1})
-  if [[ -f "${1}" || "${name}" == "src" || "${name}" == "test" || "${name}" == "integrationtest" ]]; then
-    logTrace "No" 1
+  if [[ -f "${1}" || "${name}" == "src" || "${name}" == "test" || "${name}" == "integrationtest" || "${name}" == "reports" ]]; then
+    #logTrace "No" 1
     return 0
   else
-    logTrace "Yes" 1
+    #logTrace "Yes" 1
     return 1
   fi
 }
@@ -108,7 +108,7 @@ runRollup() {
   	logTrace "${FUNCNAME[0]}: Rollup configuration file found at $ROLLUP_CONFIG_PATH" 2
     cd ${1}
     logTrace "${FUNCNAME[0]}: Rollup command: $ROLLUP -c $ROLLUP_CONFIG_PATH" 2
-    local ROLLUP_RESULTS=`$ROLLUP -c rollup.config.js 2>&1`
+    local ROLLUP_RESULTS=`$ROLLUP -c $ROLLUP_CONFIG_PATH 2>&1`
     cd - > /dev/null
 	logTrace "${FUNCNAME[0]}: Rollup execution output: $ROLLUP_RESULTS" 2
 	logTrace "${FUNCNAME[0]}: Rollup completed" 2
@@ -143,28 +143,36 @@ containsElement () {
 #   param1 - Base source folder
 #   param2 - Destination directory
 #   param3 - Package name
-#   param4 - Is sub directory
+#   param4 - Rollup default config location
+#   param5 - Is sub directory (optional)
+
 # Returns:
 #   None
 #######################################
 rollupIndex() {
   logTrace "${FUNCNAME[0]}" 1
-  logDebug "Rolling up index files recursively. Base source folder: $1. Destination directory: $2. Package name: $3. Is sub dir? ${4:-NO}" 1
+  logDebug "Rolling up index files recursively" 1
+  logTrace "Base source folder: $1. Destination directory: $2. Package name: $3. Is sub dir? ${5:-NO}" 1
   # Iterate over the files in this directory, rolling up each into ${2} directory
   in_file="${1}/${3}.js"
-  if [ ${4:-} ]; then
+  if [ ${5:-} ]; then
     out_file="$(dropLast ${2})/${3}.js"
   else
     out_file="${2}/${3}.js"
   fi
+  local ROLLUP_CONFIG_PATH=$4
   
-  # TODO pass LICENSE_BANNER as a param
+  # TODO pass LICENSE_BANNER as a param to the function
   BANNER_TEXT=`cat ${LICENSE_BANNER}`
   if [[ -f ${in_file} ]]; then
-    logTrace "Executing rollup with $ROLLUP -i ${in_file} -o ${out_file} --sourcemap -f es --banner \"$BANNER_TEXT\" 2>&1" 2
+    logTrace "Executing rollup with $ROLLUP -c ${ROLLUP_CONFIG_PATH} -i ${in_file} -o ${out_file} --banner \"$BANNER_TEXT\" 2>&1" 2
     
-    local ROLLUP_RESULTS=`$ROLLUP -i ${in_file} -o ${out_file} --sourcemap -f es --banner "$BANNER_TEXT" 2>&1`
-    logTrace "${FUNCNAME[0]}: Rollup execution output: $ROLLUP_RESULTS" 2
+    # If this execution of rollup ends up with warnings like "(!) Unresolved dependencies..."
+    # Then adapt rollup.config.common-data.js in order to include the missing globals!
+    # Note that this execution of rollup MUST NOT include globals/external libs like rxjs, angular, ...
+    # For this usage scenario, the client app is supposed to import those dependencies on their own (e.g., script tag above on the page)
+    local ROLLUP_RESULTS=`$ROLLUP -c ${ROLLUP_CONFIG_PATH} -i ${in_file} -o ${out_file} --banner "$BANNER_TEXT" 2>&1`
+    logTrace "${FUNCNAME[0]}: Rollup execution output (do not mind the unresolved dependencies!): $ROLLUP_RESULTS" 2
   fi
 
   # Recurse for sub directories
@@ -173,7 +181,7 @@ rollupIndex() {
     isIgnoredDirectory ${DIR} && continue
     local regex=".+/(.+)/${sub_package}.js"
     if [[ "${DIR}/${sub_package}.js" =~ $regex ]]; then
-      rollupIndex ${DIR} ${2}/${BASH_REMATCH[1]} ${sub_package} true
+      rollupIndex ${DIR} ${2}/${BASH_REMATCH[1]} ${sub_package} ${ROLLUP_CONFIG_PATH} true
     fi
   done
 }

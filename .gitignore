@@ -52,6 +52,9 @@ pids
 # Patch files
 *.patch
 
+# Bash
+bash.exe.stackdump
+
 # Angular #
 *.ngfactory.ts
 *.css.shim.ts
