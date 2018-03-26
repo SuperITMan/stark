@@ -339,8 +339,9 @@ updateVersionReferences() {
   local NPM_DIR="$2"
   (
     cd ${NPM_DIR}
-
-    perl -p -i -e "s/0\.0\.0\-PLACEHOLDER\-VERSION/$1/g" $(grep -ril 0\.0\.0\-PLACEHOLDER\-VERSION .)  < /dev/null
+    
+    local PATTERN="0\.0\.0\-PLACEHOLDER\-VERSION"
+    perl -p -i -e "s/$PATTERN/$1/g" ./package.json
   )
 }
 
@@ -357,7 +358,9 @@ updatePackageNameReferences() {
   local NPM_DIR="$2"
   (
     cd ${NPM_DIR}
-    perl -p -i -e "s/PLACEHOLDER\-PACKAGE\-NAME/${1}/g" $(grep -ril PLACEHOLDER\-PACKAGE\-NAME .)  < /dev/null
+    
+    local PATTERN="PLACEHOLDER\-PACKAGE\-NAME"
+    perl -p -i -e "s/$PATTERN/$1/g" ./package.json
   )
 }
 
@@ -462,7 +465,7 @@ logTrace "Executing function: ${FUNCNAME[0]}" 1
   
   local TGZ_REALPATH="dist/packages-dist/$PACKAGE/nationalbankbelgium-$PACKAGE-$VERSION.tgz"
   local TGZ_PATH="file:${PATH_PARENT}dist\/packages-dist\/$PACKAGE\/nationalbankbelgium-$PACKAGE-$VERSION.tgz"
-  logTrace "TGZ path: TGZ_PATH"
+  logTrace "TGZ path: $TGZ_PATH"
   
   SHA="$(openssl dgst -sha512 -binary ./$TGZ_REALPATH  | openssl enc -A -base64)"
   ESCAPED_SHA=${SHA//\//\\/}
@@ -471,10 +474,10 @@ logTrace "Executing function: ${FUNCNAME[0]}" 1
   logTrace "SHA-512 escaped: $ESCAPED_SHA"
   
   local PATTERN="\\\"\@nationalbankbelgium\/$PACKAGE\\\": \\{(\s*)\\\"version\\\": \\\"(\S*)\\\",(\s*)\\\"integrity\\\": \\\"sha512-(.*)\\\","
-  local REPLACEMENT='"\@nationalbankbelgium\\\/'$PACKAGE'": {$1"version": "'$TGZ_PATH'",$3"integrity": "sha512-'$ESCAPED_SHA'",'
+  local REPLACEMENT='"\@nationalbankbelgium\/'$PACKAGE'": {$1"version": "'$TGZ_PATH'",$3"integrity": "sha512-'$ESCAPED_SHA'",'
   
   logTrace "PATTERN: $PATTERN"
-  logTrace "REPLACEMENT: REPLACEMENT"
+  logTrace "REPLACEMENT: $REPLACEMENT"
   logTrace "Package JSON file: $PACKAGE_JSON_FILE"
   
   # Packages will have dependencies between them. They will so have "devDependencies" and "peerDependencies" with different values.

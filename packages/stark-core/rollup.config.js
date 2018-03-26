@@ -7,10 +7,13 @@ const sourcemaps = require("rollup-plugin-sourcemaps");
 const globals = {
 	"cerialize": "cerialize",
 	"class-validator": "class-validator",
-	"@angular/common/http": "angular.common.http"
+	"@angular/common/http": "angular.common.http",
+	"@angular/core": "angular.core",
+	"tslib": "tslib",
 	// FIXME use for other modules than core
 	// '@nationalbankbelgium/core': 'stark.core',
-	// 'rxjs/Observable': 'Rx',
+	"rxjs/Observable": "rxjs",
+	"rxjs/operators": "rxjs.operators"
 	// 'rxjs/Subject': 'Rx',
 	// 'rxjs/Observer': 'Rx',
 	// 'rxjs/Subscription': 'Rx',

@@ -259,7 +259,8 @@ do
         logInfo "Copy $PACKAGE package.json to $NPM_DIR"
         # FIXME exclude node modules!
         travisFoldStart "copy package.json for: ${PACKAGE}" "no-xtrace"
-        syncOptions=(-am --include="package.json" --exclude="node_modules/" --exclude="rollup.config.js" --exclude="*.ts" --exclude="*/*.ts" --include="*" --exclude="*")
+        # TODO check if  --exclude="package-lock.json" is correctly working
+        syncOptions=(-am --include="package.json" --exclude="package-lock.json" --exclude="node_modules/" --exclude="rollup.config.js" --exclude="*.ts" --exclude="*/*.ts" --include="*" --exclude="*")
         syncFiles $SRC_DIR $NPM_DIR "${syncOptions[@]}"
         travisFoldEnd "copy package.json for: ${PACKAGE}"
       travisFoldEnd "build package: ${PACKAGE}"
