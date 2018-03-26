@@ -298,11 +298,7 @@ do
         
         logInfo "Adapt starter dependencies"
         adaptNpmPackageDependencies $PACKAGE $VERSION "./starter/package.json" 1
-
-        # TODO Fix this with a proper solution
-        if [[ $PACKAGE == "stark-build" ]]; then
-          adaptNpmPackageDependencies $PACKAGE $VERSION "./packages/stark-core/package.json" 2
-        fi
+        adaptNpmPackageLockDependencies $PACKAGE $VERSION "./starter/package-lock.json" 1
       fi
     travisFoldEnd "general tasks: ${PACKAGE}"
   

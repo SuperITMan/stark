@@ -5,6 +5,9 @@ const commonjs = require("rollup-plugin-commonjs");
 const sourcemaps = require("rollup-plugin-sourcemaps");
 
 const globals = {
+	"cerialize": "cerialize",
+	"class-validator": "class-validator",
+	"@angular/common/http": "angular.common.http"
 	// FIXME use for other modules than core
 	// '@nationalbankbelgium/core': 'stark.core',
 	// 'rxjs/Observable': 'Rx',
@@ -25,12 +28,12 @@ module.exports = {
 			format: "umd",
 			exports: "named",
 			name: "stark.http",
-			sourcemap: true
+			sourcemap: true,
+			amd: {
+				id: "@nationalbankbelgium/stark-core"
+			}
 		}
 	],
-	amd: {
-		id: "@nationalbankbelgium/stark-core"
-	},
 	plugins: [
 		resolve(),
 		commonjs(), // converts date-fns to ES modules

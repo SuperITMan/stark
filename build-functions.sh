@@ -108,7 +108,7 @@ runRollup() {
   	logTrace "${FUNCNAME[0]}: Rollup configuration file found at $ROLLUP_CONFIG_PATH" 2
     cd ${1}
     logTrace "${FUNCNAME[0]}: Rollup command: $ROLLUP -c $ROLLUP_CONFIG_PATH" 2
-    local ROLLUP_RESULTS=$($ROLLUP -c rollup.config.js > /dev/null 2>&1)
+    local ROLLUP_RESULTS=`$ROLLUP -c rollup.config.js 2>&1`
     cd - > /dev/null
 	logTrace "${FUNCNAME[0]}: Rollup execution output: $ROLLUP_RESULTS" 2
 	logTrace "${FUNCNAME[0]}: Rollup completed" 2
@@ -161,8 +161,10 @@ rollupIndex() {
   # TODO pass LICENSE_BANNER as a param
   BANNER_TEXT=`cat ${LICENSE_BANNER}`
   if [[ -f ${in_file} ]]; then
-    logTrace "Executing rollup with $ROLLUP -i ${in_file} -o ${out_file} --sourcemap -f es --banner \"$BANNER_TEXT\" >/dev/null 2>&1" 2
-    $ROLLUP -i ${in_file} -o ${out_file} --sourcemap -f es --banner "$BANNER_TEXT" >/dev/null 2>&1
+    logTrace "Executing rollup with $ROLLUP -i ${in_file} -o ${out_file} --sourcemap -f es --banner \"$BANNER_TEXT\" 2>&1" 2
+    
+    local ROLLUP_RESULTS=`$ROLLUP -i ${in_file} -o ${out_file} --sourcemap -f es --banner "$BANNER_TEXT" 2>&1`
+    logTrace "${FUNCNAME[0]}: Rollup execution output: $ROLLUP_RESULTS" 2
   fi
 
   # Recurse for sub directories
@@ -337,7 +339,8 @@ updateVersionReferences() {
   local NPM_DIR="$2"
   (
     cd ${NPM_DIR}
-    perl -p -i -e "s/0\.0\.0\-PLACEHOLDER\-VERSION/$1/g" $(grep -ril 0\.0\.0\-PLACEHOLDER\-VERSION .) < /dev/null 2> /dev/null
+
+    perl -p -i -e "s/0\.0\.0\-PLACEHOLDER\-VERSION/$1/g" $(grep -ril 0\.0\.0\-PLACEHOLDER\-VERSION .)  < /dev/null
   )
 }
 
@@ -354,7 +357,7 @@ updatePackageNameReferences() {
   local NPM_DIR="$2"
   (
     cd ${NPM_DIR}
-    perl -p -i -e "s/PLACEHOLDER\-PACKAGE\-NAME/${1}/g" $(grep -ril PLACEHOLDER\-PACKAGE\-NAME .) < /dev/null 2> /dev/null
+    perl -p -i -e "s/PLACEHOLDER\-PACKAGE\-NAME/${1}/g" $(grep -ril PLACEHOLDER\-PACKAGE\-NAME .)  < /dev/null
   )
 }
 
@@ -421,11 +424,63 @@ adaptNpmPackageDependencies() {
   local TGZ_PATH="file:${PATH_PARENT}dist\/packages-dist\/$PACKAGE\/nationalbankbelgium-$PACKAGE-$VERSION.tgz"
   logTrace "TGZ path: $TGZ_PATH"
   
-  local NEWVALUE="\\\"\@nationalbankbelgium\/$PACKAGE\\\": \\\"$TGZ_PATH\\\""
+  local PATTERN="\"\@nationalbankbelgium\/$PACKAGE\"\s*\:\s*\".*\""
+  local REPLACEMENT="\\\"\@nationalbankbelgium\/$PACKAGE\\\": \\\"$TGZ_PATH\\\""
   
   # Packages will have dependencies between them. They will so have "devDependencies" and "peerDependencies" with different values.
   # We should only replace the value of the devDependency for make it work.
-  perl -p -i -e "s/\"\@nationalbankbelgium\/$PACKAGE\"\s*\:\s*\".*\"/$NEWVALUE/" $PACKAGE_JSON_FILE 2> /dev/null
+
+  perl -p -i -e "s/$PATTERN/$REPLACEMENT/" $PACKAGE_JSON_FILE
+}
+
+#######################################
+# Update a package-lock.json file's dependencies version for the given stark package
+# Arguments:
+#   param1 - name of the stark package
+#   param2 - version of stark to set
+#   param3 - path to the package-lock.json file to adapt
+#   param4 - sub level of the package to adapt
+# Returns:
+#   None
+#######################################
+adaptNpmPackageLockDependencies() {
+logTrace "Executing function: ${FUNCNAME[0]}" 1
+  
+  local PACKAGE="$1"
+  local VERSION="$2"
+  local PACKAGE_JSON_FILE="$3"
+  local SUB_LEVEL=$(($4))
+  
+  local PATH_PARENT=""
+  
+  index=1
+  while [[ $index -le $SUB_LEVEL ]]
+  do 
+    PATH_PARENT="..\/$PATH_PARENT"
+    index=$index+1
+  done
+  
+  local TGZ_REALPATH="dist/packages-dist/$PACKAGE/nationalbankbelgium-$PACKAGE-$VERSION.tgz"
+  local TGZ_PATH="file:${PATH_PARENT}dist\/packages-dist\/$PACKAGE\/nationalbankbelgium-$PACKAGE-$VERSION.tgz"
+  logTrace "TGZ path: TGZ_PATH"
+  
+  SHA="$(openssl dgst -sha512 -binary ./$TGZ_REALPATH  | openssl enc -A -base64)"
+  ESCAPED_SHA=${SHA//\//\\/}
+  
+  logTrace "SHA-512: $SHA"
+  logTrace "SHA-512 escaped: $ESCAPED_SHA"
+  
+  local PATTERN="\\\"\@nationalbankbelgium\/$PACKAGE\\\": \\{(\s*)\\\"version\\\": \\\"(\S*)\\\",(\s*)\\\"integrity\\\": \\\"sha512-(.*)\\\","
+  local REPLACEMENT='"\@nationalbankbelgium\\\/'$PACKAGE'": {$1"version": "'$TGZ_PATH'",$3"integrity": "sha512-'$ESCAPED_SHA'",'
+  
+  logTrace "PATTERN: $PATTERN"
+  logTrace "REPLACEMENT: REPLACEMENT"
+  logTrace "Package JSON file: $PACKAGE_JSON_FILE"
+  
+  # Packages will have dependencies between them. They will so have "devDependencies" and "peerDependencies" with different values.
+  # We should only replace the value of the devDependency for make it work.
+  
+  perl -p -i -0 -e "s/$PATTERN/$REPLACEMENT/m" $PACKAGE_JSON_FILE
 }
 
 #######################################
