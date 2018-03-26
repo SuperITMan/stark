@@ -7,16 +7,15 @@ sudo: false # better for performance
 
 before_install:
   - TRAVIS=1 # used by build.sh
+  - npm i -g npm@5.8.0
 
 install:
   # Create file & folder for Travis logs
   # cfr scripts/_travis-fold.sh
   - mkdir -p $LOGS_DIR
   - touch $LOGS_DIR/build-perf.log
-  - npm i -g npm@5.8.0 # this should be deleted once 5.8.0 is out of "pre-release"
-  # Enable this when we fix issues with package build (adapt package-lock.json to current commit for stark-core, stark-build, ...)
-  # - npm ci
-  - npm install
+  - npm ci
+  - npm run install:ci:all
 
 env:
   global:
