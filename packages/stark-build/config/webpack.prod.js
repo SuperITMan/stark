@@ -96,7 +96,8 @@ module.exports = function() {
 				new UglifyJsPlugin({
 					parallel: true, // use multi-process parallel running to improve the build speed (default concurrent processes: os.cpus().length - 1)
 					sourceMap: METADATA.SOURCEMAPS, // useful to still be able to debug in production
-					uglifyOptions: getUglifyOptions(supportES2015)
+					uglifyOptions: getUglifyOptions(supportES2015),
+					cache: true
 				}),
 				// other options than Uglify: BabelifyMinifyWebpackPlugin or ClosureCompilerPlugin
 
