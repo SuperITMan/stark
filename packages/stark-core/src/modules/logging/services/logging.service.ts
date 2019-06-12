@@ -207,6 +207,7 @@ export class StarkLoggingServiceImpl implements StarkLoggingService {
 				this.xsrfService.configureXHR(xhr);
 			}
 			xhr.setRequestHeader(StarkHttpHeaders.CONTENT_TYPE, "application/json");
+			xhr.setRequestHeader(this.correlationIdHttpHeaderName, this.correlationId);
 			xhr.send(serializedData);
 		} catch (e) {
 			httpRequest$.error(e);
