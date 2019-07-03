@@ -101,7 +101,9 @@
     "webdriver:start": "node ./node_modules/protractor/bin/webdriver-manager start",
     "webdriver:update": "node ./node_modules/protractor/bin/webdriver-manager update",
     "webpack-dev-server": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js"
+    "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "lint-staged": {
     "*.{css,js,json,md,pcss,scss,ts}": [
@@ -135,7 +137,8 @@
     "ngrx-store-logger": "~0.2.2",
     "reflect-metadata": "~0.1.13",
     "rxjs": "^6.0.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@compodoc/compodoc": "~1.1.7",
@@ -155,5 +158,6 @@
     "ts-node": "~8.0.2",
     "tslib": "~1.9.3",
     "typescript": "~3.1.6"
-  }
+  },
+  "snyk": true
 }
