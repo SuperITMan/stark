@@ -42,7 +42,8 @@
     "ibantools": "^2.0.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@nationalbankbelgium/stark-testing": "../stark-testing"
@@ -71,6 +72,9 @@
     "test-fast": "node ./node_modules/@nationalbankbelgium/stark-testing/node_modules/karma/bin/karma start",
     "test-fast:ci": "node ./node_modules/@nationalbankbelgium/stark-testing/node_modules/karma/bin/karma start karma.conf.ci.js",
     "tsc": "node ../../node_modules/typescript/bin/tsc -p ./tsconfig-build.json",
-    "tslint": "node ../../node_modules/tslint/bin/tslint"
-  }
+    "tslint": "node ../../node_modules/tslint/bin/tslint",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
