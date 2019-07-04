@@ -1,0 +1,46 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - karma-coverage-istanbul-reporter > istanbul-api > istanbul-lib-instrument > @babel/traverse > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-typescript > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-typescript > karma-coverage > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-typescript > async > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma > combine-lists > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - istanbul-lib-instrument > @babel/types > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - istanbul-lib-instrument > @babel/traverse > @babel/types > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-coverage-istanbul-reporter > istanbul-api > async > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - istanbul-lib-instrument > @babel/traverse > @babel/helper-function-name > @babel/types > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-coverage > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-coverage > istanbul > handlebars > async > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-typescript > istanbul > handlebars > async > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-coverage-istanbul-reporter > istanbul-api > istanbul-lib-instrument > @babel/traverse > @babel/types > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - istanbul-lib-instrument > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-typescript > karma-coverage > istanbul > handlebars > async > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-typescript > remap-istanbul > istanbul > handlebars > async > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-coverage-istanbul-reporter > istanbul-api > istanbul-reports > handlebars > async > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-coverage-istanbul-reporter > istanbul-api > istanbul-lib-instrument > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
+    - karma-coverage-istanbul-reporter > istanbul-api > istanbul-lib-instrument > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2019-07-04T00:39:10.354Z'
