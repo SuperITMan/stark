@@ -41,7 +41,8 @@
     "tslint-sonarts": "^1.8.0",
     "webpack-bundle-analyzer": "^3.0.4",
     "webpack-merge": "^4.2.1",
-    "webpack-monitor": "^1.0.14"
+    "webpack-monitor": "^1.0.14",
+    "snyk": "^1.258.2"
   },
   "devDependencies": {
     "@angular/cli": "^7.0.0",
@@ -58,6 +59,9 @@
   "scripts": {
     "clean": "npx rimraf dist",
     "clean:modules": "npx rimraf ./node_modules package-lock.json",
-    "clean:all": "npm run clean && npm run clean:modules"
-  }
+    "clean:all": "npm run clean && npm run clean:modules",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
