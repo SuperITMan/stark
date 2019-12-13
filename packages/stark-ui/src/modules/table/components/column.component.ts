@@ -298,19 +298,21 @@ export class StarkTableColumnComponent extends AbstractStarkUiComponent implemen
 		let formattedValue = "";
 		const rawValue: any | undefined = this.getRawValue(row);
 
-		if (this.cellFormatter instanceof Function) {
-			formattedValue = this.cellFormatter(rawValue, row, this.name);
-		} else if (typeof rawValue === "undefined") {
-			return ""; // return already, no point in translating an empty string
-		} else if (typeof rawValue === "number") {
-			return rawValue; // return already, no point in translating a number
+		if (typeof rawValue !== "undefined") {
+			if (this.cellFormatter instanceof Function) {
+				formattedValue = this.cellFormatter(rawValue, row, this.name);
+			} else if (typeof rawValue === "number") {
+				return rawValue; // return already, no point in translating a number
+			} else {
+				formattedValue = rawValue.toString();
+			}
 		} else {
-			formattedValue = rawValue.toString();
+			return ""; // return already, no point in translating an empty string
 		}
 
+		return formattedValue;
 		// TODO: add translation feature
 		// return this.$translate.instant(formattedValue);
-		return formattedValue;
 	}
 
 	/**
