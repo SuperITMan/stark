@@ -6,8 +6,8 @@ update_configs:
     update_schedule: "live"
     automerged_updates:
       - match:
-	  dependency_type: "all"
-	  update_type: "in_range"
+          dependency_type: "all"
+          update_type: "in_range"
     ignored_updates:
       - match:
           dependency_name: "@angular-builders/*"
@@ -21,101 +21,101 @@ update_configs:
     update_schedule: "live"
     automerged_updates:
       - match:
-	  dependency_type: "all"
-	  update_type: "in_range"
+          dependency_type: "all"
+          update_type: "in_range"
     ignored_updates:
-     - match:
-	  dependency_name: "@uirouter/angular"
-	  version_requirement: "^3.0.0"
-     - match:
-	  dependency_name: "@types/node"
+      - match:
+          dependency_name: "@uirouter/angular"
+          version_requirement: "^3.0.0"
+      - match:
+          dependency_name: "@types/node"
 
   - package_manager: "javascript"
     directory: "/packages/stark-rbac"
     update_schedule: "live"
     automerged_updates:
       - match:
-	  dependency_type: "all"
-	  update_type: "in_range"
+          dependency_type: "all"
+          update_type: "in_range"
     ignored_updates:
       - match:
-	 dependency_name: "@types/node"
+          dependency_name: "@types/node"
 
   - package_manager: "javascript"
     directory: "/packages/stark-testing"
     update_schedule: "live"
     automerged_updates:
       - match:
-	  dependency_type: "all"
-	  update_type: "in_range"
+          dependency_type: "all"
+          update_type: "in_range"
     ignored_updates:
       - match:
-	  dependency_name: "@types/node"
+          dependency_name: "@types/node"
 
   - package_manager: "javascript"
     directory: "/packages/stark-ui"
     update_schedule: "live"
     automerged_updates:
       - match:
-	  dependency_type: "all"
-	  update_type: "in_range"
+          dependency_type: "all"
+          update_type: "in_range"
     ignored_updates:
       - match:
-	  dependency_name: "@angular/*"
-	  version_requirement: "^7.0.0"
+          dependency_name: "@angular/*"
+          version_requirement: "^7.0.0"
       - match:
-	  dependency_name: "@types/node"
+          dependency_name: "@types/node"
 
   - package_manager: "javascript"
     directory: "/"
     update_schedule: "live"
     automerged_updates:
       - match:
-	  dependency_type: "all"
-	  update_type: "in_range"
+          dependency_type: "all"
+          update_type: "in_range"
     ignored_updates:
       - match:
-	  dependency_name: "@angular/*"
-	  version_requirement: "^7.0.0"
+          dependency_name: "@angular/*"
+          version_requirement: "^7.0.0"
       - match:
-	  dependency_name: "@compodoc/compodoc"
+          dependency_name: "@compodoc/compodoc"
       - match:
-	  dependency_name: "@types/node"
+          dependency_name: "@types/node"
       - match:
-	  dependency_name: "typescript"
+          dependency_name: "typescript"
 
   - package_manager: "javascript"
     directory: "/showcase"
     update_schedule: "live"
     automerged_updates:
       - match:
-	  dependency_type: "all"
-	  update_type: "in_range"
+          dependency_type: "all"
+          update_type: "in_range"
     ignored_updates:
       - match:
-	  dependency_name: "@angular/*"
-	  version_requirement: "^7.0.0"
+          dependency_name: "@angular/*"
+          version_requirement: "^7.0.0"
       - match:
-	  dependency_name: "@compodoc/compodoc"
+          dependency_name: "@compodoc/compodoc"
       - match:
-	  dependency_name: "@types/node"
+          dependency_name: "@types/node"
       - match:
-	  dependency_name: "typescript"
+          dependency_name: "typescript"
 
   - package_manager: "javascript"
     directory: "/starter"
     update_schedule: "live"
     automerged_updates:
       - match:
-	  dependency_type: "all"
-	  update_type: "in_range"
+          dependency_type: "all"
+          update_type: "in_range"
     ignored_updates:
       - match:
-	  dependency_name: "@angular/*"
-	  version_requirement: "^7.0.0"
+          dependency_name: "@angular/*"
+          version_requirement: "^7.0.0"
       - match:
-	  dependency_name: "@compodoc/compodoc"
+          dependency_name: "@compodoc/compodoc"
       - match:
-	  dependency_name: "@types/node"
+          dependency_name: "@types/node"
       - match:
-	  dependency_name: "typescript"
+          dependency_name: "typescript"
