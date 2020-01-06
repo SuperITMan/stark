@@ -24,6 +24,9 @@ update_configs:
     update_schedule: "live"
     ignored_updates:
       - match:
+          dependency_name: "@uirouter/angular"
+          version_requirement: ">5.x"
+      - match:
           dependency_name: "@types/node"
 
   - package_manager: "javascript"
