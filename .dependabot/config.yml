@@ -21,15 +21,10 @@ update_configs:
           version_requirement: "<6.x"      
      - match:
           dependency_name: "@types/node"
-
-  - package_manager: "javascript"
-    directory: "/packages/stark-core"
-    update_schedule: "live"
-    version_requirement_updates: "off"
     automerged_updates:
       - match:
           dependency_type: "all"
-          update_type: "all"
+          update_type: "in_range"
 
   - package_manager: "javascript"
     directory: "/packages/stark-rbac"
