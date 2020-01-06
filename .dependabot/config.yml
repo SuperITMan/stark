@@ -25,7 +25,7 @@ update_configs:
   - package_manager: "javascript"
     directory: "/packages/stark-core"
     update_schedule: "live"
-    version_requirement_updates: off
+    version_requirement_updates: "off"
     automerged_updates:
       - match:
           dependency_type: "all"
