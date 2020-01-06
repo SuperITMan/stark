@@ -128,7 +128,7 @@
     "@angular/material": "~7.3.0",
     "@angular/platform-browser": "~7.2.2",
     "@angular/platform-browser-dynamic": "~7.2.2",
-    "@angular/platform-server": "~7.2.2",
+    "@angular/platform-server": "~8.2.14",
     "@angular/router": "~7.2.2",
     "@nationalbankbelgium/code-style": "^1.0.1",
     "@nationalbankbelgium/stark-core": "latest",
