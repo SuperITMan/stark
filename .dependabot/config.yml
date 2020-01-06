@@ -25,7 +25,7 @@ update_configs:
     ignored_updates:
       - match:
           dependency_name: "@uirouter/angular"
-          version_requirement: ">5.x"
+          version_requirement: "<6.x"
       - match:
           dependency_name: "@types/node"
 
