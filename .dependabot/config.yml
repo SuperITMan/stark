@@ -10,14 +10,14 @@ update_configs:
           update_type: "in_range"
     ignored_updates:
       - match:
+          dependency_name: "@angular/*"
+          version_requirement: ">=8"
+      - match:
           dependency_name: "@angular-builders/*"
           version_requirement: ">=8"
       - match:
           dependency_name: "@angular-devkit/build-angular"
           version_requirement: ">=0.800"
-      - match:
-          dependency_name: "@angular/*"
-          version_requirement: ">=8"
 
   - package_manager: "javascript"
     directory: "/packages/stark-core"
