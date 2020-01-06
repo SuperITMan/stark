@@ -4,27 +4,55 @@ update_configs:
   - package_manager: "javascript"
     directory: "/packages/stark-build"
     update_schedule: "live"
+    ignored_updates:
+      - match:
+	  dependency_name: "@angular-builders/*"
+	  version_requirement: "^7.0.0"
+      - match:
+	  dependency_name: "@angular/*"
+	  version_requirement: "^7.0.0"
 
   - package_manager: "javascript"
     directory: "/packages/stark-core"
     update_schedule: "live"
+    ignored_updates:
+      - match:
+	  dependency_name: "@uirouter/angular"
+	  version_requirement: "^5.0.0"
+      - match:
+	  dependency_name: "@types/node"
 
   - package_manager: "javascript"
     directory: "/packages/stark-rbac"
     update_schedule: "live"
+    ignored_updates:
+      - match:
+	  dependency_name: "@types/node"
 
   - package_manager: "javascript"
     directory: "/packages/stark-testing"
     update_schedule: "live"
+    ignored_updates:
+      - match:
+	  dependency_name: "@types/node"
 
   - package_manager: "javascript"
     directory: "/packages/stark-ui"
     update_schedule: "live"
+    ignored_updates:
+      - match:
+	  dependency_name: "@angular/*"
+	  version_requirement: "^7.0.0"
+      - match:
+	  dependency_name: "@types/node"
 
   - package_manager: "javascript"
     directory: "/"
     update_schedule: "live"
     ignored_updates:
+      - match:
+	  dependency_name: "@angular/*"
+	  version_requirement: "^7.0.0"
       - match:
 	  dependency_name: "@compodoc/compodoc"
       - match:
@@ -37,6 +65,9 @@ update_configs:
     update_schedule: "live"
     ignored_updates:
       - match:
+	  dependency_name: "@angular/*"
+	  version_requirement: "^7.0.0"
+      - match:
 	  dependency_name: "@compodoc/compodoc"
       - match:
 	  dependency_name: "@types/node"
@@ -47,6 +78,9 @@ update_configs:
     directory: "/starter"
     update_schedule: "live"
     ignored_updates:
+      - match:
+	  dependency_name: "@angular/*"
+	  version_requirement: "^7.0.0"
       - match:
 	  dependency_name: "@compodoc/compodoc"
       - match:
