@@ -53,18 +53,10 @@ jobs:
     - name: Run script print-logs
       run: bash ./scripts/ci/print-logs.sh
 
-    - name: Install process when branch created by Greenkeeper
-      run: |
-        npm run clean:modules:all
-        npm ci
-        npm run install:travis:all
-      if: github.ref =~ ^greenkeeper.*$ || ${AUTHOR_NAME} == "greenkeeper[bot]"
-
     - name: Install process when branch is NOT created by Greenkeeper
       run: |
         npm install
         npm run install:all
-      if: github.ref !=~ ^greenkeeper.*$ || ${AUTHOR_NAME} != "greenkeeper[bot]"
 
     - name: npm run build:showcase:ghpages
       run: npm run build:showcase:ghpages
