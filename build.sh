@@ -38,7 +38,7 @@ BUILD_ALL=true
 BUNDLE=true
 COMPILE_SOURCE=true
 
-TRAVIS=${TRAVIS:-}
+GITHUB_ACTIONS=${GITHUB_ACTIONS:-}
 
 VERBOSE=false
 TRACE=false
@@ -139,12 +139,12 @@ if [[ -z ${TRAVIS_TAG+x} ]]; then
 fi
 
 # Making sure the variable exists
-if [[ -z ${TRAVIS_EVENT_TYPE+x} ]]; then
-  TRAVIS_EVENT_TYPE=""
+if [[ -z ${GITHUB_EVENT_NAME+x} ]]; then
+  GITHUB_EVENT_NAME=""
 fi
 
-if [[ ${TRAVIS_EVENT_TYPE} == "cron" ]]; then
-  logInfo "Nightly build initiated by Travis cron job. Using nightly version as version prefix!" 1
+if [[ ${GITHUB_EVENT_NAME} == "cron" ]]; then
+  logInfo "Nightly build initiated by GitHub cron job. Using nightly version as version prefix!" 1
   VERSION_PREFIX=$(node -p "require('./package.json').config.nightlyVersion")
 else
   logInfo "Normal build. Using current version as version prefix" 1
