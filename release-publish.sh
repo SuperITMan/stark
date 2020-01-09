@@ -5,7 +5,7 @@
 # provide a clean way to define/check the "current" version of node (i.e., the one we should execute the publish under/for)
 ## ideally we should read it from .nvmrc
 # provide support for publishing only a subset of the packages (same --packages logic as in build.sh)
-# provide support for publishing locally in addition to travis
+# provide support for publishing locally in addition to GitHub Actions
 
 set -u -e -o pipefail
 
@@ -22,6 +22,8 @@ IFS=$OLD_IFS # restore IFS
 EXPECTED_REPO_SLUG="NationalBankBelgium/stark"
 EXPECTED_NODE_VERSION="10"
 
+GH_ACTIONS_TAG=${GH_ACTIONS_TAG:-""}
+
 #----------------------------------------------
 # Uncomment block below to test locally
 #----------------------------------------------
@@ -29,16 +31,16 @@ EXPECTED_NODE_VERSION="10"
 #mkdir -p ${LOGS_DIR}
 #touch ${LOGS_DIR}/build-perf.log
 #NPM_TOKEN="dummy"
-#TRAVIS=true
-#TRAVIS_REPO_SLUG="NationalBankBelgium/stark"
-#TRAVIS_NODE_VERSION="10"
+#GITHUB_ACTIONS=true
+#GITHUB_REPOSITORY="NationalBankBelgium/stark"
+#GH_ACTIONS_NODE_VERSION="10"
 
 # For normal builds:
-#TRAVIS_EVENT_TYPE="pull_request"
-#TRAVIS_TAG="fooBar"
+#GITHUB_EVENT_NAME="pull_request"
+#GH_ACTIONS_TAG="fooBar"
 
 # For nightly builds:
-#TRAVIS_EVENT_TYPE="cron"
+#GITHUB_EVENT_NAME="schedule"
 #----------------------------------------------
 
 NIGHTLY_BUILD=false
@@ -90,37 +92,33 @@ logTrace "ROOT_PACKAGES_DIR: ${ROOT_PACKAGES_DIR}" 1
 
 travisFoldStart "publish checks" "no-xtrace"
 
-if [[ ${TRAVIS} == true ]]; then
+if [[ ${GITHUB_ACTIONS} == true ]]; then
   logInfo "Publishing to npm";
   logInfo "============================================="
   
   # Don't even try if not running against the official repo
   # We don't want release to run outside of our own little world
-  if [[ ${TRAVIS_REPO_SLUG} != ${EXPECTED_REPO_SLUG} ]]; then
+  if [[ ${GITHUB_REPOSITORY} != ${EXPECTED_REPO_SLUG} ]]; then
     logInfo "Skipping release because this is not the main repository.";
     exit 0;
   fi
   
   # Ensuring that this is the execution for Node x
   # Without this check, we would publish a release for each node version we test under! :)
-  if [[ ${TRAVIS_NODE_VERSION} != ${EXPECTED_NODE_VERSION} ]]; then
-    logInfo "Skipping release because this is not the expected version of node: ${TRAVIS_NODE_VERSION}"
+  if [[ ${GH_ACTIONS_NODE_VERSION} != ${EXPECTED_NODE_VERSION} ]]; then
+    logInfo "Skipping release because this is not the expected version of node: ${GH_ACTIONS_NODE_VERSION}"
     exit 0;
   fi
   
   logInfo "Verifying if this build has been triggered for a tag" 
-  # Making sure the variable does exist.. 
-  if [[ -z ${TRAVIS_TAG+x} ]]; then
-    TRAVIS_TAG=""
-  fi
-  
-  if [[ ${TRAVIS_PULL_REQUEST} != "false" ]]; then
+ 
+  if [[ ${GITHUB_EVENT_NAME} == "pull_request" ]]; then
     logInfo "Not publishing because this is a build triggered for a pull request" 1
     exit 0;
-  elif [[ ${TRAVIS_EVENT_TYPE} == "cron" ]]; then
-    logInfo "Nightly build initiated by Travis cron job" 1
+  elif [[ ${GITHUB_EVENT_NAME} == "schedule" ]]; then
+    logInfo "Nightly build initiated by GitHub Action scheduled job" 1
     NIGHTLY_BUILD=true
-  elif [[ ${TRAVIS_TAG} == "" ]]; then
+  elif [[ ${GH_ACTIONS_TAG} == "" ]]; then
     logInfo "Not publishing because this is not a build triggered for a tag" 1
     exit 0;
   else
@@ -137,11 +135,11 @@ if [[ ${TRAVIS} == true ]]; then
     exit 0;
   fi
   
-  # If any of the previous commands in the `script` section of .travis.yaml failed, then abort.
+  # If any of the previous commands in the `script` section of .github/workflows/CI.yml failed, then abort.
   # The variable is not set in early stages of the build, so we default to 0 there.
-  # https://docs.travis-ci.com/user/environment-variables/
-  if [[ ${TRAVIS_TEST_RESULT=0} == 1 ]]; then
-    logInfo "Skipping release because a previous script in the Travis build has failed";
+  # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/contexts-and-expression-syntax-for-github-actions#job-context
+  if [[ ${GH_ACTIONS_JOB_STATUS="failed"} == "Success" ]]; then
+    logInfo "Skipping release because a previous script in the GitHub Actions job has failed";
     exit 0;
   fi
 fi
@@ -165,7 +163,7 @@ do
           logTrace "Publishing the release (with tag latest)" 2
           npm publish ${file} --access public
           logTrace "Adapting the tag next to point to the new release" 2
-          npm dist-tag add @nationalbankbelgium/${PACKAGE}@${TRAVIS_TAG} next
+          npm dist-tag add @nationalbankbelgium/${PACKAGE}@${GH_ACTIONS_TAG} next
         else
           logTrace "Check if nightly build is not already published."
           LATEST_NPM_VERSION=`npm view @nationalbankbelgium/${PACKAGE} dist-tags.next`

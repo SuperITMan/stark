@@ -38,7 +38,9 @@ BUILD_ALL=true
 BUNDLE=true
 COMPILE_SOURCE=true
 
-TRAVIS=${TRAVIS:-}
+GITHUB_ACTIONS=${GITHUB_ACTIONS:-}
+GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME:-""}
+GH_ACTIONS_TAG=${GH_ACTIONS_TAG:-""}
 
 VERBOSE=false
 TRACE=false
@@ -133,25 +135,15 @@ logTrace "ROOT_DIR: ${ROOT_DIR}" 1
 ROOT_OUT_DIR=${PROJECT_ROOT_DIR}/dist/packages
 logTrace "ROOT_OUT_DIR: ${ROOT_OUT_DIR}" 1
 
-# Making sure the variable exists
-if [[ -z ${TRAVIS_TAG+x} ]]; then
-  TRAVIS_TAG=""
-fi
-
-# Making sure the variable exists
-if [[ -z ${TRAVIS_EVENT_TYPE+x} ]]; then
-  TRAVIS_EVENT_TYPE=""
-fi
-
-if [[ ${TRAVIS_EVENT_TYPE} == "cron" ]]; then
-  logInfo "Nightly build initiated by Travis cron job. Using nightly version as version prefix!" 1
+if [[ ${GITHUB_EVENT_NAME} == "schedule" ]]; then
+  logInfo "Nightly build initiated by GitHub scheduled job. Using nightly version as version prefix!" 1
   VERSION_PREFIX=$(node -p "require('./package.json').config.nightlyVersion")
 else
   logInfo "Normal build. Using current version as version prefix" 1
   VERSION_PREFIX=$(node -p "require('./package.json').version")
 fi
 
-if [[ ${TRAVIS_TAG} == "" ]]; then
+if [[ ${GH_ACTIONS_TAG} == "" ]]; then
   logTrace "Setting the version suffix to the latest commit hash" 1
   VERSION_SUFFIX="-$(git log --oneline -1 | awk '{print $1}')" # last commit id
 else
