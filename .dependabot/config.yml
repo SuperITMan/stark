@@ -11,10 +11,10 @@ update_configs:
     ignored_updates:
       - match:
           dependency_name: "@angular-builders/*"
-          version_requirement: ">=8.0.0"
+          version_requirement: ">=8"
       - match:
           dependency_name: "@angular/*"
-          version_requirement: ">=8.0.0"
+          version_requirement: ">=8"
 
   - package_manager: "javascript"
     directory: "/packages/stark-core"
@@ -26,7 +26,7 @@ update_configs:
     ignored_updates:
       - match:
           dependency_name: "@uirouter/angular"
-          version_requirement: ">=6.0.0"
+          version_requirement: ">=6"
       - match:
           dependency_name: "@types/node"
 
@@ -62,7 +62,7 @@ update_configs:
     ignored_updates:
       - match:
           dependency_name: "@angular/*"
-          version_requirement: ">=8.0.0"
+          version_requirement: ">=8"
       - match:
           dependency_name: "@types/node"
 
@@ -76,7 +76,7 @@ update_configs:
     ignored_updates:
       - match:
           dependency_name: "@angular/*"
-          version_requirement: ">=8.0.0"
+          version_requirement: ">=8"
       - match:
           dependency_name: "@compodoc/compodoc"
       - match:
@@ -94,7 +94,7 @@ update_configs:
     ignored_updates:
       - match:
           dependency_name: "@angular/*"
-          version_requirement: ">=8.0.0"
+          version_requirement: ">=8"
       - match:
           dependency_name: "@compodoc/compodoc"
       - match:
@@ -112,7 +112,7 @@ update_configs:
     ignored_updates:
       - match:
           dependency_name: "@angular/*"
-          version_requirement: ">=8.0.0"
+          version_requirement: ">=8"
       - match:
           dependency_name: "@compodoc/compodoc"
       - match:
