@@ -1,5 +1,5 @@
 const browserstack = require("browserstack-local");
-const { BROWSERSTACK_USERNAME, BROWSERSTACK_ACCESS_KEY, TRAVIS_BUILD_NUMBER } = process.env;
+const { BROWSERSTACK_USERNAME, BROWSERSTACK_ACCESS_KEY, GITHUB_RUN_NUMBER } = process.env;
 const defaultConfig = require("../node_modules/@nationalbankbelgium/stark-testing/protractor.conf.js").config;
 
 /**
@@ -116,7 +116,7 @@ const config = {
 		"browserstack.networkLogs": "true",
 
 		project: "Stark Showcase",
-		build: TRAVIS_BUILD_NUMBER ? `travis ${TRAVIS_BUILD_NUMBER}` : "local"
+		build: GITHUB_RUN_NUMBER ? `github-actions ${GITHUB_RUN_NUMBER}` : "local"
 	},
 
 	/**

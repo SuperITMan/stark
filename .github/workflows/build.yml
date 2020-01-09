@@ -1,0 +1,129 @@
+name: Build
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  push:
+    branches:
+      - master
+      - /^\d+\.\d+\.\d(-alpha\.\d+|-beta\.\d+|-rc\.\d+)?$/
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    env:
+      LOGS_DIR: /tmp/stark/logs
+      LOGS_FILE: /tmp/stark/logs/build-perf.log
+      TZ: "Europe/Brussels"
+
+    strategy:
+      matrix:
+        node_version: ['10', '12']
+        os: [ubuntu-latest, macOS-latest]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: Create file & folder for GitHub Actions logs
+        run: |
+          # cfr scripts/_travis-fold.sh
+          mkdir -p $LOGS_DIR
+          touch $LOGS_FILE
+
+      - name: Get tag name if exists
+        id: get_tag_name
+        run: echo ::set-output name=TAG_NAME::$(echo $GITHUB_REF | sed -n "s/^refs\/tags\/\(\S*\).*$/\1/p")
+
+      - name: List main variables
+        run: |
+          echo "Commit SHA  : ${GITHUB_SHA}"
+          echo "Reference   : ${GITHUB_REF}"
+          echo "Event       : ${GITHUB_EVENT_NAME}"
+          echo "Author      : ${GITHUB_ACTOR}"
+          NODE_VERSION="$(node -v)"
+          echo "Node version: $NODE_VERSION"
+          npm i -g npm@6.9.2
+          # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+        env:
+          GH_ACTIONS_NODE_VERSION: ${{ matrix.node_version }}
+          GH_ACTIONS_TAG: ${{ steps.get_tag_name.outputs.TAG_NAME }}
+
+      - name: Run script print-logs
+        run: bash ./scripts/ci/print-logs.sh
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run install:ci:all
+
+      - name: "Build showcase:ghpages"
+        run: npm run build:showcase:ghpages
+
+      - name: Linting and testing
+        run: |
+          npm run lint:all
+          npm run test:ci:all
+
+      - name: Browserstack testing
+        run: |
+          #npm run test:showcase:e2e:browserstack
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        if: matrix.node_version == '10' && matrix.os == 'ubuntu-latest'
+
+      - name: Generate and publish docs
+        run: |
+          npm run docs:coverage
+          npm run docs:publish
+        env:
+          GH_ACTIONS_JOB_STATUS: ${{ job.status }}
+
+      - name: Push docs & showcase on gh-pages
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          directory: '.tmp/ghpages'
+          branch: 'gp-pages'
+        if: env.GH_ACTIONS_TAG != ''
+
+      - name: Display current status of the job
+        run: |
+          echo "Status: ${{ job.status }}"
+
+      - name: Release stark
+        run: |
+          npm run release:publish
+        env:
+          GH_ACTIONS_JOB_STATUS: ${{ job.status }}
+
+      - name: Save logs
+        run: |
+          bash ./scripts/ci/print-logs.sh
+
+      - name: Combine coveralls reports
+        run: |
+          node combine-packages-coverage.js
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: "combined-lcov.info"
