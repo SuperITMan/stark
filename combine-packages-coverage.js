@@ -21,5 +21,6 @@ const nextStream = function() {
 };
 
 const combinedStream = new StreamConcat(nextStream);
+const combinedLcovFileName = fs.createWriteStream('combined-lcov.info');
 
-combinedStream.pipe(process.stdout);
+combinedStream.pipe(combinedLcovFileName);

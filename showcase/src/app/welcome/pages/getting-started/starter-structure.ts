@@ -136,7 +136,6 @@ export const starterStructure = `|
 |   .prettierignore                     # files and directories to be excluded by prettier
 |   .prettierrc.js                      # prettier configuration file
 |   .stylelintrc                        # stylelint configuration file
-|   .travis.yml                         # YAML file to customize the Travis build (https://travis-ci.org/)
 |   angular.json                        # Angular configuration file
 |   base.spec.ts                        # initializes the test environment
 |   Dockerfile                          # the commands that will be executed by the Docker Build command

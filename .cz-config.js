@@ -22,17 +22,18 @@ module.exports = {
 		{ value: "test", name: "test:     Adding missing tests or correcting existing tests" },
 		{
 			value: "build",
-			name: "build:     Changes that affect the build system or external dependencies (example scopes: rollup, npm)"
+			name: "build:    Changes that affect the build system or external dependencies (example scopes: rollup, npm)"
 		},
 		{
 			value: "ci",
-			name: "ci:     Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)"
+			name:
+				"ci:       Changes to our CI configuration files and scripts (example scopes: GitHub Actions, Travis, Circle, BrowserStack, SauceLabs)"
 		},
 		{
 			value: "chore",
 			name: "chore:    Changes to the build process or auxiliary tools and libraries such as documentation generation"
 		},
-		{ value: "revert", name: "revert:      Reverts a previous commit" }
+		{ value: "revert", name: "revert:   Reverts a previous commit" }
 	],
 	scopes: generateScopes()
 };
