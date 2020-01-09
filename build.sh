@@ -12,7 +12,7 @@ readonly currentDir=$(cd $(dirname $0); pwd)
 
 export NODE_PATH=${NODE_PATH:-}:${currentDir}/node_modules
 
-source ${currentDir}/scripts/ci/_travis-fold.sh
+source ${currentDir}/scripts/ci/_ghactions-group.sh
 source ${currentDir}/util-functions.sh
 source ${currentDir}/build-functions.sh
 
@@ -38,7 +38,9 @@ BUILD_ALL=true
 BUNDLE=true
 COMPILE_SOURCE=true
 
-TRAVIS=${TRAVIS:-}
+GITHUB_ACTIONS=${GITHUB_ACTIONS:-}
+GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME:-""}
+GH_ACTIONS_TAG=${GH_ACTIONS_TAG:-""}
 
 VERBOSE=false
 TRACE=false
@@ -133,25 +135,15 @@ logTrace "ROOT_DIR: ${ROOT_DIR}" 1
 ROOT_OUT_DIR=${PROJECT_ROOT_DIR}/dist/packages
 logTrace "ROOT_OUT_DIR: ${ROOT_OUT_DIR}" 1
 
-# Making sure the variable exists
-if [[ -z ${TRAVIS_TAG+x} ]]; then
-  TRAVIS_TAG=""
-fi
-
-# Making sure the variable exists
-if [[ -z ${TRAVIS_EVENT_TYPE+x} ]]; then
-  TRAVIS_EVENT_TYPE=""
-fi
-
-if [[ ${TRAVIS_EVENT_TYPE} == "cron" ]]; then
-  logInfo "Nightly build initiated by Travis cron job. Using nightly version as version prefix!" 1
+if [[ ${GITHUB_EVENT_NAME} == "schedule" ]]; then
+  logInfo "Nightly build initiated by GitHub Actions scheduled job. Using nightly version as version prefix!" 1
   VERSION_PREFIX=$(node -p "require('./package.json').config.nightlyVersion")
 else
   logInfo "Normal build. Using current version as version prefix" 1
   VERSION_PREFIX=$(node -p "require('./package.json').version")
 fi
 
-if [[ ${TRAVIS_TAG} == "" ]]; then
+if [[ ${GH_ACTIONS_TAG} == "" ]]; then
   logTrace "Setting the version suffix to the latest commit hash" 1
   VERSION_SUFFIX="-$(git log --oneline -1 | awk '{print $1}')" # last commit id
 else
@@ -175,9 +167,9 @@ logInfo "============================================="
 NG=`pwd`/node_modules/.bin/ng
 
 if [[ ${BUILD_ALL} == true ]]; then
-  travisFoldStart "clean dist" "no-xtrace"
+  ghActionsGroupStart "clean dist" "no-xtrace"
     rm -rf ./dist/packages
-  travisFoldEnd "clean dist"
+  ghActionsGroupEnd "clean dist"
 fi
 
 if [[ ${BUILD_ALL} == true ]]; then
@@ -192,7 +184,7 @@ fi
 if [[ ${BUILD_ALL} == false ]]; then
   for PACKAGE in ${ALL_PACKAGES[@]}
   do
-    travisFoldStart "clean dist for ${PACKAGE}" "no-xtrace"
+    ghActionsGroupStart "clean dist for ${PACKAGE}" "no-xtrace"
     rm -rf ./dist/packages/${PACKAGE}
     if [[ ${BUNDLE} == true ]]; then
       rm -rf ./dist/packages-dist/${PACKAGE}
@@ -206,14 +198,14 @@ if [[ ${BUILD_ALL} == false ]]; then
       mkdir -p ./dist/packages-dist
     fi
   done
-  travisFoldEnd "clean dist for ${PACKAGE}"
+  ghActionsGroupEnd "clean dist for ${PACKAGE}"
 fi
 
 mkdir -p ${ROOT_OUT_DIR}
 
 for PACKAGE in ${ALL_PACKAGES[@]}
 do
-  travisFoldStart "global build: ${PACKAGE}" "no-xtrace"
+  ghActionsGroupStart "global build: ${PACKAGE}" "no-xtrace"
     SRC_DIR=${ROOT_DIR}/${PACKAGE}
     logTrace "SRC_DIR: $SRC_DIR" 1
     OUT_DIR=${ROOT_OUT_DIR}/${PACKAGE}
@@ -224,7 +216,7 @@ do
     LICENSE_BANNER=${ROOT_DIR}/license-banner.txt
   
     if [[ ${#PACKAGES[@]} > 0 && $(containsElement "${PACKAGE}" "${PACKAGES[@]}"; echo $?) == 0 ]]; then
-      travisFoldStart "build package: ${PACKAGE}" "no-xtrace"
+      ghActionsGroupStart "build package: ${PACKAGE}" "no-xtrace"
         rm -rf ${OUT_DIR}
         rm -f ${ROOT_OUT_DIR}/${PACKAGE}.js
         
@@ -266,11 +258,11 @@ do
         addBanners ${FESM5_DIR}
         addBanners ${BUNDLES_DIR}
         
-      travisFoldEnd "build package: ${PACKAGE}"
+      ghActionsGroupEnd "build package: ${PACKAGE}"
     fi
     
     if [[ ${#NODE_PACKAGES[@]} > 0 && $(containsElement "${PACKAGE}" "${NODE_PACKAGES[@]}"; echo $?) == 0 ]]; then
-      travisFoldStart "build node package: ${PACKAGE}" "no-xtrace"
+      ghActionsGroupStart "build node package: ${PACKAGE}" "no-xtrace"
       
       # contents only need to be copied to the destination folder
       logInfo "Copy ${PACKAGE} to ${OUT_DIR}"
@@ -281,10 +273,10 @@ do
       logInfo "Copy $PACKAGE contents"
       syncFiles ${OUT_DIR} ${NPM_DIR} "-a"
   
-      travisFoldEnd "build node package: ${PACKAGE}"
+      ghActionsGroupEnd "build node package: ${PACKAGE}"
     fi
   
-    travisFoldStart "general tasks: ${PACKAGE}" "no-xtrace"
+    ghActionsGroupStart "general tasks: ${PACKAGE}" "no-xtrace"
       if [[ -d ${NPM_DIR} ]]; then
         logInfo "Copy $PACKAGE README.md file to $NPM_DIR"
         cp ${ROOT_DIR}/README.md ${NPM_DIR}/
@@ -310,10 +302,10 @@ do
         adaptNpmPackageLockDependencies ${PACKAGE} ${VERSION} "./starter/package-lock.json" 1
 
       fi
-    travisFoldEnd "general tasks: ${PACKAGE}"
+    ghActionsGroupEnd "general tasks: ${PACKAGE}"
   
-  travisFoldEnd "global build: ${PACKAGE}"
+  ghActionsGroupEnd "global build: ${PACKAGE}"
 done
 
 # Print return arrows as a log separator
-travisFoldReturnArrows
+ghActionsGroupReturnArrows
