@@ -7,9 +7,9 @@
 On your local machine, you must configure the `GITHUB_TOKEN` environment variable.
 It will be used by release-it to push to and create the release page on GitHub (cfr [What happens once a release is triggered](#release-process) section below).
 
-### Travis
+### GitHub Actions
 
-On Travis, the following should be configured:
+On GitHub, the following should be configured:
 
 -   NPM_TOKEN environment variable
     -   if 2FA is enabled for the account the only auth-only level can be used: https://docs.npmjs.com/getting-started/using-two-factor-authentication#levels-of-authentication
@@ -38,7 +38,7 @@ _NOTE:_ If any of the pre-conditions mentioned above are not met, no worries, th
 
 ## Publishing the release on npm
 
-Once you have pushed the tag, Travis will handle things from there.
+Once you have pushed the tag, GitHub Actions will handle things from there.
 
 Once done, you must make sure that the distribution tags are adapted so that the `latest` tag still points to what we consider the latest (i.e., next major/minor)!
 Refer to the "Adapting tags of published packages" section below.
@@ -63,9 +63,9 @@ After this, the release is tagged and visible on github
 
 #### What
 
-Once the tag is pushed to GitHub, Travis picks it up and initiates a build.
+Once the tag is pushed to GitHub, GitHub Actions picks it up and initiates a build.
 
-Travis executes builds, tests, then executes `npm run docs:publish`.
+GitHub Actions executes builds, tests, then executes `npm run docs:publish`.
 
 That script makes some checks then, if all succeed it publishes the API docs of the different packages as well as the production build output of the showcase to Github pages.
 
@@ -74,63 +74,30 @@ That script makes some checks then, if all succeed it publishes the API docs of 
 Checks that are performed:
 
 -   node version: should be "10"
--   TRAVIS_REPO_SLUG should be "NationalBankBelgium/stark"
--   TRAVIS_TAG should be defined and not empty (this is the case when Travis builds for a tag)
--   TRAVIS_PULL_REQUEST should be false
--   TRAVIS_BRANCH should be "master"
--   TRAVIS_EVENT_TYPE should be "cron" (i.e., not a nightly build or manual build)
--   encrypted\_... environment should be available (those have been created by encrypting our SSH key; cfr below!)
+-   GITHUB_REPOSITORY should be "NationalBankBelgium/stark"
+-   GH_ACTIONS_TAG should be defined and not empty (this is the case when GitHub Actions builds for a tag)
+-   GITHUB_REF should be "refs/heads/master"
+-   GITHUB_EVENT_NAME should be "schedule" (i.e., not a nightly build or manual build)
 
 More details here: https://github.com/NationalBankBelgium/stark/issues/282
 
 #### Security
 
-The docs publication uses an SSH key that has write access to the Stark repository.
-That key is available in the source code in encrypted form in the `stark-ssh` file.
-That file actually corresponds to the private key of an SSH key-pair encrypted using the Travis CLI (details below).
-
-#### Replacing the GitHub credentials (SSH key)
-
-To replace the keys used by the docs publish script:
-
--   create a new SSH key pair: `ssh-keygen -t rsa -b 4096 -C "..."`
-    -   call it `stark-ssh` for safety: that name is in the .gitignore list
--   associate the public key with the Stark repository as a "Deploy Key": https://developer.github.com/v3/guides/managing-deploy-keys/
--   encrypt the private key with the Travis CLI: `travis encrypt-file ./stark-ssh -r NationalBankBelgium/stark`
-    -   that command will generate an encrypted version of the key
-    -   make sure you're logged in (see [Installing the Travis CLI](#intalling-travis-cli) section)
-    -   **IMPORTANT: on Windows the generation of the encrypted key produces a corrupted file. So you should generate it on a Linux system. See https://github.com/travis-ci/travis-ci/issues/4746**
--   save the encrypted file as `stark-ssh.enc` and get rid of the non-encrypted key directly
-
-The command will also
-
--   store the (randomly generated) encryption key and initialization vector as (secure) Travis environment variables
--   provide the openssl command to use in the scripts to decrypt the stark-ssh.enc file; for example: `openssl aes-256-cbc -K $encrypted_e546efaa49e5_key -iv $encrypted_e546efaa49e5_iv -in stark-ssh.enc -out ./stark-ssh -d`.
-
-The name of those variables will change each time it is used, therefore the `gh-deploy.sh` MUST also be adapted afterwards.
-
-#### <a name="intalling-travis-cli"></a>Installing the Travis CLI
-
-Steps:
-
--   Install Ruby to get the `gem` command
--   Install Travis CLI with gem install travis
--   Login to Travis using GH credentials: travis login --org --github-token yourtoken
-    -   `Successfully logged in as ...`
--   Have fun!
+The push of the modified docs (new commit) is done thanks to `github-push-action` in the GitHub Actions job.
+It simply uses the `{{ secrets.GITHUB_TOKEN }}` provided by GitHub in GitHub Actions.
 
 ### npm packages publish
 
-Finally, Travis executes `npm run release:publish`.
+Finally, GitHub Actions executes `npm run release:publish`.
 
-That script makes some checks then, if all succeed, it publishes the different packages on npm and sets the `last` and `next` distribution tags to the published version.
+That script makes some checks then, if all succeed, it publishes the different packages on npm and sets the `latest` and `next` distribution tags to the published version.
 
 Checks that are performed:
 
 -   node version: should be "10"
 -   NPM_TOKEN environment variable should be defined
--   TRAVIS_REPO_SLUG should be "NationalBankBelgium/stark"
--   TRAVIS_TAG should be defined and not empty (this is the case when Travis builds for a tag)
+-   GITHUB_REPOSITORY should be "NationalBankBelgium/stark"
+-   GH_ACTIONS_TAG should be defined and not empty (this is the case when GitHub Actions builds for a tag)
 
 Other details can be found here: https://github.com/NationalBankBelgium/stark/issues/54
 
