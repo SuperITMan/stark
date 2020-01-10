@@ -28,9 +28,6 @@ update_configs:
           update_type: "in_range"
     ignored_updates:
       - match:
-          dependency_name: "@uirouter/angular"
-          version_requirement: ">=6"
-      - match:
           dependency_name: "@types/node"
 
   - package_manager: "javascript"
