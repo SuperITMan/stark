@@ -10,22 +10,22 @@
   box-shadow: mat-color($grey-palette, 300);
   position: relative;
 
-  & mat-icon {
+  mat-icon {
     position: absolute;
     left: 15px;
     top: 14px;
     color: mat-color($grey-palette, 700);
   }
 
-  & ul {
+  ul {
     padding: 0;
   }
 
-  & a {
+  a {
     text-decoration: none;
   }
 
-  & a:hover {
+  a:hover {
     background-color: $offwhite;
     color: $md-primary;
   }

@@ -54,7 +54,7 @@
     display: block;
   }
 
-  & .inner {
+  .inner {
     position: relative;
     display: inline-block;
     text-align: left;
@@ -71,10 +71,10 @@
   }
 
   /* summary pane */
-  & .summary {
+  .summary {
     display: flex;
 
-    & button {
+    button {
       display: block;
       box-sizing: border-box;
       position: relative;
@@ -96,7 +96,7 @@
         height: 4px;
       }
 
-      & b {
+      b {
         position: absolute;
         background: #fff;
         font-size: 12px;
@@ -112,7 +112,7 @@
       }
     }
 
-    & .may-collapse {
+    .may-collapse {
       overflow: hidden;
       width: 0;
       padding: 8px 0;
@@ -120,7 +120,7 @@
       transition: all 0.4s;
     }
 
-    & .stark-message-pane-total {
+    .stark-message-pane-total {
       box-sizing: border-box;
       overflow: hidden;
       width: 0;
@@ -130,7 +130,7 @@
       margin-right: auto;
     }
 
-    & .collapse-pane {
+    .collapse-pane {
       overflow: hidden;
       will-change: width, padding;
       transition: all 0.4s;
@@ -143,35 +143,35 @@
   }
 
   &.collapsed {
-    & .inner {
+    .inner {
       border-radius: 20px;
 
-      & .may-collapse,
-      & .collapse-pane {
+      .may-collapse,
+      .collapse-pane {
         width: 0;
         padding: 0;
       }
 
-      & .stark-message-pane-total {
+      .stark-message-pane-total {
         width: 48px;
         padding: 8px;
       }
 
-      & .stark-message-pane-content {
+      .stark-message-pane-content {
         display: none;
       }
     }
   }
 
   /* content pane */
-  & .stark-message-pane-content {
+  .stark-message-pane-content {
     /* stylelint-disable-next-line unit-no-unknown */
     max-height: calc(100vh-180px);
     overflow-x: hidden;
     overflow-y: auto;
   }
 
-  & .stark-message-pane-item {
+  .stark-message-pane-item {
     width: 240px;
     display: flex;
     align-items: center;
@@ -180,25 +180,25 @@
     border-top: solid 1px #b2b2b2;
     word-wrap: break-word;
 
-    & > mat-icon {
+    > mat-icon {
       margin-right: 8px;
     }
 
-    & > div {
+    > div {
       flex: 1;
     }
 
-    & .mat-icon-button {
+    .mat-icon-button {
       margin: 0 0 0 16px;
       padding: 0;
 
-      & mat-icon {
+      mat-icon {
         vertical-align: middle;
       }
     }
   }
 
-  & mat-icon {
+  mat-icon {
     transition: all 0.4s;
   }
 }

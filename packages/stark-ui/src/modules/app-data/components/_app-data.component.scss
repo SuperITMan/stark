@@ -6,7 +6,7 @@
 .stark-app-data {
   font-size: 13px;
 
-  & ul {
+  ul {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -14,7 +14,7 @@
     overflow: auto;
   }
 
-  & li {
+  li {
     padding: 5px;
   }
 }
@@ -32,16 +32,16 @@
     border-radius: 20px;
     padding: 2px 0 2px 20px;
 
-    & .stark-app-data-summary {
+    .stark-app-data-summary {
       padding-top: 4px;
       width: 250px;
     }
 
-    & svg {
+    svg {
       transition: transform 0.4s;
     }
 
-    & .is-open svg {
+    .is-open svg {
       transform: rotate(180deg);
     }
   }
@@ -55,11 +55,11 @@
 /*              app data "detail" slot              */
 /* ------------------------------------------------ */
 .stark-app-data.mat-menu-panel {
-  & .stark-app-data-detail {
+  .stark-app-data-detail {
     padding: 2px 10px;
     line-height: 1.5;
 
-    & .label {
+    .label {
       font-weight: 500;
     }
   }

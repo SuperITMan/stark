@@ -16,13 +16,13 @@
 }
 
 .custom-section {
-  & a {
+  a {
     text-decoration: none;
   }
 }
 
 .custom-pretty-print {
-  & pre {
+  pre {
     background-color: $custom-dark-background;
     border-radius: 0.3em;
   }

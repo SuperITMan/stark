@@ -4,7 +4,7 @@
 @media #{$tablet-query} {
   .stark-pagination > div {
     .pagination-enter-page {
-      & input {
+      input {
         border: solid 1px $divider-color;
       }
     }

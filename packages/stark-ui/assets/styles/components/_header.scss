@@ -181,7 +181,7 @@
 
   @media #{$desktop-query} {
     body:not(.full-curtain) {
-      & h1 {
+      h1 {
         font-size: 24px;
         font-weight: 500;
         line-height: 1.2;
