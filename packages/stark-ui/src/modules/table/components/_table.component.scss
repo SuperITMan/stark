@@ -81,16 +81,6 @@
         display: none;
       }
 
-      &.filtering {
-        &.mat-header-cell {
-          .header-cell-content {
-            .button-filter {
-              opacity: 1;
-            }
-          }
-        }
-      }
-
       &.mat-column-select {
         width: 1%;
         white-space: nowrap;
@@ -129,6 +119,16 @@
             opacity: 0.3;
           }
         }
+      }
+
+      &.filtering {
+	&.mat-header-cell {
+	  .header-cell-content {
+	    .button-filter {
+	      opacity: 1;
+	    }
+	  }
+	}
       }
     }
 

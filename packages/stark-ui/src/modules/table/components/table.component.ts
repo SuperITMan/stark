@@ -68,6 +68,8 @@ const DEFAULT_COLUMN_PROPERTIES: Partial<StarkTableColumnProperties> = {
 	isVisible: true
 };
 
+// FIXME: refactor the template of this component function to reduce its cyclomatic complexity
+/* tslint:disable:template-cyclomatic-complexity */
 /**
  * Component to display array data in a table layout.
  */
@@ -82,7 +84,6 @@ const DEFAULT_COLUMN_PROPERTIES: Partial<StarkTableColumnProperties> = {
 		class: componentName
 	}
 })
-/* tslint:enable */
 export class StarkTableComponent extends AbstractStarkUiComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 	/**
 	 * Array of {@link StarkTableColumnProperties} objects which define the columns of the data table.
