@@ -17,16 +17,18 @@ before_install:
     - NODE_VERSION="$(node -v)"
     - echo $NODE_VERSION
     # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
-    - 'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc'
+    - echo $NPM_FAKE_TOKEN
+    - 'echo "//registry.npmjs.org/:_authToken=${NPM_FAKE_TOKEN}" >> ~/.npmrc'
+    - cat ~/.npmrc
 
 install:
     # Create file & folder for Travis logs
     # cfr scripts/_travis-fold.sh
     - mkdir -p $LOGS_DIR
     - touch $LOGS_DIR/build-perf.log
-    - npm ci
-    - npm run install:ci:all
-    - npm run build:showcase:ghpages
+      #- npm ci
+      #- npm run install:ci:all
+      #- npm run build:showcase:ghpages
 
 env:
     global:
@@ -48,15 +50,15 @@ cache:
 #  chrome: stable
 
 script:
-    - npm run lint:all
-    - npm run test:ci:all
+        #- npm run lint:all
+        #- npm run test:ci:all
     # E2E tests only need to be run on 1 node version (v10)
     # and the secure environmentals BROWSERSTACK_USERNAME, BROWSERSTACK_ACCESS_KEY should be set. (only on secure builds)
-    - if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
-    - npm run docs:coverage
-    - npm run docs:publish
-    - npm run release:publish
-    - bash ./scripts/ci/print-logs.sh
+    #- if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
+    #- npm run docs:coverage
+    #- npm run docs:publish
+    #- npm run release:publish
+    #- bash ./scripts/ci/print-logs.sh
 
 after_success:
-    - npm run test:ci:coveralls:combined
+        #- npm run test:ci:coveralls:combined
