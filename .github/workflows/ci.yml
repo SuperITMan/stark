@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - master
-      - /^greenkeeper/.*$/
       - /^\d+\.\d+\.\d(-alpha\.\d+|-beta\.\d+|-rc\.\d+)?$/
   pull_request:
     branches:
@@ -22,7 +21,7 @@ jobs:
     strategy:
       matrix:
         node_version: ['10', '12']
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest, macOS-latest]
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node_version }}
@@ -64,11 +63,16 @@ jobs:
       run: |
         npm run lint:all
         npm run test:ci:all
-        if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${{ secrets.BROWSERSTACK_USERNAME }}" && -n "${{ secrets.BROWSERSTACK_ACCESS_KEY }}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
+        if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
         npm run docs:coverage
         npm run docs:publish
         npm run release:publish
         bash ./scripts/ci/print-logs.sh
+      env:
+        BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+        BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        encrypted_084795922354_iv: ${{ secrets.encrypted_084795922354_iv }}
+        encrypted_084795922354_key: ${{ secrets.encrypted_084795922354_key }}
 
     - name: After success
       run: npm run test:ci:coveralls:combined
