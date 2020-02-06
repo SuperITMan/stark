@@ -106,4 +106,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: "combined-lcov.info"
-        if: github.event_name == "push"
+        if: github.event_name == 'push'
