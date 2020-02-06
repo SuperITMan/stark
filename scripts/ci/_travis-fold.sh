@@ -16,7 +16,7 @@ function travisFoldStart() {
 
   echo ""
   if [[ ${GITHUB_ACTIONS} == true ]]; then
-    echo "::group::start:${sanitizedFoldName}"
+    echo "::group::${sanitizedFoldName} - start"
   fi
   local enterArrow="===>  ${foldName}  ==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>"
   # keep all messages consistently wide 80chars regardless of the foldName
@@ -67,7 +67,7 @@ function travisFoldEnd() {
   echo ${returnArrow:0:100}
   echo ""
   if [[ ${GITHUB_ACTIONS} == true ]]; then
-    echo "::endgroup:::end:${sanitizedFoldName}"
+    echo "::endgroup::"
   fi
 }
 
