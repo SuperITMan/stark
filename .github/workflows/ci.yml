@@ -61,6 +61,7 @@ jobs:
 
     - name: scripts
       run: |
+        echo "Current TZ: ${TZ}"
         npm run lint:all
         npm run test:ci:all
         if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
@@ -73,6 +74,7 @@ jobs:
         BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         encrypted_084795922354_iv: ${{ secrets.encrypted_084795922354_iv }}
         encrypted_084795922354_key: ${{ secrets.encrypted_084795922354_key }}
+        TZ: ${{ TZ }}
 
     - name: After success
       run: npm run test:ci:coveralls:combined
