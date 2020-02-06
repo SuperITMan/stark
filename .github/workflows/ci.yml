@@ -40,6 +40,8 @@ jobs:
           echo "Commit SHA  : ${GITHUB_SHA}"
           echo "Reference   : ${GITHUB_REF}"
           echo "Event       : ${GITHUB_EVENT_NAME}"
+          echo "Author      : ${GITHUB_ACTOR}"
+          echo "Node version: ${{ matrix.node_version }}"
           export TZ=Europe/Brussels
           npm i -g npm@6.9.2
           NODE_VERSION="$(node -v)"
