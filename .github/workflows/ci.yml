@@ -12,7 +12,6 @@ on:
     branches:
       - master
 
-
 jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
@@ -22,8 +21,8 @@ jobs:
       LOGS_FILE: /tmp/stark/logs/build-perf.log
     strategy:
       matrix:
-        node_version: ['8', '10', '12']
-        os: [ubuntu-latest, macOS-latest]
+        node_version: ['10', '12']
+        os: [ubuntu-latest, macOS-latest, windows-latest]
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node_version }}
@@ -48,23 +47,15 @@ jobs:
         NODE_VERSION="$(node -v)"
         echo "Node version: $NODE_VERSION"
         # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
-        echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
 
     - name: Run script print-logs
       run: bash ./scripts/ci/print-logs.sh
 
-    - name: Install process when branch created by Greenkeeper
+    - name: Install dependencies
       run: |
-        npm run clean:modules:all
         npm ci
-        npm run install:travis:all
-      if: "${GITHUB_REF}" =~ "^greenkeeper.*$" || ${AUTHOR_NAME} == "greenkeeper[bot]"
-
-    - name: Install process when branch is NOT created by Greenkeeper
-      run: |
-        npm install
-        npm run install:all
-      if: github.ref !=~ ^greenkeeper.*$ || ${AUTHOR_NAME} != "greenkeeper[bot]"
+        npm run install:ci:all
 
     - name: npm run build:showcase:ghpages
       run: npm run build:showcase:ghpages
@@ -73,7 +64,7 @@ jobs:
       run: |
         npm run lint:all
         npm run test:ci:all
-        if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
+        if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${{ secrets.BROWSERSTACK_USERNAME }}" && -n "${{ secrets.BROWSERSTACK_ACCESS_KEY }}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
         npm run docs:coverage
         npm run docs:publish
         npm run release:publish
