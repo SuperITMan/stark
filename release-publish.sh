@@ -31,7 +31,7 @@ EXPECTED_NODE_VERSION="10"
 #NPM_TOKEN="dummy"
 #GITHUB_ACTIONS=true
 #GITHUB_REPOSITORY="NationalBankBelgium/stark"
-#GITHUB_NODE_VERSION="10"
+#GH_ACTIONS_NODE_VERSION="10"
 
 # For normal builds:
 #GITHUB_EVENT_NAME="pull_request"
@@ -103,8 +103,8 @@ if [[ ${GITHUB_ACTIONS} == true ]]; then
   
   # Ensuring that this is the execution for Node x
   # Without this check, we would publish a release for each node version we test under! :)
-  if [[ ${GITHUB_NODE_VERSION} != ${EXPECTED_NODE_VERSION} ]]; then
-    logInfo "Skipping release because this is not the expected version of node: ${GITHUB_NODE_VERSION}"
+  if [[ ${GH_ACTIONS_NODE_VERSION} != ${EXPECTED_NODE_VERSION} ]]; then
+    logInfo "Skipping release because this is not the expected version of node: ${GH_ACTIONS_NODE_VERSION}"
     exit 0;
   fi
   

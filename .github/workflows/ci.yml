@@ -45,14 +45,16 @@ jobs:
           echo "Reference   : ${GITHUB_REF}"
           echo "Event       : ${GITHUB_EVENT_NAME}"
           echo "Author      : ${GITHUB_ACTOR}"
-          echo "Node version: ${NODE_VERSION}"
+          echo "Node version: ${GH_ACTIONS_NODE_VERSION}"
           export TZ=Europe/Brussels
           npm i -g npm@6.9.2
+          NODE_VERSION="$(node -v)"
+          echo "Node version: $NODE_VERSION"
           # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
         env:
           TZ: "Europe/Brussels"
-          GITHUB_NODE_VERSION: ${{ matrix.node_version }}
+          GH_ACTIONS_NODE_VERSION: ${{ matrix.node_version }}
 
       - name: Run script print-logs
         run: bash ./scripts/ci/print-logs.sh
@@ -76,10 +78,14 @@ jobs:
         run: |
           npm run lint:all
           npm run test:ci:all
-          if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
+
+      - name: Execute Browserstack tests
+        run: |
+          npm run test:showcase:e2e:browserstack
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        if: matrix.node_version == '10'
 
       - name: Generate and publish docs
         run: |
