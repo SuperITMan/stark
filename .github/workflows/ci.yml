@@ -23,65 +23,69 @@ jobs:
         node_version: ['10', '12']
         os: [ubuntu-latest, macOS-latest]
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node_version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node_version }}
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
 
-    - name: Create file & folder for Travis logs
-      run: |
-        # cfr scripts/_travis-fold.sh
-        mkdir -p $LOGS_DIR
-        touch $LOGS_FILE
-    - name: List main variables
-      run: |
-        echo "Commit SHA  : ${GITHUB_SHA}"
-        echo "Reference   : ${GITHUB_REF}"
-        echo "Event       : ${GITHUB_EVENT_NAME}"
-        export TZ=Europe/Brussels
-        npm i -g npm@6.9.2
-        NODE_VERSION="$(node -v)"
-        echo "Node version: $NODE_VERSION"
-        # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
-        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+      - name: Create file & folder for Travis logs
+        run: |
+          # cfr scripts/_travis-fold.sh
+          mkdir -p $LOGS_DIR
+          touch $LOGS_FILE
+      - name: List main variables
+        run: |
+          echo "Commit SHA  : ${GITHUB_SHA}"
+          echo "Reference   : ${GITHUB_REF}"
+          echo "Event       : ${GITHUB_EVENT_NAME}"
+          export TZ=Europe/Brussels
+          npm i -g npm@6.9.2
+          NODE_VERSION="$(node -v)"
+          echo "Node version: $NODE_VERSION"
+          # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
 
-    - name: Run script print-logs
-      run: bash ./scripts/ci/print-logs.sh
+      - name: Run script print-logs
+        run: bash ./scripts/ci/print-logs.sh
 
-    - uses: actions/cache@v1
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-    - name: Install dependencies
-      run: |
-        npm ci
-        npm run install:ci:all
-      env:
-        TZ: "Europe/Brussels"
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run install:ci:all
+        env:
+          TZ: "Europe/Brussels"
 
-    - name: npm run build:showcase:ghpages
-      run: npm run build:showcase:ghpages
+      - name: npm run build:showcase:ghpages
+        run: npm run build:showcase:ghpages
 
-    - name: scripts
-      run: |
-        echo "Current TZ: ${TZ}"
-        npm run lint:all
-        npm run test:ci:all
-        if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
-        npm run docs:coverage
-        #npm run docs:publish
-        #npm run release:publish
-        bash ./scripts/ci/print-logs.sh
-      env:
-        BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-        BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-        encrypted_084795922354_iv: ${{ secrets.encrypted_084795922354_iv }}
-        encrypted_084795922354_key: ${{ secrets.encrypted_084795922354_key }}
-        TZ: "Europe/Brussels"
+      - name: Linting and testing
+        run: |
+          npm run lint:all
+          npm run test:ci:all
+          if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
+        env:
+          TZ: "Europe/Brussels"
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 
-    - name: After success
-      run: npm run test:ci:coveralls:combined
+      - name: scripts
+        run: |
+          npm run docs:coverage
+          #npm run docs:publish
+          #npm run release:publish
+          bash ./scripts/ci/print-logs.sh
+        env:
+          encrypted_084795922354_iv: ${{ secrets.encrypted_084795922354_iv }}
+          encrypted_084795922354_key: ${{ secrets.encrypted_084795922354_key }}
+          TZ: "Europe/Brussels"
+
+      - name: After success
+        run: npm run test:ci:coveralls:combined
