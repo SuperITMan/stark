@@ -1,7 +1,7 @@
 # private variable to track folds within this script
 travisFoldStack=()
 
-TRAVIS=${TRAVIS:-}
+GITHUB_ACTIONS=${GITHUB_ACTIONS:-}
 
 function travisFoldStart() {
   local foldName="${0#./}  ${1}"
@@ -15,9 +15,8 @@ function travisFoldStart() {
   travisFoldStack+=("${sanitizedFoldName}|${foldStartTime}")
 
   echo ""
-  if [[ ${TRAVIS} == true ]]; then
-    echo "travis_fold:start:${sanitizedFoldName}"
-    echo "travis_time:start:${sanitizedFoldName}"
+  if [[ ${GITHUB_ACTIONS} == true ]]; then
+    echo "::group::start:${sanitizedFoldName}"
   fi
   local enterArrow="===>  ${foldName}  ==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>==>"
   # keep all messages consistently wide 80chars regardless of the foldName
@@ -44,14 +43,14 @@ function travisFoldEnd() {
   local lastFoldArray=(${lastFoldString//\|/ })
   local lastSanitizedFoldName=${lastFoldArray[0]}
 
-  if [[ ${TRAVIS} == true ]]; then
+  if [[ ${GITHUB_ACTIONS} == true ]]; then
     local lastFoldStartTime=${lastFoldArray[1]}
     local foldFinishTime=$(date +%s%N)
     local foldDuration=$(expr ${foldFinishTime} - ${lastFoldStartTime})
 
     # write into build-perf.log file
     local logIndent=$(expr ${lastFoldIndex} \* 2)
-    printf "%6ss%${logIndent}s: %s\n" $(expr ${foldDuration} / 1000000000) " " "${foldName}" >> ${LOGS_DIR}/build-perf.log
+    printf "%6ss%${logIndent}s: %s\n" $(expr ${foldDuration} / 1000000000) " " "${foldName}" >> ${LOGS_FILE}
   fi
 
   # pop
@@ -59,7 +58,7 @@ function travisFoldEnd() {
 
   # check for misalignment
   if [[ ${lastSanitizedFoldName} != ${sanitizedFoldName} ]]; then
-    echo "Travis fold mis-alignment detected! travisFoldEnd expected sanitized fold name '${lastSanitizedFoldName}', but received '${sanitizedFoldName}' (after sanitization)"
+    echo "GitHub fold mis-alignment detected! travisFoldEnd expected sanitized fold name '${lastSanitizedFoldName}', but received '${sanitizedFoldName}' (after sanitization)"
     exit 1
   fi
 
@@ -67,9 +66,8 @@ function travisFoldEnd() {
   # keep all messages consistently wide 80chars regardless of the foldName
   echo ${returnArrow:0:100}
   echo ""
-  if [[ ${TRAVIS} == true ]]; then
-    echo "travis_time:end:${sanitizedFoldName}:start=${lastFoldStartTime},finish=${foldFinishTime},duration=${foldDuration}"
-    echo "travis_fold:end:${sanitizedFoldName}"
+  if [[ ${GITHUB_ACTIONS} == true ]]; then
+    echo "::endgroup:::end:${sanitizedFoldName}"
   fi
 }
 
