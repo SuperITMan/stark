@@ -34,6 +34,7 @@ jobs:
           # cfr scripts/_travis-fold.sh
           mkdir -p $LOGS_DIR
           touch $LOGS_FILE
+
       - name: List main variables
         run: |
           echo "Commit SHA  : ${GITHUB_SHA}"
@@ -63,7 +64,7 @@ jobs:
         env:
           TZ: "Europe/Brussels"
 
-      - name: npm run build:showcase:ghpages
+      - name: "Build showcase:ghpages"
         run: npm run build:showcase:ghpages
 
       - name: Linting and testing
@@ -76,16 +77,29 @@ jobs:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 
-      - name: scripts
+      - name: Generate and publish docs
         run: |
           npm run docs:coverage
           #npm run docs:publish
-          #npm run release:publish
-          bash ./scripts/ci/print-logs.sh
         env:
           encrypted_084795922354_iv: ${{ secrets.encrypted_084795922354_iv }}
           encrypted_084795922354_key: ${{ secrets.encrypted_084795922354_key }}
           TZ: "Europe/Brussels"
 
-      - name: After success
-        run: npm run test:ci:coveralls:combined
+      - name: Release stark
+        run: |
+          #npm run release:publish
+
+      - name: Save logs
+        run: |
+          bash ./scripts/ci/print-logs.sh
+
+      - name: Combine coveralls reports
+        run: |
+          node combine-packages-coverage.js
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: "combined-lcov.info"
