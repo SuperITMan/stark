@@ -35,19 +35,24 @@ jobs:
           mkdir -p $LOGS_DIR
           touch $LOGS_FILE
 
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
       - name: List main variables
         run: |
           echo "Commit SHA  : ${GITHUB_SHA}"
           echo "Reference   : ${GITHUB_REF}"
           echo "Event       : ${GITHUB_EVENT_NAME}"
           echo "Author      : ${GITHUB_ACTOR}"
-          echo "Node version: ${{ matrix.node_version }}"
+          echo "Node version: ${NODE_VERSION}"
           export TZ=Europe/Brussels
           npm i -g npm@6.9.2
-          NODE_VERSION="$(node -v)"
-          echo "Node version: $NODE_VERSION"
           # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+        env:
+          TZ: "Europe/Brussels"
+          GITHUB_NODE_VERSION: ${{ matrix.node_version }}
 
       - name: Run script print-logs
         run: bash ./scripts/ci/print-logs.sh
@@ -63,8 +68,6 @@ jobs:
         run: |
           npm ci
           npm run install:ci:all
-        env:
-          TZ: "Europe/Brussels"
 
       - name: "Build showcase:ghpages"
         run: npm run build:showcase:ghpages
@@ -74,19 +77,17 @@ jobs:
           npm run lint:all
           npm run test:ci:all
           if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
-        env:
-          TZ: "Europe/Brussels"
+        with:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
 
       - name: Generate and publish docs
         run: |
-          npm run docs:coverage
+          #npm run docs:coverage
           #npm run docs:publish
-        env:
+        with:
           encrypted_084795922354_iv: ${{ secrets.encrypted_084795922354_iv }}
           encrypted_084795922354_key: ${{ secrets.encrypted_084795922354_key }}
-          TZ: "Europe/Brussels"
 
       - name: Release stark
         run: |
@@ -105,3 +106,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: "combined-lcov.info"
+        if: github.event_name == "push"

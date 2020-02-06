@@ -29,16 +29,16 @@ EXPECTED_NODE_VERSION="10"
 #mkdir -p ${LOGS_DIR}
 #touch ${LOGS_DIR}/build-perf.log
 #NPM_TOKEN="dummy"
-#TRAVIS=true
-#TRAVIS_REPO_SLUG="NationalBankBelgium/stark"
-#TRAVIS_NODE_VERSION="10"
+#GITHUB_ACTIONS=true
+#GITHUB_REPOSITORY="NationalBankBelgium/stark"
+#GITHUB_NODE_VERSION="10"
 
 # For normal builds:
-#TRAVIS_EVENT_TYPE="pull_request"
+#GITHUB_EVENT_NAME="pull_request"
 #TRAVIS_TAG="fooBar"
 
 # For nightly builds:
-#TRAVIS_EVENT_TYPE="cron"
+#GITHUB_EVENT_NAME="schedule"
 #----------------------------------------------
 
 NIGHTLY_BUILD=false
@@ -90,21 +90,21 @@ logTrace "ROOT_PACKAGES_DIR: ${ROOT_PACKAGES_DIR}" 1
 
 travisFoldStart "publish checks" "no-xtrace"
 
-if [[ ${TRAVIS} == true ]]; then
+if [[ ${GITHUB_ACTIONS} == true ]]; then
   logInfo "Publishing to npm";
   logInfo "============================================="
   
   # Don't even try if not running against the official repo
   # We don't want release to run outside of our own little world
-  if [[ ${TRAVIS_REPO_SLUG} != ${EXPECTED_REPO_SLUG} ]]; then
+  if [[ ${GITHUB_REPOSITORY} != ${EXPECTED_REPO_SLUG} ]]; then
     logInfo "Skipping release because this is not the main repository.";
     exit 0;
   fi
   
   # Ensuring that this is the execution for Node x
   # Without this check, we would publish a release for each node version we test under! :)
-  if [[ ${TRAVIS_NODE_VERSION} != ${EXPECTED_NODE_VERSION} ]]; then
-    logInfo "Skipping release because this is not the expected version of node: ${TRAVIS_NODE_VERSION}"
+  if [[ ${GITHUB_NODE_VERSION} != ${EXPECTED_NODE_VERSION} ]]; then
+    logInfo "Skipping release because this is not the expected version of node: ${GITHUB_NODE_VERSION}"
     exit 0;
   fi
   
@@ -117,7 +117,7 @@ if [[ ${TRAVIS} == true ]]; then
   if [[ ${TRAVIS_PULL_REQUEST} != "false" ]]; then
     logInfo "Not publishing because this is a build triggered for a pull request" 1
     exit 0;
-  elif [[ ${TRAVIS_EVENT_TYPE} == "cron" ]]; then
+  elif [[ ${GITHUB_EVENT_NAME} == "schedule" ]]; then
     logInfo "Nightly build initiated by Travis cron job" 1
     NIGHTLY_BUILD=true
   elif [[ ${TRAVIS_TAG} == "" ]]; then
