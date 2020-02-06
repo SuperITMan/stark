@@ -66,8 +66,8 @@ jobs:
         npm run test:ci:all
         if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
         npm run docs:coverage
-        npm run docs:publish
-        npm run release:publish
+        #npm run docs:publish
+        #npm run release:publish
         bash ./scripts/ci/print-logs.sh
       env:
         BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
