@@ -51,6 +51,7 @@ jobs:
           echo "Author      : ${GITHUB_ACTOR}"
           HEAD_TAG="$(git tag --points-at HEAD)"
           echo "HEAD_TAG    : ${HEAD_TAG}"
+          echo "GH_ACTIONS_TAG    : ${GH_ACTIONS_TAG}"
           NODE_VERSION="$(node -v)"
           echo "Node version: $NODE_VERSION"
           npm i -g npm@6.9.2
@@ -58,7 +59,7 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
         env:
           GH_ACTIONS_NODE_VERSION: ${{ matrix.node_version }}
-          GH_ACTIONS_TAG: $(git tag --points-at HEAD) != ''
+          GH_ACTIONS_TAG: github.ref =~ "^\/refs\/tags"
 
       - name: Run script print-logs
         run: bash ./scripts/ci/print-logs.sh
