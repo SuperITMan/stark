@@ -49,13 +49,16 @@ jobs:
           echo "Reference   : ${GITHUB_REF}"
           echo "Event       : ${GITHUB_EVENT_NAME}"
           echo "Author      : ${GITHUB_ACTOR}"
+          HEAD_TAG="$(git tag --points-at HEAD)"
+          echo "HEAD_TAG    : ${HEAD_TAG}"
           NODE_VERSION="$(node -v)"
           echo "Node version: $NODE_VERSION"
           npm i -g npm@6.9.2
           # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
         env:
-          GHACTIONS_NODE_VERSION: ${{ matrix.node_version }}
+          GH_ACTIONS_NODE_VERSION: ${{ matrix.node_version }}
+          GH_ACTIONS_TAG: $(git tag --points-at HEAD) != ''
 
       - name: Run script print-logs
         run: bash ./scripts/ci/print-logs.sh
