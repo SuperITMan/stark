@@ -59,7 +59,7 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
         env:
           GH_ACTIONS_NODE_VERSION: ${{ matrix.node_version }}
-          GH_ACTIONS_TAG: github.ref =~ "^\/refs\/tags"
+          GH_ACTIONS_TAG: ${GITHUB_REF/refs\/tags\//} != ''
 
       - name: Run script print-logs
         run: bash ./scripts/ci/print-logs.sh
