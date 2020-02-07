@@ -38,6 +38,10 @@ jobs:
           # cfr scripts/_travis-fold.sh
           mkdir -p $LOGS_DIR
           touch $LOGS_FILE
+          
+      - name: Get the version 2
+        id: get_version2
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
       - name: Get the version
         id: get_version
@@ -52,6 +56,7 @@ jobs:
           HEAD_TAG="$(git tag --points-at HEAD)"
           echo "HEAD_TAG    : ${HEAD_TAG}"
           echo "GH_ACTIONS_TAG    : ${GH_ACTIONS_TAG}"
+          echo "GH_ACTIONS_TAG2    : ${GH_ACTIONS_TAG2}"
           NODE_VERSION="$(node -v)"
           echo "Node version: $NODE_VERSION"
           npm i -g npm@6.9.2
@@ -59,7 +64,8 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
         env:
           GH_ACTIONS_NODE_VERSION: ${{ matrix.node_version }}
-          GH_ACTIONS_TAG: ${GITHUB_REF/refs\/tags\//} != ''
+          GH_ACTIONS_TAG: ${{ steps.get_version.outputs.VERSION }}
+          GH_ACTIONS_TAG2: ${{ steps.get_version2.outputs.VERSION }}
 
       - name: Run script print-logs
         run: bash ./scripts/ci/print-logs.sh
