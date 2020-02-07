@@ -7,6 +7,8 @@ on:
     branches:
       - master
       - /^\d+\.\d+\.\d(-alpha\.\d+|-beta\.\d+|-rc\.\d+)?$/
+    tags:
+      - '*'
   pull_request:
     branches:
       - master
@@ -47,15 +49,9 @@ jobs:
           echo "Reference   : ${GITHUB_REF}"
           echo "Event       : ${GITHUB_EVENT_NAME}"
           echo "Author      : ${GITHUB_ACTOR}"
-          echo "GITHUB_ACTION: ${GITHUB_ACTION}"
-          echo "GITHUB_ACTIONS: ${GITHUB_ACTIONS}"
-          echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
-          echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
-          echo "GITHUB_HEAD_REF: ${GITHUB_HEAD_REF}"
-          echo "GITHUB_BASE_REF: ${GITHUB_BASE_REF}"
-          npm i -g npm@6.9.2
           NODE_VERSION="$(node -v)"
           echo "Node version: $NODE_VERSION"
+          npm i -g npm@6.9.2
           # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
         env:
