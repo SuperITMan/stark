@@ -45,7 +45,7 @@ jobs:
 
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | sed -n "s/^refs\/tags\/\(\S*\).*$/\1/p")
 
       - name: List main variables
         run: |
