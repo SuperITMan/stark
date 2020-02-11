@@ -30,6 +30,7 @@
         }
       }
     ],
-    "use-host-property-decorator": false
+    "use-host-property-decorator": false,
+    "use-injectable-provided-in": false
   }
 }

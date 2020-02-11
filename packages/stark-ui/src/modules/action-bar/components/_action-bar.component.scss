@@ -15,6 +15,13 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+
+    .stark-action-bar-action {
+      &.extended {
+        width: auto;
+        text-transform: none;
+      }
+    }
   }
 
   &.stark-action-bar-full {
@@ -44,6 +51,12 @@
       font-size: 13px;
       padding-left: 15px;
     }
+  }
+}
+
+.stark-action-bar-menu-item {
+  .stark-small-icon {
+    margin-bottom: 4px;
   }
 }
 
