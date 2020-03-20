@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const StreamConcat = require("stream-concat");
 
 // add the reports of all the different Stark packages to be combined
@@ -48,7 +49,7 @@ const nextStream = function() {
 // this ensures that Coveralls can show the list of packages correctly including their files
 for (const fileName of fileNames) {
 	const packageName = fileName.match(/stark-\w*/)[0];
-	const replacements = [{ searchValue: /SF:(.*)(\r|\n)/, replaceValue: `SF:packages/${packageName}/$1$2` }];
+	const replacements = [{ searchValue: /SF:(.*)(\r|\n)/, replaceValue: `SF:${process.cwd()}/packages/${packageName}/$1$2` }];
 
 	replaceValuesInFile(fileName, replacements);
 }

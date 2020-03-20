@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         node_version: ["10", "12"]
-        os: [ubuntu-latest, macOS-latest]
+        os: [ubuntu-latest]
     env:
       LOGS_DIR: /tmp/stark/logs
       LOGS_FILE: /tmp/stark/logs/build-perf.log
