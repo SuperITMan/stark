@@ -72,7 +72,7 @@ const beforeLaunch = async () => {
 
 	exports.bs_local = new browserstack.Local();
 	await new Promise((resolve, reject) =>
-		exports.bs_local.start({ key: BROWSERSTACK_ACCESS_KEY, localIdentifier: BROWSERSTACK_LOCAL_IDENTIFIER }, error =>
+		exports.bs_local.start({ key: BROWSERSTACK_ACCESS_KEY, localIdentifier: BROWSERSTACK_LOCAL_IDENTIFIER }, (error) =>
 			error ? reject(error) : resolve()
 		)
 	);
@@ -85,10 +85,10 @@ const beforeLaunch = async () => {
  * @param exitCode
  * @returns {Promise<void>}
  */
-const afterLaunch = async exitCode => {
+const afterLaunch = async (exitCode) => {
 	console.log(`Tests finished with exit code ${exitCode}.`);
 	console.log("Stopping BrowserStack local...");
-	await new Promise(resolve => exports.bs_local.stop(resolve));
+	await new Promise((resolve) => exports.bs_local.stop(resolve));
 	console.log("BrowserStack local stopped.");
 };
 
@@ -136,5 +136,5 @@ const config = {
 exports.config = {
 	...config,
 	// Map the common capabilities to all the multi capabilities
-	multiCapabilities: config.multiCapabilities.map(caps => ({ ...config.commonCapabilities, ...caps }))
+	multiCapabilities: config.multiCapabilities.map((caps) => ({ ...config.commonCapabilities, ...caps }))
 };

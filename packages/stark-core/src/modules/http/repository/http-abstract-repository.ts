@@ -62,11 +62,7 @@ export abstract class AbstractStarkHttpRepository<T extends StarkResource> {
 	 * @param params - the parameters used to create the item
 	 */
 	public create(item: T, params?: StarkHttpCreateRequestParams): Observable<StarkSingleItemResponseWrapper<T>> {
-		return this.starkHttpService.executeSingleItemRequest(
-			this.getRequestBuilder()
-				.create(item, params)
-				.build()
-		);
+		return this.starkHttpService.executeSingleItemRequest(this.getRequestBuilder().create(item, params).build());
 	}
 
 	/**
@@ -75,11 +71,7 @@ export abstract class AbstractStarkHttpRepository<T extends StarkResource> {
 	 * @param params - the parameters used to update the item
 	 */
 	public update(item: T, params?: StarkHttpUpdateRequestParams): Observable<StarkSingleItemResponseWrapper<T>> {
-		return this.starkHttpService.executeSingleItemRequest(
-			this.getRequestBuilder()
-				.update(item, params)
-				.build()
-		);
+		return this.starkHttpService.executeSingleItemRequest(this.getRequestBuilder().update(item, params).build());
 	}
 
 	/**
@@ -88,11 +80,7 @@ export abstract class AbstractStarkHttpRepository<T extends StarkResource> {
 	 * @param params - the parameters used to delete the item
 	 */
 	public delete(item: T, params?: StarkHttpDeleteRequestParams): Observable<StarkSingleItemResponseWrapper<T>> {
-		return this.starkHttpService.executeSingleItemRequest(
-			this.getRequestBuilder()
-				.delete(item, params)
-				.build()
-		);
+		return this.starkHttpService.executeSingleItemRequest(this.getRequestBuilder().delete(item, params).build());
 	}
 
 	/**
@@ -101,11 +89,7 @@ export abstract class AbstractStarkHttpRepository<T extends StarkResource> {
 	 * @param params - the parameters used to fetch the item
 	 */
 	public get(uuid: string, params?: StarkHttpGetRequestParams): Observable<StarkSingleItemResponseWrapper<T>> {
-		return this.starkHttpService.executeSingleItemRequest(
-			this.getRequestBuilder()
-				.get(uuid, params)
-				.build()
-		);
+		return this.starkHttpService.executeSingleItemRequest(this.getRequestBuilder().get(uuid, params).build());
 	}
 
 	/**
@@ -119,11 +103,7 @@ export abstract class AbstractStarkHttpRepository<T extends StarkResource> {
 		offset: number,
 		params?: StarkHttpGetCollectionRequestParams
 	): Observable<StarkCollectionResponseWrapper<T>> {
-		return this.starkHttpService.executeCollectionRequest(
-			this.getRequestBuilder()
-				.getCollection(limit, offset, params)
-				.build()
-		);
+		return this.starkHttpService.executeCollectionRequest(this.getRequestBuilder().getCollection(limit, offset, params).build());
 	}
 
 	/**
@@ -139,11 +119,7 @@ export abstract class AbstractStarkHttpRepository<T extends StarkResource> {
 		offset: number,
 		params?: StarkHttpSearchRequestParams
 	): Observable<StarkCollectionResponseWrapper<T>> {
-		return this.starkHttpService.executeCollectionRequest(
-			this.getRequestBuilder()
-				.search(criteria, limit, offset, params)
-				.build()
-		);
+		return this.starkHttpService.executeCollectionRequest(this.getRequestBuilder().search(criteria, limit, offset, params).build());
 	}
 
 	/**

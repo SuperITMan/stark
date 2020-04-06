@@ -45,7 +45,7 @@ export class StarkTransformInputDirective implements ControlValueAccessor, OnCha
 	/**
 	 * Internal property for holding the transformation function
 	 */
-	public _transformation: (value: any) => any = value => value;
+	public _transformation: (value: any) => any = (value) => value;
 
 	// tslint:disable-next-line:no-input-rename
 	@Input("starkTransformInput")
