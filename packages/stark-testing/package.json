@@ -35,7 +35,7 @@
     "karma-typescript": "^5.0.0",
     "karma-typescript-angular2-transform": "^5.0.0",
     "karma-typescript-es6-transform": "^5.0.0",
-    "protractor": "^5.4.2",
+    "protractor": "^6.0.0",
     "puppeteer": "^2.0.0"
   },
   "scripts": {
