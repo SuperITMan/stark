@@ -1,0 +1,114 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - '@babel/core > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - ejs-loader > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - html-webpack-plugin > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-bundle-analyzer > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-merge > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > node-sass > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > stats-webpack-plugin > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > webpack-merge > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@babel/preset-env > @babel/plugin-transform-block-scoping > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > postcss-reporter > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > table > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-types > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-generator > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-traverse > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-template > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > node-sass > sass-graph > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > source-map-loader > async > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > webpack-dev-server > http-proxy-middleware > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@babel/preset-env > @babel/plugin-transform-classes > @babel/helper-define-map > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > @stylelint/postcss-css-in-js > @babel/core > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-register > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-generator > babel-types > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-traverse > babel-types > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-template > babel-types > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-types > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-generator > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-template > babel-traverse > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-traverse > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-template > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-helpers > babel-template > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > node-sass > gaze > globule > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > webpack-dev-server > portfinder > async > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@babel/preset-env > @babel/plugin-transform-unicode-regex > @babel/helper-create-regexp-features-plugin > @babel/helper-regex > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > @stylelint/postcss-css-in-js > @babel/core > @babel/helper-module-transforms > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-generator > babel-types > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-traverse > babel-types > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-template > babel-types > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-helpers > babel-template > babel-types > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-template > babel-traverse > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-helpers > babel-template > babel-traverse > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@babel/preset-env > @babel/preset-modules > @babel/plugin-transform-dotall-regex > @babel/helper-create-regexp-features-plugin > @babel/helper-regex > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > @stylelint/postcss-css-in-js > @babel/core > @babel/helpers > @babel/traverse > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@angular-devkit/build-angular > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - webpack-monitor > babel-core > babel-helpers > babel-template > babel-traverse > babel-types > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/generator > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > @stylelint/postcss-css-in-js > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > @stylelint/postcss-css-in-js > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > @stylelint/postcss-css-in-js > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
+    - '@babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash':
+        patched: '2020-04-30T21:40:32.489Z'
+    - stylelint > @stylelint/postcss-css-in-js > @babel/core > @babel/helper-module-transforms > @babel/helper-replace-supers > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2020-04-30T21:40:32.489Z'
