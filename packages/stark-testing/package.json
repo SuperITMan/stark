@@ -36,11 +36,15 @@
     "karma-typescript-angular2-transform": "^5.0.0",
     "karma-typescript-es6-transform": "^5.0.0",
     "protractor": "^5.4.2",
-    "puppeteer": "^2.0.0"
+    "puppeteer": "^2.0.0",
+    "snyk": "^1.316.1"
   },
   "scripts": {
     "clean": "npx rimraf dist",
     "clean:modules": "npx rimraf ./node_modules package-lock.json",
-    "clean:all": "npm run clean && npm run clean:modules"
-  }
+    "clean:all": "npm run clean && npm run clean:modules",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
