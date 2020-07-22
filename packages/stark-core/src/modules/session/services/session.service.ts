@@ -47,6 +47,11 @@ export const starkUnauthenticatedUserError = "StarkSessionService => user not au
 /**
  * @ignore
  */
+const ENV: string = <string>process.env.NODE_ENV;
+
+/**
+ * @ignore
+ */
 @Injectable()
 export class StarkSessionServiceImpl implements StarkSessionService {
 	public keepalive?: Keepalive;

@@ -14,7 +14,6 @@ import {
 	Output,
 	Renderer2,
 	SimpleChanges,
-	Type,
 	ViewChild,
 	ViewEncapsulation
 } from "@angular/core";
@@ -385,7 +384,7 @@ export class StarkDatePickerComponent extends AbstractStarkUiComponent
 	 */
 	public ngOnInit(): void {
 		// tslint:disable-next-line:no-null-keyword
-		this.ngControl = this.injector.get<NgControl>(<Type<NgControl>>NgControl, <any>null);
+		this.ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 
 		if (this.ngControl !== null) {
 			this.ngControl.valueAccessor = this;

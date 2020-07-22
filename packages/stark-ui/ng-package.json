@@ -1,5 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "assets": ["assets/", "typings/", "src/**/*.scss", "src/**/*.json"],
   "lib": {
     "entryFile": "public_api.ts",
     "umdModuleIds": {
@@ -23,6 +24,11 @@
       "lodash-es/uniqueId": "lodash-es.uniqueId",
       "moment": "moment",
       "nouislider": "nouislider",
+      "prettier/standalone": "prettier.standalone",
+      "prettier/parser-babylon": "prettier.parser-babylon",
+      "prettier/parser-postcss": "prettier.parser-postcss",
+      "prettier/parser-typescript": "prettier.parser-typescript",
+      "pretty-data": "pretty-data",
       "prismjs": "Prism",
       "text-mask-addons": "textMaskAddons"
     },

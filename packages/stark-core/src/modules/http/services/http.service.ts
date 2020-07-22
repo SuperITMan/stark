@@ -28,6 +28,11 @@ import cloneDeep from "lodash-es/cloneDeep";
 /**
  * @ignore
  */
+const ENV: string = <string>process.env.NODE_ENV;
+
+/**
+ * @ignore
+ */
 @Injectable()
 export class StarkHttpServiceImpl<P extends StarkResource> implements StarkHttpService<P> {
 	protected retryDelay = 1000;

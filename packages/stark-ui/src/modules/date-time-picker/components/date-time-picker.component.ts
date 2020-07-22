@@ -14,7 +14,6 @@ import {
 	Output,
 	Renderer2,
 	SimpleChanges,
-	Type,
 	ViewChild
 } from "@angular/core";
 import {
@@ -503,7 +502,7 @@ export class StarkDateTimePickerComponent extends AbstractStarkUiComponent
 	 * Component lifecycle hook
 	 */
 	public ngOnInit(): void {
-		this.ngControl = this.injector.get<NgControl>(<Type<NgControl>>NgControl, <any>null);
+		this.ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 
 		if (this.ngControl !== null) {
 			this.ngControl.valueAccessor = this;

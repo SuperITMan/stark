@@ -26,6 +26,11 @@ import { StarkValidationErrorsUtil } from "../../../util/validation-errors.util"
 /**
  * @ignore
  */
+const ENV: string = <string>process.env.NODE_ENV;
+
+/**
+ * @ignore
+ */
 const userErrorMessagePrefix: string = starkUserServiceName + ": invalid user profile.";
 
 /**

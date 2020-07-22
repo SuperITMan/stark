@@ -1,9 +1,14 @@
 import { ApplicationRef, ComponentRef, enableProdMode, NgModuleRef } from "@angular/core";
 import { disableDebugTools, enableDebugTools } from "@angular/platform-browser";
-import { createNewHosts } from "@angularclass/hmr";
+// import { createNewHosts } from "@angularclass/hmr";
 
 import { StarkMain } from "./stark-main.intf";
 import { StarkEnvironment } from "../environment";
+
+/**
+ * @ignore
+ */
+// const ENV: string = <string>process.env.NODE_ENV;
 
 /**
  * Parent class for bootstrapping Stark applications.
@@ -57,15 +62,16 @@ export abstract class AbstractStarkMain implements StarkMain {
 	 * Initialize by configuring HMR if it is enabled or normally instead.
 	 */
 	protected initialize = (): void => {
-		if (ENV === "development" && this.environment.hmr) {
-			if (module["hot"]) {
-				this.bootstrapHmr(module, this.main);
-			} else {
-				console.error("HMR is not enabled for webpack-dev-server! This is most probably due to a bug in Stark.");
-			}
-		} else {
+		// if (ENV === "development" /*&& this.environment.hmr*/) {
+		// 	if (module["hot"]) {
+		// // 		this.bootstrapHmr(module, this.main);
+		// 		console.log("----------------");
+		// 	} else {
+		// 		console.error("HMR is not enabled for webpack-dev-server! This is most probably due to a bug in Stark.");
+		// 	}
+		// } else {
 			this.invokeMain();
-		}
+		// }
 	};
 
 	/**
@@ -108,7 +114,7 @@ NNNNNNNN         NNNNNNNBBBBBBBBBBBBBBBBB   BBBBBBBBBBBBBBBBB
 We need great software developers like you! https://jobs.nbb.be
 		`);
 
-		if (ENV === "production") {
+		if (this.environment.production) {
 			// IMPORTANT: the production mode should be enabled before bootstrapping the app
 			// otherwise an error is thrown: "Cannot enable prod mode after platform setup."
 			enableProdMode();
@@ -123,27 +129,27 @@ We need great software developers like you! https://jobs.nbb.be
 	 * Reference: https://github.com/PatrickJS/angular-hmr
 	 * @ignore
 	 */
-	protected bootstrapHmr: Function = (module: any, bootstrap: () => Promise<NgModuleRef<any>>) => {
-		if (ENV === "development") {
-			console.log("Bootstrapping HMR");
-			let ngModule: NgModuleRef<any>;
-			module.hot.accept();
-			bootstrap().then(
-				(mod: NgModuleRef<any>) => {
-					ngModule = mod;
-				},
-				(reason: any) => console.error("HMR bootstrap: bootstrap failed due to ", reason)
-			);
-
-			module.hot.dispose(() => {
-				const appRef: ApplicationRef = ngModule.injector.get(ApplicationRef);
-				const elements: any[] = appRef.components.map((c: ComponentRef<any>) => c.location.nativeElement);
-				const makeVisible: () => void = createNewHosts(elements);
-				ngModule.destroy();
-				makeVisible();
-			});
-		}
-	};
+	// protected bootstrapHmr: Function = (module: any, bootstrap: () => Promise<NgModuleRef<any>>) => {
+	// 	if (ENV === "development") {
+	// 		console.log("Bootstrapping HMR");
+	// 		let ngModule: NgModuleRef<any>;
+	// 		module.hot.accept();
+	// 		bootstrap().then(
+	// 			(mod: NgModuleRef<any>) => {
+	// 				ngModule = mod;
+	// 			},
+	// 			(reason: any) => console.error("HMR bootstrap: bootstrap failed due to ", reason)
+	// 		);
+	//
+	// 		module.hot.dispose(() => {
+	// 			const appRef: ApplicationRef = ngModule.injector.get(ApplicationRef);
+	// 			const elements: any[] = appRef.components.map((c: ComponentRef<any>) => c.location.nativeElement);
+	// 			const makeVisible: () => void = createNewHosts(elements);
+	// 			ngModule.destroy();
+	// 			makeVisible();
+	// 		});
+	// 	}
+	// };
 
 	/**
 	 * Modify/decorate the NgModule instance created by Angular.

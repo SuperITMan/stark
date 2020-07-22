@@ -28,6 +28,11 @@ import { StarkAbstractHttpFetchResourceRequestBuilder } from "./http-abstract-fe
 /**
  * @ignore
  */
+const ENV: string = <string>process.env.NODE_ENV;
+
+/**
+ * @ignore
+ */
 export class StarkHttpRequestBuilderImpl<T extends StarkResource> implements StarkHttpRequestBuilder<T> {
 	private resourcePath: string;
 	private backend: StarkBackend;
@@ -191,7 +196,7 @@ export class StarkHttpRequestBuilderImpl<T extends StarkResource> implements Sta
 			requestType: StarkHttpRequestType.SEARCH,
 			item: criteria, // the search criteria will be sent in the request body payload
 			serializer: serializerForCustomType || this.serializer
-		});
+		}) as unknown as StarkHttpGetCollectionRequestBuilder<T>;
 
 		this.setBuilderParams(builder, params);
 

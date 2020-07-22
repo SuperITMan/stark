@@ -13,6 +13,11 @@ import { SESSION_STATES } from "./routes";
 import { starkLoginStateName, starkPreloadingStateName } from "./constants";
 import { StarkAppContainerComponent } from "./components";
 
+/**
+ * @ignore
+ */
+const ENV: string = <string>process.env.NODE_ENV;
+
 @NgModule({
 	imports: [
 		CommonModule,

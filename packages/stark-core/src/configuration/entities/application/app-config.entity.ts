@@ -8,6 +8,11 @@ import { StarkValidationErrorsUtil } from "../../../util/validation-errors.util"
 import { StarkMapIsValid, StarkMapNotEmpty } from "../../../validation/decorators";
 
 /**
+ * @ignore
+ */
+const ENV: string = <string>process.env.NODE_ENV;
+
+/**
  * This class is only for serialization purposes
  * @ignore
  */
