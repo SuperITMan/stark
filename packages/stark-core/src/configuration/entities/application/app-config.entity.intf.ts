@@ -76,6 +76,8 @@ export interface StarkApplicationConfig {
 
 	/**
 	 * This name will be used as the http header field that passes the correlationId to a backend.
+	 * 
+	 * Default: `"correlation-id"`
 	 */
 	loggingCorrelationIdHttpHeaderName: string;
 
@@ -93,6 +95,8 @@ export interface StarkApplicationConfig {
 
 	/**
 	 * Timeout period before the session is ended if no user interaction occurs
+	 * 
+	 * Default: `900`
 	 */
 	sessionTimeout: number;
 

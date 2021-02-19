@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "StarkCoreAppConfig",
+  "title": "Stark Core AppConfig Schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "rootStateUrl": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Url of the state defined as root of the router state tree definition."
+    },
+    "rootStateName": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Name of the state defined as root of the router state tree definition."
+    },
+    "homeStateName": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Name of the state defined as home (homepage)."
+    },
+    "errorStateName": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Name of the state to be navigated to on generic errors."
+    },
+    "angularDebugInfoEnabled": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Enable Angular's debug runtime information."
+    },
+    "debugLoggingEnabled": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Enable logging of debug level messages."
+    },
+    "loggingFlushPersistSize": {
+      "type": "number",
+      "description": "When the number of log messages reaches the `loggingFlushPersistSize` value, the log messages are sent to the back-end and removed from the redux store.",
+      "default": 15
+    },
+    "loggingFlushApplicationId": {
+      "type": "string",
+      "description": "Id that uniquely identifies the application when flushing the logs to the back-end. It allows the back-end to recognize your application."
+    },
+    "loggingFlushResourceName": {
+      "type": "string",
+      "description": "Defines the name of the logging resource on the back-end.",
+      "default": "logging"
+    },
+    "loggingFlushDisabled": {
+      "type": "boolean",
+      "description": "Option to disable the logging flush if it not needed for the application.",
+      "default": false
+    },
+    "loggingCorrelationIdHttpHeaderName": {
+      "type": "string",
+      "description": "This name will be used as the http header field that passes the correlationId to a backend.",
+      "default": "correlation-id"
+    },
+    "routerLoggingEnabled": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Enable router logging."
+    },
+    "routerVisualizerEnabled": {
+      "type": "boolean",
+      "description": "Enable router visualizer. Only in DEV (the router visualizer is not available in PROD).",
+      "default": false
+    },
+    "sessionTimeout": {
+      "type": "number",
+      "description": "Timeout period before the session is ended if no user interaction occurs.",
+      "default": 900
+    },
+    "sessionTimeoutWarningPeriod": {
+      "type": "number",
+      "description": "Seconds before the session is ended (due to no user interaction) when the timeout warning event will be emitted.",
+      "default": 15
+    },
+    "keepAliveInterval": {
+      "type": "number",
+      "description": "Interval in seconds between every `keepalive` ping.",
+      "default": 15
+    },
+    "keepAliveUrl": {
+      "type": "string",
+      "description": "Url where the `keepalive` pings should be sent to."
+    },
+    "keepAliveDisabled": {
+      "type": "boolean",
+      "description": "Option to disable the `keepAlive` mechanism if it is not needed for the application.",
+      "default": false
+    },
+    "logoutUrl": {
+      "type": "string",
+      "description": "Url to be navigated to logout the user.",
+      "pattern": "^https?://.+"
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "Base Url of the application.",
+      "pattern": ".*"
+    },
+    "defaultLanguage": {
+      "type": "string",
+      "description": "The language to be used as default. If a translation key is not found in the current language, the one from the default language is used as fallback.",
+      "pattern": "^[a-z][a-z]$"
+    },
+    "publicApp": {
+      "type": "boolean",
+      "description": "Whether the application is public or private. Public applications don't require authentication and usually provide read-only access to information."
+    },
+    "backends": {
+      "description": "Map containing the different StarkBackend objects that the application will interact with.",
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z][.0-9a-zA-Z]*(-[.0-9a-zA-Z]*)*$": {
+          "$ref": "#/definitions/backend"
+        }
+      }
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "rootStateUrl",
+    "rootStateName",
+    "homeStateName",
+    "errorStateName",
+    "angularDebugInfoEnabled",
+    "debugLoggingEnabled",
+    "routerLoggingEnabled",
+    "logoutUrl",
+    "baseUrl",
+    "defaultLanguage",
+    "publicApp"
+  ],
+  "definitions": {
+    "backend": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the back-end. Referred to in the Http repositories implementation.",
+          "pattern": "^[a-zA-Z][.0-9a-zA-Z]*(-[.0-9a-zA-Z]*)*$"
+        },
+        "url": {
+          "type": "string",
+          "description": "URL of the back-end.",
+          "pattern": "^https?://.+"
+        },
+        "authenticationType": {
+          "type": "number",
+          "description": "Authentication type for that back-end.",
+          "pattern": "^[0-2]$"
+        },
+        "devAuthenticationEnabled": {
+          "type": "boolean",
+          "description": "Set this to `true` if fake pre-authentication should be enabled."
+        },
+        "devAuthenticationRolePrefix": {
+          "type": "string",
+          "description": "Prefix for roles. Added to each role when sent to the back-end. Must add the prefix that the back-end expects. This is necessary to mimic the behavior of the WAF."
+        },
+        "loginResource": {
+          "type": "string",
+          "description": "Path of the login resource."
+        },
+        "token": {
+          "type": "string",
+          "description": "Value holder for retrieve tokens (e.g., JWT)."
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "url",
+        "name",
+        "authenticationType"
+      ]
+    }
+  }
+}
