@@ -54,11 +54,9 @@ script:
   - npm run test:travis-ci:all
   # E2E tests only need to be run on 1 node version (v10)
   # and the secure environmentals BROWSERSTACK_USERNAME, BROWSERSTACK_ACCESS_KEY should be set. (only on secure builds)
-  - if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
+  # E2E is now handled in GitHub Actions
+  # - if [[ ${NODE_VERSION} =~ ^v10.*$ && -n "${BROWSERSTACK_USERNAME}" && -n "${BROWSERSTACK_ACCESS_KEY}"  ]]; then npm run test:showcase:e2e:browserstack; else echo "Skipping browserstack tests."; fi
   - npm run docs:travis-ci:coverage
   - npm run docs:publish
   - npm run release:publish
   - bash ./scripts/ci/print-logs.sh
-
-after_success:
-  - npm run test:ci:coveralls:combined
