@@ -38,7 +38,7 @@
     "@nationalbankbelgium/code-style": "^1.2.0",
     "@ngtools/json-schema": "^1.1.0",
     "@release-it/conventional-changelog": "^1.1.4",
-    "codelyzer": "^5.2.2",
+    "codelyzer": "^6.0.1",
     "commitizen": "^4.2.3",
     "conventional-changelog-cli": "^2.1.1",
     "core-js": "^3.8.3",
