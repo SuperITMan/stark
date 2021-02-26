@@ -4,6 +4,8 @@
 	</a>
 </p>
 
+This is a dummy change :-)
+
 > An Angular 6+ based front-end framework built on top of [Angular](https://angular.io)...
 > Stark features an awesome reusable build using [Webpack](https://webpack.js.org/) and built-in support for state of the art front-end tech
 
