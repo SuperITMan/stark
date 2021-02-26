@@ -28,7 +28,7 @@
     "nouislider": "^14.0.0",
     "prettier": "^1.16.1",
     "pretty-data": "^0.40.0",
-    "prismjs": "^1.15.0",
+    "prismjs": "^1.23.0",
     "text-mask-addons": "^3.8.0",
     "text-mask-core": "^5.1.2"
   },
