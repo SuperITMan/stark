@@ -13,7 +13,7 @@ on:
 
 env:
   TZ: "Europe/Brussels"
-  MAIN_NODEJS: "10"
+  MAIN_NODEJS: "12"
   NPM_VERSION: "6.9.2"
   LOGS_DIR: /tmp/stark/logs
   LOGS_FILE: /tmp/stark/logs/build-perf.log
@@ -26,7 +26,7 @@ jobs:
     strategy:
       matrix:
         node_version: [ "10", "12" ]
-        os: [ ubuntu-latest, macOS-latest ]
+        os: [ ubuntu-latest ]
 
     steps:
       # Some actions should be executed only in one environment.
@@ -94,6 +94,9 @@ jobs:
         run: |
           npm ci
           npm run install:travis-ci:all
+          
+      - name: Testing
+        run: npm run test:travis-ci:all
         
       - name: Generate docs coverage
         run: npm run docs:travis-ci:coverage
