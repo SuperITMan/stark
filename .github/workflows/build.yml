@@ -164,7 +164,7 @@ jobs:
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_COVERALLS_TOKEN }}
           path-to-lcov: "combined-lcov.info"
         if: env.IS_MAIN_ENVIRONMENT == 1
       
