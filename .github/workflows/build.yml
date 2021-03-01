@@ -94,61 +94,6 @@ jobs:
         run: |
           npm ci
           npm run install:travis-ci:all
-
-      - name: Linting
-        run: npm run lint:travis-ci:all
-
-      - name: Testing
-        run: npm run test:travis-ci:all
-        
-      - name: "Build showcase:ghpages"
-        run: npm run build:showcase:ghpages
-
-      # See: https://github.com/marketplace/actions/upload-artifact
-      - name: Upload stark packages-dist folder
-        uses: actions/upload-artifact@v2
-        with:
-          name: stark-dist
-          path: dist/packages-dist
-        if: env.IS_MAIN_ENVIRONMENT == 1
-
-      # See: https://github.com/marketplace/actions/upload-artifact
-      - name: Upload showcase dist folder
-        uses: actions/upload-artifact@v2
-        with:
-          name: showcase-dist
-          path: showcase/dist
-        if: env.IS_MAIN_ENVIRONMENT == 1
-        
-      - name: BrowserStack Env Setup
-        uses: browserstack/github-actions/setup-env@master
-        with:
-          username: ${{ secrets.BROWSERSTACK_USERNAME }}
-          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-          project-name: "Stark Showcase"
-        if: env.IS_MAIN_ENVIRONMENT == 1
-
-      - name: BrowserStack Local Tunnel Setup
-        uses: browserstack/github-actions/setup-local@master
-        with:
-          local-testing: "start"
-          local-logging-level: "all-logs"
-          local-identifier: "github-actions-${{ github.run_number }}"
-        if: env.IS_MAIN_ENVIRONMENT == 1
-    
-      - name: Running application under test
-        run: cd showcase && npm run server:prod:ci &
-        if: env.IS_MAIN_ENVIRONMENT == 1
-        
-      - name: Running test on BrowserStack
-        run: cd showcase && npm run protractor:browserstack
-        if: env.IS_MAIN_ENVIRONMENT == 1
-    
-      - name: BrowserStackLocal Stop
-        uses: browserstack/github-actions/setup-local@master
-        with:
-          local-testing: stop
-        if: env.IS_MAIN_ENVIRONMENT == 1
         
       - name: Generate docs coverage
         run: npm run docs:travis-ci:coverage
@@ -164,7 +109,7 @@ jobs:
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
-          github-token: ${{ secrets.GITHUB_COVERALLS_TOKEN }}
+          github-token: ${{ secrets.GH_COVERALLS_TOKEN }}
           path-to-lcov: "combined-lcov.info"
         if: env.IS_MAIN_ENVIRONMENT == 1
       
