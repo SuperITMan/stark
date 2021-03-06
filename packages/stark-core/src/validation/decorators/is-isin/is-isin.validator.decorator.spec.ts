@@ -28,7 +28,8 @@ describe("ValidatorDecorator: StarkIsISIN", () => {
 
 		expect(errors.length).toBe(1);
 		expect(errors[0].constraints).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toBeDefined();
+		// tslint:disable-next-line:no-non-null-assertion
+		expect(errors[0].constraints![validatorConstraintName]).toBeDefined();
 	});
 
 	it("should fail if isin is empty", () => {
@@ -36,7 +37,8 @@ describe("ValidatorDecorator: StarkIsISIN", () => {
 
 		expect(errors.length).toBe(1);
 		expect(errors[0].constraints).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toBeDefined();
+		// tslint:disable-next-line:no-non-null-assertion
+		expect(errors[0].constraints![validatorConstraintName]).toBeDefined();
 	});
 
 	it("should fail if isin is not correct", () => {

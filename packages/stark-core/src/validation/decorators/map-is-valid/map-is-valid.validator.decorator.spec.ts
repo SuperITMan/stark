@@ -41,7 +41,8 @@ describe("ValidatorDecorator: StarkMapIsValid", () => {
 
 		expect(errors.length).toBe(1);
 		expect(errors[0].constraints).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toBeDefined();
+		// tslint:disable-next-line:no-non-null-assertion
+		expect(errors[0].constraints![validatorConstraintName]).toBeDefined();
 	});
 
 	it("should fail if Map contains invalid keys", () => {
@@ -53,9 +54,10 @@ describe("ValidatorDecorator: StarkMapIsValid", () => {
 
 		expect(errors.length).toBe(1);
 		expect(errors[0].constraints).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toContain("map keys");
-		expect(errors[0].constraints[validatorConstraintName]).not.toContain("map values");
+		// tslint:disable:no-non-null-assertion
+		expect(errors[0].constraints![validatorConstraintName]).toBeDefined();
+		expect(errors[0].constraints![validatorConstraintName]).toContain("map keys");
+		expect(errors[0].constraints![validatorConstraintName]).not.toContain("map values");
 	});
 
 	it("should fail if Map contains invalid values", () => {
@@ -66,9 +68,10 @@ describe("ValidatorDecorator: StarkMapIsValid", () => {
 
 		expect(errors.length).toBe(1);
 		expect(errors[0].constraints).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).not.toContain("map keys");
-		expect(errors[0].constraints[validatorConstraintName]).toContain("map values");
+		// tslint:disable-next-line:no-non-null-assertion
+		expect(errors[0].constraints![validatorConstraintName]).toBeDefined();
+		expect(errors[0].constraints![validatorConstraintName]).not.toContain("map keys");
+		expect(errors[0].constraints![validatorConstraintName]).toContain("map values");
 	});
 
 	it("should NOT fail if Map contains valid keys and values", () => {

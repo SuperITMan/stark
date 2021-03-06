@@ -21,7 +21,8 @@ describe("ValidatorDecorator: StarkIsSupportedLanguage", () => {
 
 		expect(errors.length).toBe(1);
 		expect(errors[0].constraints).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toBeDefined();
+		// tslint:disable-next-line:no-non-null-assertion
+		expect(errors[0].constraints![validatorConstraintName]).toBeDefined();
 	});
 
 	it("should fail if language is not in the list of supported languages", () => {
@@ -30,7 +31,8 @@ describe("ValidatorDecorator: StarkIsSupportedLanguage", () => {
 
 		expect(errors.length).toBe(1);
 		expect(errors[0].constraints).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toBeDefined();
+		// tslint:disable-next-line:no-non-null-assertion
+		expect(errors[0].constraints![validatorConstraintName]).toBeDefined();
 	});
 
 	it("should NOT fail if language is in the list of supported languages", () => {

@@ -24,7 +24,7 @@ const karmaTypescriptBundlerAlias = {
 	"@uirouter/core": "../stark-core/node_modules/@uirouter/core/lib/index.js",
 	"@uirouter/rx": "../stark-core/node_modules/@uirouter/rx/lib/index.js",
 	cerialize: "../stark-core/node_modules/cerialize/index.js",
-	"class-validator": "../stark-core/node_modules/class-validator/index.js",
+	"class-validator": "../stark-core/node_modules/class-validator/bundles/index.umd.js",
 	"deep-freeze-strict": "../stark-core/node_modules/deep-freeze-strict/index.js",
 	ibantools: "../stark-core/node_modules/ibantools/build/ibantools.js",
 	"lodash-es": "../stark-core/node_modules/lodash-es/lodash.js",

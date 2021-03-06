@@ -28,7 +28,8 @@ describe("ValidatorDecorator: StarkMapNotEmpty", () => {
 
 		expect(errors.length).toBe(1);
 		expect(errors[0].constraints).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toBeDefined();
+		// tslint:disable-next-line:no-non-null-assertion
+		expect(errors[0].constraints![validatorConstraintName]).toBeDefined();
 	});
 
 	it("should fail if Map is empty", () => {
@@ -36,7 +37,8 @@ describe("ValidatorDecorator: StarkMapNotEmpty", () => {
 
 		expect(errors.length).toBe(1);
 		expect(errors[0].constraints).toBeDefined();
-		expect(errors[0].constraints[validatorConstraintName]).toBeDefined();
+		// tslint:disable-next-line:no-non-null-assertion
+		expect(errors[0].constraints![validatorConstraintName]).toBeDefined();
 	});
 
 	it("should NOT fail if Map is not empty", () => {
