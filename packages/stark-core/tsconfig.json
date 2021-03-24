@@ -1,5 +1,5 @@
 {
-  "extends": "@nationalbankbelgium/code-style/tsconfig/3.5.x/ng8",
+  "extends": "@nationalbankbelgium/code-style/tsconfig/3.8.x/ng9",
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
@@ -11,5 +11,8 @@
       "environments/environment": ["./src/common/environment"]
     },
     "outDir": "../../dist/packages/stark-core"
+  },
+  "angularCompilerOptions": {
+    "enableIvy": false
   }
 }

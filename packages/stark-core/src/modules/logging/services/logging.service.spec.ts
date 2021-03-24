@@ -48,7 +48,7 @@ describe("Service: StarkLoggingService", () => {
 			providers: [provideMockStore({ initialState: {} })]
 		});
 
-		mockStore = TestBed.get(Store);
+		mockStore = TestBed.inject(MockStore);
 		mockInjectorService = jasmine.createSpyObj<Injector>("injector,", ["get"]);
 		appConfig = new StarkApplicationConfigImpl();
 		appConfig.debugLoggingEnabled = true;
@@ -372,7 +372,7 @@ class LoggingServiceHelper extends StarkLoggingServiceImpl {
 	public originalSendRequest = super["sendRequest"];
 
 	public constructor(store: MockStore<StarkCoreApplicationState>, appConfig: StarkApplicationConfig, injector: Injector) {
-		super(<Store<StarkCoreApplicationState>>(<unknown>store), appConfig, injector);
+		super(<Store<StarkCoreApplicationState>>store, appConfig, injector);
 	}
 
 	public constructLogMessageHelper(messageType: StarkLogMessageType, ...args: any[]): StarkLogMessage {

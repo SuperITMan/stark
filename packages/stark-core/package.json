@@ -19,11 +19,11 @@
   },
   "dependencies": {
     "@angularclass/hmr": "^3.0.0",
-    "@ng-idle/core": "^8.0.0-beta.4",
-    "@ng-idle/keepalive": "^8.0.0-beta.4",
-    "@ngrx/effects": "^8.6.1",
-    "@ngrx/store": "^8.6.1",
-    "@ngrx/store-devtools": "^8.6.1",
+    "@ng-idle/core": "^9.0.0-beta.1",
+    "@ng-idle/keepalive": "^9.0.0-beta.1",
+    "@ngrx/effects": "^9.2.1",
+    "@ngrx/store": "^9.2.1",
+    "@ngrx/store-devtools": "^9.2.1",
     "@ngx-translate/core": "^12.1.2",
     "@types/lodash-es": "^4.17.4",
     "@types/uuid": "^3.4.9",
@@ -36,16 +36,17 @@
     "ibantools": "^3.2.3",
     "lodash-es": "^4.17.21",
     "moment": "^2.22.2",
+    "tslib": "^1.10.0",
     "uuid": "^3.3.2"
   },
   "peerDependencies": {
-    "@angular/common": "^8.2.0",
-    "@angular/compiler": "^8.2.0",
-    "@angular/core": "^8.2.0",
-    "@angular/router": "^8.2.0",
-    "tslib": "~1.10.0"
+    "@angular/common": "^9.1.0",
+    "@angular/compiler": "^9.1.0",
+    "@angular/core": "^9.1.0",
+    "@angular/router": "^9.1.0"
   },
   "scripts": {
+    "build": "node ../../node_modules/@angular/cli/bin/ng build",
     "clean": "npx rimraf dist",
     "clean:modules": "npx rimraf ./node_modules package-lock.json",
     "clean:all": "npm run clean && npm run clean:modules",
@@ -54,6 +55,7 @@
     "docs:serve": "npm run docs -- --watch --serve --port 4321",
     "ng": "../../node_modules/.bin/ng",
     "ngc": "node ../../node_modules/@angular/compiler-cli/src/main.js -p ./tsconfig.json",
+    "ngcc": "node ../../node_modules/@angular/compiler-cli/ngcc/main-ngcc.js --tsconfig ./tsconfig.json",
     "lint": "npm run lint-ts && npm run lint-css",
     "lint-ts": "node ../../node_modules/tslint/bin/tslint --config ./tslint.json --project ./tsconfig.spec.json --format codeFrame",
     "lint-ts:fix": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --config ./tslint.json --project ./tsconfig.spec.json --format codeFrame --fix",

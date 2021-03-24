@@ -30,7 +30,7 @@ export class StarkHttpErrorBaseImpl extends StarkErrorImpl implements StarkHttpE
 	public instance!: string;
 
 	@autoserialize
-	public timestamp!: string;
+	public declare timestamp: string;
 
 	@autoserialize
 	public metadata?: object;

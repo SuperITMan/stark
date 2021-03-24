@@ -1522,7 +1522,7 @@ function httpHeadersGetter(inputHeaders: { [name: string]: string }): HttpHeader
 }
 
 class HttpServiceHelper<P extends StarkResource> extends StarkHttpServiceImpl<P> {
-	public retryDelay!: number;
+	public declare retryDelay: number;
 
 	public constructor(logger: MockStarkLoggingService, sessionService: MockStarkSessionService, httpClient: SpyObj<HttpClient>) {
 		super(logger, sessionService, <HttpClient>(<unknown>httpClient));

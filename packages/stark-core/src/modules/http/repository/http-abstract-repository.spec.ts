@@ -59,8 +59,8 @@ describe("Repository: AbstractStarkHttpRepository", () => {
 				mockResourcePath
 			);
 
-			expect(repositoryWithDefaultSerializer.serializer).toBeDefined();
-			expect((<StarkHttpSerializerImpl<MockResource>>repositoryWithDefaultSerializer.serializer)["_type"]).toEqual(
+			expect(repositoryWithDefaultSerializer["serializer"]).toBeDefined();
+			expect((<StarkHttpSerializerImpl<MockResource>>repositoryWithDefaultSerializer["serializer"])["_type"]).toEqual(
 				repositoryWithDefaultSerializer.type
 			);
 		});
@@ -254,38 +254,38 @@ describe("Repository: AbstractStarkHttpRepository", () => {
 		it("should get a new instance of StarkHttpRequestBuilder using the default repo serializer and type", () => {
 			// by default the uuid is added to the end of the path if there is no explicit placeholder defined for it
 			expect(repository.getRequestBuilder() instanceof StarkHttpRequestBuilderImpl).toBe(true);
-			expect(repository.serializer).toBe(mockSerializer);
+			expect(repository["serializer"]).toBe(mockSerializer);
 			expect(repository.type).toBe(MockResource);
 
 			let request: StarkHttpRequest = repository
 				.getRequestBuilder()
 				.create(mockResource)
 				.build();
-			expect(request.serializer).toBe(repository.serializer);
+			expect(request["serializer"]).toBe(repository["serializer"]);
 
 			request = repository
 				.getRequestBuilder()
 				.update(mockResource)
 				.build();
-			expect(request.serializer).toBe(repository.serializer);
+			expect(request["serializer"]).toBe(repository["serializer"]);
 
 			request = repository
 				.getRequestBuilder()
 				.delete(mockResource)
 				.build();
-			expect(request.serializer).toBe(repository.serializer);
+			expect(request["serializer"]).toBe(repository["serializer"]);
 
 			request = repository
 				.getRequestBuilder()
 				.get(resourceUuid)
 				.build();
-			expect(request.serializer).toBe(repository.serializer);
+			expect(request["serializer"]).toBe(repository["serializer"]);
 
 			request = repository
 				.getRequestBuilder()
 				.getCollection(10, 0)
 				.build();
-			expect(request.serializer).toBe(repository.serializer);
+			expect(request["serializer"]).toBe(repository["serializer"]);
 
 			const mockCriteria: { [key: string]: any } = { field1: "anything", field2: "whatever" };
 
@@ -293,14 +293,12 @@ describe("Repository: AbstractStarkHttpRepository", () => {
 				.getRequestBuilder()
 				.search(mockCriteria, 10, 0)
 				.build();
-			expect(request.serializer).toBe(repository.serializer);
+			expect(request["serializer"]).toBe(repository["serializer"]);
 		});
 	});
 });
 
 class AbstractHttpRepositoryTestHelper extends AbstractStarkHttpRepository<MockResource> {
-	public serializer!: StarkHttpSerializer<MockResource>;
-
 	public get type(): StarkSerializable {
 		return MockResource;
 	}
