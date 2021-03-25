@@ -421,7 +421,7 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 	/**
 	 * Columns added by the user via transclusion inside an <div> element with class "stark-table-columns"
 	 */
-	@ContentChildren(StarkTableColumnComponent)
+	@ContentChildren(StarkTableColumnComponent, { descendants: true })
 	public contentColumns!: QueryList<StarkTableColumnComponent>;
 
 	@ContentChild(StarkTableExpandDetailDirective, { static: false, read: TemplateRef })

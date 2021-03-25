@@ -42,10 +42,10 @@ describe("Effects: StarkSessionTimeoutWarningDialogEffects", () => {
 	}));
 
 	beforeEach(() => {
-		effectsClass = TestBed.get(StarkSessionTimeoutWarningDialogEffects);
-		mockSessionService = TestBed.get(STARK_SESSION_SERVICE);
-		mockDialogService = TestBed.get(MatDialog);
-		mockSessionUiConfig = TestBed.get(STARK_SESSION_UI_CONFIG);
+		effectsClass = TestBed.inject(StarkSessionTimeoutWarningDialogEffects);
+		mockSessionService = TestBed.inject(STARK_SESSION_SERVICE);
+		mockDialogService = <SpyObj<MatDialog>>TestBed.inject(MatDialog);
+		mockSessionUiConfig = TestBed.inject(STARK_SESSION_UI_CONFIG);
 	});
 
 	describe("on initialization", () => {

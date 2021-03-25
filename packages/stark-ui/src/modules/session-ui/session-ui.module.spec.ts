@@ -31,7 +31,7 @@ describe("SessionUiModule", () => {
 	@Component({ selector: "home-component", template: "HOME" })
 	class HomeComponent {}
 
-	const routerModule: ModuleWithProviders = UIRouterModule.forRoot({
+	const routerModule: ModuleWithProviders<UIRouterModule> = UIRouterModule.forRoot({
 		useHash: true,
 		states: [
 			{

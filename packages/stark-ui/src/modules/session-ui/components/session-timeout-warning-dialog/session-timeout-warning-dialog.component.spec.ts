@@ -31,7 +31,7 @@ describe("SessionTimeoutWarningDialogComponent", () => {
 
 	beforeEach(() => {
 		fixture = TestBed.createComponent(StarkSessionTimeoutWarningDialogComponent);
-		mockDialogRef = TestBed.get(MatDialogRef);
+		mockDialogRef = TestBed.inject(MatDialogRef);
 		component = fixture.componentInstance;
 
 		mockLogger.debug.calls.reset();
