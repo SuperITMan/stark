@@ -49,15 +49,18 @@ describe("StarkHideOnPermissionDirective", () => {
 	});
 
 	describe("on initialization", () => {
-		it("should throw an error in case there is no configuration object provided", () => {
+		it("should show NOTHING in case there is no configuration object provided", () => {
 			const newTemplate: string = getTemplate("*starkHideOnPermission=''");
 
 			TestBed.overrideTemplate(TestComponent, newTemplate);
-
 			// compile template and css
-			TestBed.compileComponents().catch(() => fail("Component compilation failed"));
+			TestBed.compileComponents();
 
-			expect(() => initializeComponentFixture()).toThrowError(/must contain 'roles'/);
+			// trigger initial data binding
+			initializeComponentFixture()
+
+			const spanElement: NodeListOf<HTMLElement> = fixture.debugElement.nativeElement.querySelectorAll("span");
+			expect(spanElement.length).toBe(0);
 		});
 
 		/* tslint:disable-next-line:no-identical-functions */
