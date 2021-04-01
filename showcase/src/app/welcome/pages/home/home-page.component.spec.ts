@@ -62,7 +62,7 @@ describe(`Home`, () => {
 	 * Synchronous beforeEach.
 	 */
 	beforeEach(() => {
-		logger = TestBed.get(STARK_LOGGING_SERVICE);
+		logger = TestBed.inject<MockStarkLoggingService>(STARK_LOGGING_SERVICE);
 
 		fixture = TestBed.createComponent(HomePageComponent);
 		comp = fixture.componentInstance;

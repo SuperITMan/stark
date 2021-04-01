@@ -68,8 +68,8 @@ describe("ExampleViewerComponent", () => {
 	}));
 
 	beforeEach(() => {
-		logger = TestBed.get(STARK_LOGGING_SERVICE);
-		fileService = TestBed.get(FileService);
+		logger = TestBed.inject<MockStarkLoggingService>(STARK_LOGGING_SERVICE);
+		fileService = <SpyObj<FileService>>TestBed.inject(FileService);
 		fileService.fetchFile.and.callFake(() => of("initial dummy file content"));
 
 		hostFixture = TestBed.createComponent(TestHostComponent);

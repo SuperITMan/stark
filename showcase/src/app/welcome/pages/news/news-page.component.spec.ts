@@ -36,7 +36,7 @@ describe(`News`, () => {
 	 * Synchronous beforeEach.
 	 */
 	beforeEach(() => {
-		logger = TestBed.get(STARK_LOGGING_SERVICE);
+		logger = TestBed.inject<MockStarkLoggingService>(STARK_LOGGING_SERVICE);
 
 		fixture = TestBed.createComponent(NewsPageComponent);
 		comp = fixture.componentInstance;
