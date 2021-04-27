@@ -1,4 +1,6 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from "@angular/core";
+import { NgModule, Optional, SkipSelf } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { StarkAppSidebarComponent } from "./components";

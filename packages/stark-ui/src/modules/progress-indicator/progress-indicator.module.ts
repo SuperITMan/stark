@@ -1,4 +1,6 @@
-import { ModuleWithProviders, NgModule } from "@angular/core";
+import { NgModule } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { StoreModule } from "@ngrx/store";
 import { StarkProgressIndicatorDirective } from "./directives";

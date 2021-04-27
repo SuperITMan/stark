@@ -21,7 +21,8 @@
       "lodash-es/noop": "lodash-es.noop",
       "lodash-es/reduce": "lodash-es.reduce",
       "moment": "moment",
-      "uuid": "uuid"
+      "uuid": "uuid",
+      "zone.js/dist/long-stack-trace-zone": "zoneJsLongStackTraceZone"
     },
     "flatModuleFile": "stark-core"
   },

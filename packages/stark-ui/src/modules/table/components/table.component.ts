@@ -1,26 +1,23 @@
 import {
-	AfterViewInit,
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
+	ContentChild,
 	ContentChildren,
 	ElementRef,
 	EventEmitter,
 	Inject,
 	Input,
-	OnChanges,
-	OnDestroy,
-	OnInit,
 	Output,
 	QueryList,
 	Renderer2,
-	SimpleChanges,
 	ViewChild,
 	ViewChildren,
 	ViewEncapsulation,
-	TemplateRef,
-	ContentChild
+	TemplateRef
 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { AfterViewInit, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatColumnDef, MatTable, MatTableDataSource } from "@angular/material/table";

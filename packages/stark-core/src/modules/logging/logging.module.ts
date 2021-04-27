@@ -1,4 +1,6 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from "@angular/core";
+import { NgModule, Optional, SkipSelf } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { StoreModule } from "@ngrx/store";
 import { starkLoggingReducers } from "./reducers";
 import { starkLoggingStoreKey } from "./constants";

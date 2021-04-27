@@ -6,23 +6,22 @@ import {
 	Inject,
 	Injector,
 	Input,
-	OnChanges,
-	OnDestroy,
-	OnInit,
 	Optional,
 	Output,
 	Renderer2,
-	SimpleChanges,
-	Type,
 	ViewChild,
 	ViewEncapsulation
 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 import { AbstractStarkUiComponent } from "../../../common/classes/abstract-component";
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NgControl, ValidationErrors, Validator, Validators } from "@angular/forms";
 import { Subject, Subscription } from "rxjs";
 import { MatFormField, MatFormFieldControl } from "@angular/material/form-field";
-import { FocusMonitor, FocusOrigin } from "@angular/cdk/a11y";
+import { FocusMonitor } from "@angular/cdk/a11y";
+// tslint:disable-next-line:no-duplicate-imports
+import type { FocusOrigin } from "@angular/cdk/a11y";
 import { MatSelect, MatSelectChange } from "@angular/material/select";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { TranslateService } from "@ngx-translate/core";
@@ -59,7 +58,8 @@ const componentName = "stark-dropdown";
 		}
 	]
 })
-export class StarkDropdownComponent extends AbstractStarkUiComponent
+export class StarkDropdownComponent
+	extends AbstractStarkUiComponent
 	implements OnInit, OnChanges, OnInit, OnDestroy, ControlValueAccessor, MatFormFieldControl<any | any[]>, Validator {
 	/**
 	 * Variable that will be incremented automatically to serve as unique id for every new instance of this component
@@ -298,7 +298,7 @@ export class StarkDropdownComponent extends AbstractStarkUiComponent
 		this.optionsAreSimpleTypes = this.areSimpleTypes();
 
 		// tslint:disable-next-line:no-null-keyword
-		this.ngControl = this.injector.get<NgControl>(<Type<NgControl>>NgControl, <any>null);
+		this.ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 
 		if (this.ngControl !== null) {
 			this.ngControl.valueAccessor = this;

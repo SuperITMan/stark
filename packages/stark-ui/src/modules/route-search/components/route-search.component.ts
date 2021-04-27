@@ -1,6 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnInit, Renderer2, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, Renderer2, ViewEncapsulation } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+// tslint:disable:no-duplicate-imports
+import type { OnInit } from "@angular/core";
+import type { LangChangeEvent } from "@ngx-translate/core";
+// tslint:enable:no-duplicate-imports
 import { FormControl } from "@angular/forms";
-import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
 import { Ng2StateDeclaration } from "@uirouter/angular";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";

@@ -1,4 +1,6 @@
-import { ApplicationInitStatus, Inject, ModuleWithProviders, NgModule, Optional, SkipSelf } from "@angular/core";
+import { ApplicationInitStatus, Inject, NgModule, Optional, SkipSelf } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from "@angular/common/http";
 import { from } from "rxjs";
 import { STARK_XSRF_CONFIG, STARK_XSRF_SERVICE, StarkXSRFConfig, StarkXSRFService, StarkXSRFServiceImpl } from "./services";

@@ -1,18 +1,6 @@
-import {
-	AfterContentInit,
-	Component,
-	ContentChild,
-	ElementRef,
-	EventEmitter,
-	Inject,
-	Input,
-	OnChanges,
-	OnInit,
-	Output,
-	Renderer2,
-	SimpleChanges,
-	ViewEncapsulation
-} from "@angular/core";
+import { Component, ContentChild, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, ViewEncapsulation } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { AfterContentInit, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { StarkSearchFormComponent } from "../../classes";
 import {
 	StarkFormButton,

@@ -1,19 +1,17 @@
 import isEqual from "lodash-es/isEqual";
 import {
-	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
 	ElementRef,
 	EventEmitter,
 	Inject,
 	Input,
-	OnChanges,
-	OnInit,
 	Output,
 	Renderer2,
-	SimpleChanges,
 	ViewEncapsulation
 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { AfterViewInit, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import * as noUiSliderLibrary from "nouislider";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 import { StarkDOMUtil } from "../../../util/dom";

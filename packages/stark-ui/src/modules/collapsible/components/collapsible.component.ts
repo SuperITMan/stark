@@ -5,11 +5,12 @@ import {
 	EventEmitter,
 	Inject,
 	Input,
-	OnInit,
 	Output,
 	Renderer2,
 	ViewEncapsulation
 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnInit } from "@angular/core";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 import { AbstractStarkUiComponent } from "../../../common/classes/abstract-component";
 

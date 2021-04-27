@@ -1,16 +1,6 @@
-import {
-	ComponentFactoryResolver,
-	Directive,
-	ElementRef,
-	Inject,
-	Injector,
-	Input,
-	OnDestroy,
-	OnInit,
-	Renderer2,
-	ViewContainerRef,
-	ViewRef
-} from "@angular/core";
+import { ComponentFactoryResolver, Directive, ElementRef, Inject, Injector, Input, Renderer2, ViewContainerRef } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnDestroy, OnInit, ViewRef } from "@angular/core";
 import { STARK_PROGRESS_INDICATOR_SERVICE, StarkProgressIndicatorService } from "../services";
 import { StarkProgressIndicatorConfig, StarkProgressIndicatorType } from "../entities";
 import { Subscription } from "rxjs";

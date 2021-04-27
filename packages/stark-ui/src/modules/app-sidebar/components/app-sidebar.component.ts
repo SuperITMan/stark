@@ -1,5 +1,9 @@
-import { Component, ElementRef, Inject, Input, OnDestroy, OnInit, Renderer2, ViewChild, ViewEncapsulation } from "@angular/core";
-import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
+import { Component, ElementRef, Inject, Input, Renderer2, ViewChild, ViewEncapsulation } from "@angular/core";
+import { BreakpointObserver } from "@angular/cdk/layout";
+// tslint:disable:no-duplicate-imports
+import type { OnDestroy, OnInit } from "@angular/core";
+import type { BreakpointState } from "@angular/cdk/layout";
+// tslint:enable:no-duplicate-imports
 import { MatDrawerToggleResult, MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
 import { from, Subscription } from "rxjs";
 import {

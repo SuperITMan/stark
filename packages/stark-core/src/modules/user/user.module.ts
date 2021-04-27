@@ -1,4 +1,6 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from "@angular/core";
+import { NgModule, Optional, SkipSelf } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { STARK_USER_PROFILE_RESOURCE_PATH, StarkUserModuleConfig } from "./entities";
 import { STARK_USER_SERVICE, StarkUserServiceImpl } from "./services";
 import { STARK_USER_REPOSITORY, StarkUserRepositoryImpl } from "./repository";

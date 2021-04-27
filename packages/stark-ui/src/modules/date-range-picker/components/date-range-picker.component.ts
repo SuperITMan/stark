@@ -7,14 +7,13 @@ import {
 	Inject,
 	Injector,
 	Input,
-	OnDestroy,
-	OnInit,
 	Output,
 	Renderer2,
-	Type,
 	ViewChild,
 	ViewEncapsulation
 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnDestroy, OnInit } from "@angular/core";
 import {
 	AbstractControl,
 	ControlValueAccessor,
@@ -431,7 +430,7 @@ export class StarkDateRangePickerComponent extends AbstractStarkUiComponent impl
 	 */
 	private _setupNgControl(): void {
 		// Get the ngControl from the injector
-		const ngControl = this.injector.get<NgControl>(<Type<NgControl>>NgControl, <any>null);
+		const ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 		if (!ngControl) {
 			return;
 		}

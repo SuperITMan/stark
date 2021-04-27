@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Inject, Input, ViewEncapsulation } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnInit } from "@angular/core";
 import { RawParams } from "@uirouter/core";
 import { delay, take } from "rxjs/operators";
 

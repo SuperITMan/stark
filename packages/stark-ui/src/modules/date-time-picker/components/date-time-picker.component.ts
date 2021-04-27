@@ -1,4 +1,4 @@
-/* tslint:disable:no-null-keyword */
+/* tslint:disable:no-null-keyword parameters-max-number */
 import {
 	ChangeDetectorRef,
 	Component,
@@ -8,30 +8,17 @@ import {
 	Inject,
 	Injector,
 	Input,
-	OnChanges,
-	OnDestroy,
-	OnInit,
 	Output,
 	Renderer2,
-	SimpleChanges,
-	Type,
 	ViewChild
 } from "@angular/core";
-import {
-	AbstractControl,
-	ControlValueAccessor,
-	FormBuilder,
-	FormControl,
-	FormGroup,
-	NG_VALIDATORS,
-	NG_VALUE_ACCESSOR,
-	NgControl,
-	ValidationErrors,
-	Validator,
-	ValidatorFn,
-	Validators
-} from "@angular/forms";
-import { FocusMonitor, FocusOrigin } from "@angular/cdk/a11y";
+import { FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl, Validators } from "@angular/forms";
+import { FocusMonitor } from "@angular/cdk/a11y";
+// tslint:disable:no-duplicate-imports
+import type { OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
+import type { AbstractControl, ControlValueAccessor, ValidationErrors, Validator, ValidatorFn } from "@angular/forms";
+import type { FocusOrigin } from "@angular/cdk/a11y";
+// tslint:enable:no-duplicate-imports
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { MatFormField, MatFormFieldControl } from "@angular/material/form-field";
 import moment from "moment";
@@ -500,7 +487,7 @@ export class StarkDateTimePickerComponent
 	 * Component lifecycle hook
 	 */
 	public ngOnInit(): void {
-		this.ngControl = this.injector.get<NgControl>(<Type<NgControl>>NgControl, <any>null);
+		this.ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 
 		if (this.ngControl !== null) {
 			this.ngControl.valueAccessor = this;

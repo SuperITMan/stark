@@ -4,7 +4,9 @@ import { Observable, throwError, timer } from "rxjs";
 // FIXME Adapt mergeMap code --> See: https://github.com/ReactiveX/rxjs/blob/6.x/docs_app/content/guide/v6/migration.md#howto-result-selector-migration
 import { catchError, map, mergeMap, retryWhen } from "rxjs/operators";
 import { Inject, Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+// tslint:disable-next-line:no-duplicate-imports
+import type { HttpErrorResponse, HttpResponse } from "@angular/common/http";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "../../logging/services";
 import { STARK_SESSION_SERVICE, StarkSessionService } from "../../session/services";
 import { StarkHttpHeaders } from "../constants";

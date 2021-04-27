@@ -1,4 +1,6 @@
-import { AfterViewChecked, Directive, ElementRef, Inject, Input, OnInit, Renderer2 } from "@angular/core";
+import { Directive, ElementRef, Inject, Input, Renderer2 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { AfterViewChecked, OnInit } from "@angular/core";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 
 /**

@@ -1,6 +1,7 @@
 import { ReplaySubject, Subscription } from "rxjs";
 import { map, take } from "rxjs/operators";
-import { OnDestroy, OnInit } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnDestroy, OnInit } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { AbstractStarkFormComponent } from "./abstract-form-component";
 import { StarkGenericSearchService } from "./generic-search.service.intf";

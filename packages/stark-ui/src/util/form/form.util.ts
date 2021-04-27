@@ -1,4 +1,6 @@
-import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
+// tslint:disable-next-line:no-duplicate-imports
+import type { AbstractControl } from "@angular/forms";
 
 export type StarkFormControlState = "untouched" | "touched" | "pristine" | "dirty";
 export type StarkFormState = "untouched" | "pristine" | "submitted" | "dirty";

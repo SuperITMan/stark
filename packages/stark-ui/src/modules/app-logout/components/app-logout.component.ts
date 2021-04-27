@@ -1,15 +1,6 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	ElementRef,
-	Inject,
-	Input,
-	OnInit,
-	Optional,
-	Renderer2,
-	ViewEncapsulation
-} from "@angular/core";
-
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, Optional, Renderer2, ViewEncapsulation } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnInit } from "@angular/core";
 import {
 	STARK_LOGGING_SERVICE,
 	STARK_ROUTING_SERVICE,

@@ -1,15 +1,6 @@
-import {
-	ChangeDetectionStrategy,
-	ChangeDetectorRef,
-	Component,
-	ElementRef,
-	Inject,
-	Input,
-	OnChanges,
-	OnInit,
-	Renderer2,
-	SimpleChanges
-} from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, Renderer2 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { Observable, of, Subject } from "rxjs";
 import { delay, distinctUntilChanged, map, switchMap, take, tap } from "rxjs/operators";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";

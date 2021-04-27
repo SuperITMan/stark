@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, HostBinding, Inject, Input } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 

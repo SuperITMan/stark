@@ -5,11 +5,11 @@ import {
 	ElementRef,
 	Inject,
 	Input,
-	OnDestroy,
-	OnInit,
 	Renderer2,
 	ViewEncapsulation
 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnDestroy, OnInit } from "@angular/core";
 import { DateAdapter } from "@angular/material/core";
 import { Subscription } from "rxjs";
 

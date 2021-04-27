@@ -1,4 +1,6 @@
-import { ErrorHandler, ModuleWithProviders, NgModule, Optional, SkipSelf } from "@angular/core";
+import { ErrorHandler, NgModule, Optional, SkipSelf } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { StarkErrorHandler } from "./handlers/error-handler";
 
 @NgModule({})

@@ -1,4 +1,6 @@
-import { Directive, ElementRef, forwardRef, Input, OnChanges, Provider, Renderer2 } from "@angular/core";
+import { Directive, ElementRef, forwardRef, Input, Renderer2 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnChanges, Provider } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 /**

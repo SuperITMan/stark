@@ -1,4 +1,6 @@
-import { Directive, HostListener, Inject, Input, OnInit } from "@angular/core";
+import { Directive, HostListener, Inject, Input } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnInit } from "@angular/core";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 
 /**

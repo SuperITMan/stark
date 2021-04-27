@@ -1,4 +1,6 @@
-import { ElementRef, Input, OnInit, Renderer2 } from "@angular/core";
+import { ElementRef, Input, Renderer2 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnInit } from "@angular/core";
 
 /**
  * Abstract class to add the right stark class color to the {@link https://v7.angular.io/api/core/ElementRef|ElementRef}

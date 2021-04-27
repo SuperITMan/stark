@@ -1,5 +1,4 @@
 import {
-	AfterViewInit,
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
@@ -7,13 +6,13 @@ import {
 	EventEmitter,
 	Inject,
 	Input,
-	OnDestroy,
-	OnInit,
 	Output,
 	Renderer2,
 	ViewChild,
 	ViewEncapsulation
 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { AfterViewInit, OnDestroy, OnInit } from "@angular/core";
 import { MatExpansionPanel } from "@angular/material/expansion";
 import {
 	STARK_LOGGING_SERVICE,

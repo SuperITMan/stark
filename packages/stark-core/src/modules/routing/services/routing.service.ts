@@ -2,28 +2,25 @@
 import { Store } from "@ngrx/store";
 import { EMPTY, from, Observable } from "rxjs";
 import { ErrorHandler, Inject, Injectable } from "@angular/core";
-import {
+import { Rejection, RejectType, StateService, Transition, TransitionService, UIRouterGlobals } from "@uirouter/core";
+// tslint:disable:no-duplicate-imports
+import type {
 	HookMatchCriteria,
 	HookRegOptions,
 	HookResult,
 	Param,
 	PathNode,
 	RawParams,
-	Rejection,
-	RejectType,
 	Resolvable,
 	StateDeclaration,
 	StateObject,
 	StateParams,
-	StateService,
 	TargetState,
-	Transition,
 	TransitionHookFn,
 	TransitionOptions,
-	TransitionService,
-	TransitionStateHookFn,
-	UIRouterGlobals
+	TransitionStateHookFn
 } from "@uirouter/core";
+// tslint:enable:no-duplicate-imports
 
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "../../logging/services";
 import { StarkRoutingService, starkRoutingServiceName } from "./routing.service.intf";

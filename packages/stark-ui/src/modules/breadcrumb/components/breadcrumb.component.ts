@@ -1,17 +1,9 @@
-/*tslint:disable:template-use-track-by-function*/
+/* tslint:disable:template-use-track-by-function */
 import { StarkBreadcrumbPath } from "./breadcrumb-path.intf";
 import { StarkBreadcrumbConfig } from "./breadcrumb-config.intf";
-import {
-	ChangeDetectionStrategy,
-	Component,
-	ElementRef,
-	Inject,
-	Input,
-	OnDestroy,
-	OnInit,
-	Renderer2,
-	ViewEncapsulation
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, Renderer2, ViewEncapsulation } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnDestroy, OnInit } from "@angular/core";
 import {
 	STARK_LOGGING_SERVICE,
 	STARK_ROUTING_SERVICE,

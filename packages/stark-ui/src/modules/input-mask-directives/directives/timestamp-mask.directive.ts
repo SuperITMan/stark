@@ -1,4 +1,6 @@
-import { Directive, ElementRef, forwardRef, Inject, Input, OnChanges, Optional, Provider, Renderer2, SimpleChanges } from "@angular/core";
+import { Directive, ElementRef, forwardRef, Inject, Input, Optional, Renderer2 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnChanges, Provider, SimpleChanges } from "@angular/core";
 import { COMPOSITION_BUFFER_MODE, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MaskedInputDirective, TextMaskConfig as Ng2TextMaskConfig } from "angular2-text-mask";
 import { MaskArray } from "text-mask-core";

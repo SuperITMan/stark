@@ -1,4 +1,6 @@
-import { Directive, Inject, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef, ViewRef } from "@angular/core";
+import { Directive, Inject, Input, TemplateRef, ViewContainerRef } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnDestroy, OnInit, ViewRef } from "@angular/core";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 import { StarkRBACDirectivePermission } from "./permission.intf";
 import { STARK_RBAC_AUTHORIZATION_SERVICE, StarkRBACAuthorizationService } from "../services";

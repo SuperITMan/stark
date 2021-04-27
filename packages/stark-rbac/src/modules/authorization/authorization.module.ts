@@ -1,4 +1,6 @@
-import { ApplicationInitStatus, Inject, ModuleWithProviders, NgModule, Optional, Self, SkipSelf } from "@angular/core";
+import { ApplicationInitStatus, Inject, NgModule, Optional, Self, SkipSelf } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { from } from "rxjs";
 import { STARK_RBAC_AUTHORIZATION_SERVICE, StarkRBACAuthorizationService, StarkRBACAuthorizationServiceImpl } from "./services";

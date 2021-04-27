@@ -1,4 +1,6 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from "@angular/core";
+import { NgModule, Optional, SkipSelf } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -18,7 +20,7 @@ import { STARK_MESSAGE_PANE_SERVICE, StarkMessagePaneServiceImpl } from "./servi
 import { starkMessagesReducers } from "./reducers";
 import { StarkMessagePaneEffects } from "./effects";
 import { mergeUiTranslations } from "../../common/translations";
-import { starkMessagePaneStoreKey } from './constants';
+import { starkMessagePaneStoreKey } from "./constants";
 
 @NgModule({
 	declarations: [StarkMessagePaneComponent],

@@ -1,15 +1,6 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	ElementRef,
-	Inject,
-	Input,
-	OnChanges,
-	OnInit,
-	Renderer2,
-	SimpleChanges,
-	ViewEncapsulation
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, Renderer2, ViewEncapsulation } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnChanges, OnInit, SimpleChanges } from "@angular/core";
 // tslint:disable-next-line:match-default-export-name
 import sqlFormatter from "@sqltools/formatter";
 /* tslint:disable:no-duplicate-imports no-import-side-effect */

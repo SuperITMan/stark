@@ -1,4 +1,6 @@
-import { ApplicationInitStatus, Inject, ModuleWithProviders, NgModule, Optional, SkipSelf } from "@angular/core";
+import { ApplicationInitStatus, Inject, NgModule, Optional, SkipSelf } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { CommonModule, Location } from "@angular/common";
 import { StoreModule } from "@ngrx/store";
 import { UIRouterModule } from "@uirouter/angular";

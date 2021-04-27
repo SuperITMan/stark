@@ -1,4 +1,6 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from "@angular/core";
+import { NgModule, Optional, SkipSelf } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatIconModule } from "@angular/material/icon";
@@ -26,7 +28,9 @@ export class StarkToastNotificationModule {
 	 * See {@link https://v7.angular.io/guide/singleton-services#the-forroot-pattern|Angular docs: The `forRoot()` pattern}
 	 * @returns A module with providers
 	 */
-	public static forRoot(defaultToastNotificationOptions?: StarkToastNotificationOptions): ModuleWithProviders<StarkToastNotificationModule> {
+	public static forRoot(
+		defaultToastNotificationOptions?: StarkToastNotificationOptions
+	): ModuleWithProviders<StarkToastNotificationModule> {
 		return {
 			ngModule: StarkToastNotificationModule,
 			providers: [

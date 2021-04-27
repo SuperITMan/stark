@@ -5,15 +5,14 @@ import {
 	ElementRef,
 	EventEmitter,
 	Input,
-	OnChanges,
-	OnInit,
 	Output,
 	Renderer2,
-	SimpleChanges,
 	TemplateRef,
 	ViewChild,
 	ViewEncapsulation
 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { MatColumnDef } from "@angular/material/table";
 import { AbstractStarkUiComponent } from "../../../common/classes/abstract-component";
 import { FormControl } from "@angular/forms";

@@ -1,7 +1,9 @@
 /* tslint:disable:completed-docs*/
 import { Inject, Injectable, Injector } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpRequest } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpRequest } from "@angular/common/http";
+// tslint:disable-next-line:no-duplicate-imports
+import type { HttpErrorResponse } from "@angular/common/http";
 import moment from "moment";
 import { from, Observable, of } from "rxjs";
 import { take } from "rxjs/operators";

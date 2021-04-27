@@ -1,13 +1,15 @@
 /* tslint:disable:completed-docs*/
 import { ApplicationRef, Inject, Injectable } from "@angular/core";
-import {
-	MatSnackBar,
+import { MatSnackBar } from "@angular/material/snack-bar";
+// tslint:disable:no-duplicate-imports
+import type {
 	MatSnackBarConfig,
 	MatSnackBarDismiss,
 	MatSnackBarHorizontalPosition,
 	MatSnackBarRef,
 	MatSnackBarVerticalPosition
 } from "@angular/material/snack-bar";
+// tslint:enable:no-duplicate-imports
 import { Observable, Observer } from "rxjs";
 import { tap } from "rxjs/operators";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";

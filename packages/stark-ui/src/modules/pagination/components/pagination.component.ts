@@ -1,5 +1,4 @@
 import {
-	AfterViewInit,
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
@@ -8,13 +7,12 @@ import {
 	HostBinding,
 	Inject,
 	Input,
-	OnChanges,
-	OnInit,
 	Output,
 	Renderer2,
-	SimpleChanges,
 	ViewEncapsulation
 } from "@angular/core";
+// tslint:disable-next-line:no-duplicate-imports
+import type { AfterViewInit, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { MatPaginator, MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 import { StarkPaginationConfig } from "./pagination-config.intf";

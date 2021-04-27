@@ -1,5 +1,4 @@
 import {
-	AfterViewInit,
 	ChangeDetectorRef,
 	Component,
 	ElementRef,
@@ -8,22 +7,22 @@ import {
 	Inject,
 	Injector,
 	Input,
-	OnChanges,
-	OnDestroy,
-	OnInit,
 	Output,
 	Renderer2,
-	SimpleChanges,
-	Type,
 	ViewChild,
 	ViewEncapsulation
 } from "@angular/core";
+import { NG_VALIDATORS, NgControl } from "@angular/forms";
+import { FocusMonitor } from "@angular/cdk/a11y";
+// tslint:disable:no-duplicate-imports
+import type { AfterViewInit, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
+import type { AbstractControl, ControlValueAccessor, ValidationErrors, Validator } from "@angular/forms";
+import type { FocusOrigin } from "@angular/cdk/a11y";
+// tslint:enable:no-duplicate-imports
 import { MatDatepicker, MatDatepickerInput, MatDatepickerInputEvent } from "@angular/material/datepicker";
 import moment from "moment";
-import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NgControl, ValidationErrors, Validator } from "@angular/forms";
 import { MAT_DATE_FORMATS, MatDateFormats } from "@angular/material/core";
 import { MatFormFieldControl } from "@angular/material/form-field";
-import { FocusMonitor, FocusOrigin } from "@angular/cdk/a11y";
 import { coerceBooleanProperty } from "@angular/cdk/coercion";
 import { TranslateService } from "@ngx-translate/core";
 import { Subject, Subscription } from "rxjs";
@@ -391,7 +390,7 @@ export class StarkDatePickerComponent
 	 */
 	public ngOnInit(): void {
 		// tslint:disable-next-line:no-null-keyword
-		this.ngControl = this.injector.get<NgControl>(<Type<NgControl>>NgControl, <any>null);
+		this.ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 
 		if (this.ngControl !== null) {
 			this.ngControl.valueAccessor = this;
