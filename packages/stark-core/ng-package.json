@@ -26,6 +26,7 @@
     "flatModuleFile": "stark-core"
   },
   "dest": "../../dist/packages/stark-core",
+  "assets": ["./assets", "testing/**/*.md", "ngcc.config.js"],
   "whitelistedNonPeerDependencies": [
     "@angularclass/hmr",
     "@ng-idle/core",
