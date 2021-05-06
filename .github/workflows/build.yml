@@ -117,14 +117,6 @@ jobs:
         run: npm run test:ci:packages
 
       # See: https://github.com/marketplace/actions/upload-artifact
-      - name: Upload starter package.json file
-        uses: actions/upload-artifact@v2
-        with:
-          name: "starter-package-json"
-          path: "starter/package.json"
-        if: env.IS_MAIN_ENVIRONMENT == 1
-
-      # See: https://github.com/marketplace/actions/upload-artifact
       - name: Upload showcase package.json file
         uses: actions/upload-artifact@v2
         with:
@@ -138,6 +130,14 @@ jobs:
         with:
           name: "showcase-package-lock-json"
           path: "showcase/package-lock.json"
+        if: env.IS_MAIN_ENVIRONMENT == 1
+        
+      # See: https://github.com/marketplace/actions/upload-artifact
+      - name: Upload starter package.json file
+        uses: actions/upload-artifact@v2
+        with:
+          name: "starter-package-json"
+          path: "starter/package.json"
         if: env.IS_MAIN_ENVIRONMENT == 1
 
       # See: https://github.com/marketplace/actions/upload-artifact
@@ -201,21 +201,28 @@ jobs:
           mkdir -p ${{ env.LOGS_DIR }}
           touch ${{ env.LOGS_FILE }}
 
-      - uses: actions/download-artifact@v2
-        with:
-          name: "starter-package-json"
-          path: "starter/package.json"
+      - name: Delete showcase and starter package.json files
+        run: rm -f showcase/package.json showcase/package-lock.json starter/package.json
 
+      # See: https://github.com/marketplace/actions/download-a-build-artifact
       - uses: actions/download-artifact@v2
         with:
           name: "showcase-package-json"
           path: "showcase/package.json"
 
+      # See: https://github.com/marketplace/actions/download-a-build-artifact
       - uses: actions/download-artifact@v2
         with:
           name: "showcase-package-lock-json"
           path: "showcase/package-lock.json"
 
+      # See: https://github.com/marketplace/actions/download-a-build-artifact
+      - uses: actions/download-artifact@v2
+        with:
+          name: "starter-package-json"
+          path: "starter/package.json"
+
+      # See: https://github.com/marketplace/actions/download-a-build-artifact
       - uses: actions/download-artifact@v2
         with:
           name: stark-dist
