@@ -1,0 +1,24 @@
+name: Dependabot Pull Request check
+
+on:
+  pull_request:
+
+env:
+  TZ: "Europe/Brussels"
+
+jobs:
+  check-if-dependabot-root-pr:
+    name: Check PR has been opened by Dependabot for a root dependency
+    if: github.actor == 'dependabot[bot]' && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/showcase') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/starter')
+    runs-on: ubuntu-latest
+    steps:
+      - name: List main variables
+        run: |
+          echo "Commit SHA  : ${GITHUB_SHA}"
+          echo "Reference   : ${GITHUB_REF}"
+          echo "Head branch : ${GITHUB_HEAD_REF}"
+          echo "Base branch : ${GITHUB_BASE_REF}"
+          echo "Build number: ${GITHUB_RUN_NUMBER}"
+          echo "Repository  : ${GITHUB_REPOSITORY}"
+          echo "Event       : ${GITHUB_EVENT_NAME}"
+          echo "Author      : ${GITHUB_ACTOR}"

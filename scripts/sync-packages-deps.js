@@ -1,27 +1,18 @@
 const fs = require("fs");
 const execFileSync = require("child_process").execFileSync;
+const replaceInFile = require("replace-in-file");
 
 const checkOnly = process.argv.indexOf("--check") > -1;
 const noCommit = process.argv.indexOf("--no-commit") > -1;
-const rootDeps = require("./package.json").devDependencies;
+const rootDeps = require("../package.json").devDependencies;
 
 const fileNames = {
-	"stark-build": "./packages/stark-build/package.json",
-	"stark-core": "./packages/stark-core/package.json",
-	"stark-testing": "./packages/stark-testing/package.json",
-	"stark-rbac": "./packages/stark-rbac/package.json",
-	"stark-ui": "./packages/stark-ui/package.json"
+	"stark-build": "../packages/stark-build/package.json",
+	"stark-core": "../packages/stark-core/package.json",
+	"stark-testing": "../packages/stark-testing/package.json",
+	"stark-rbac": "../packages/stark-rbac/package.json",
+	"stark-ui": "../packages/stark-ui/package.json"
 };
-
-function replaceValuesInFile(fileName, valueReplacements) {
-	let data = fs.readFileSync(fileName, { encoding: "utf8", flag: "r" });
-
-	for (const replacement of valueReplacements) {
-		data = data.replace(replacement.searchValue, replacement.replaceValue);
-	}
-
-	fs.writeFileSync(fileName, data, { encoding: "utf8" });
-}
 
 for (const [packageName, fileName] of Object.entries(fileNames)) {
 	const packageDeps = require(fileName).dependencies || [];
@@ -33,14 +24,16 @@ for (const [packageName, fileName] of Object.entries(fileNames)) {
 					""
 				)} to ${rootDeps[depName].replace(/[\^~]/, "")}`;
 				const depVersionEscaped = depVersion.replace(/[-^~.\\\/]/, "\\$&");
-				const replacement = [
+				const replaceOptions = [
 					{
-						searchValue: new RegExp(`"${depName}": "${depVersionEscaped}"`),
-						replaceValue: `"${depName}": "${rootDeps[depName]}"`
+						files: fileName,
+						from: new RegExp(`"${depName}": "${depVersionEscaped}"`),
+						to: `"${depName}": "${rootDeps[depName]}"`,
+						encoding: "utf8"
 					}
 				];
 
-				replaceValuesInFile(fileName, replacement);
+				replaceInFile(replaceOptions);
 
 				console.log(`${packageName} - Bump "${depName}" from "${depVersion}" to "${rootDeps[depName]}"`);
 
