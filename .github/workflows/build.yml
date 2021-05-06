@@ -246,8 +246,18 @@ jobs:
       - name: Install npm ${{ env.NPM_VERSION }}
         run: npm i -g npm@${{ env.NPM_VERSION }}
 
+      - name: DEBUG
+        run: |
+          cat showcase/package.json
+          echo "------------------"
+          cat showcase/package-lock.json
+          echo "------------------"
+          ls dist/packages-dist
+          ls dist/packages-dist/stark-core
+
       - name: Install dependencies
         run: |
+          npm config set loglevel silly
           npm run install:ci:showcase
           npm run install:starter
 
