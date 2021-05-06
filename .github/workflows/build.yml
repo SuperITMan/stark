@@ -92,6 +92,17 @@ jobs:
           # cfr scripts/_ghactions-group.sh
           mkdir -p ${{ env.LOGS_DIR }}
           touch ${{ env.LOGS_FILE }}
+
+      - name: Check packages dependencies versions are in sync with root
+        run: npm run check:packages-dependencies
+        if: github.actor != 'dependabot[bot]'
+
+      - name: Sync packages dependencies when Dependabot bumps dependenciess
+        run: |
+          git config set user.name "NBB Bot"
+          git config set user.email "83765996+nbb-bot@users.noreply.github.com"
+          npm run sync:packages-dependencies
+        if: github.actor == 'dependabot[bot]'
             
       - name: Install dependencies
         run: |
