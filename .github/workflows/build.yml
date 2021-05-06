@@ -105,18 +105,40 @@ jobs:
         if: github.actor == 'dependabot[bot]'
             
       - name: Install dependencies
-        run: |
-          npm ci
-          npm run install:ci:all
+        run: npm ci
+      
+      - name: Build
+        run: npm run build:trace
 
       - name: Linting
-        run: npm run lint:all
+        run: npm run lint:packages
 
       - name: Testing
-        run: npm run test:ci:all
-        
-      - name: "Build showcase:ghpages"
-        run: npm run build:showcase:ghpages
+        run: npm run test:ci:packages
+
+      # See: https://github.com/marketplace/actions/upload-artifact
+      - name: Upload starter package.json file
+        uses: actions/upload-artifact@v2
+        with:
+          name: "starter-package-json"
+          path: "starter/package.json"
+        if: env.IS_MAIN_ENVIRONMENT == 1
+
+      # See: https://github.com/marketplace/actions/upload-artifact
+      - name: Upload showcase package.json file
+        uses: actions/upload-artifact@v2
+        with:
+          name: "showcase-package-json"
+          path: "showcase/package.json"
+        if: env.IS_MAIN_ENVIRONMENT == 1
+
+      # See: https://github.com/marketplace/actions/upload-artifact
+      - name: Upload showcase package-lock.json file
+        uses: actions/upload-artifact@v2
+        with:
+          name: "showcase-package-lock-json"
+          path: "showcase/package-lock.json"
+        if: env.IS_MAIN_ENVIRONMENT == 1
 
       # See: https://github.com/marketplace/actions/upload-artifact
       - name: Upload stark packages-dist folder
@@ -126,48 +148,8 @@ jobs:
           path: dist/packages-dist
         if: env.IS_MAIN_ENVIRONMENT == 1
 
-      # See: https://github.com/marketplace/actions/upload-artifact
-      - name: Upload showcase dist folder
-        uses: actions/upload-artifact@v2
-        with:
-          name: showcase-dist
-          path: showcase/dist
-        if: env.IS_MAIN_ENVIRONMENT == 1
-        
-      - name: BrowserStack Env Setup
-        uses: browserstack/github-actions/setup-env@master
-        with:
-          username: ${{ secrets.BROWSERSTACK_USERNAME }}
-          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-          project-name: "Stark Showcase"
-        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
-
-      - name: BrowserStack Local Tunnel Setup
-        uses: browserstack/github-actions/setup-local@master
-        with:
-          local-testing: "start"
-          local-logging-level: "all-logs"
-          local-identifier: "github-actions-${{ github.run_number }}"
-        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
-    
-      - name: Running application under test
-        run: npm run server:prod:ci &
-        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
-        working-directory: showcase
-        
-      - name: Running test on BrowserStack
-        run: npm run protractor:browserstack
-        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
-        working-directory: showcase
-    
-      - name: BrowserStackLocal Stop
-        uses: browserstack/github-actions/setup-local@master
-        with:
-          local-testing: stop
-        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
-        
       - name: Generate docs coverage
-        run: npm run docs:coverage
+        run: npm run docs:coverage:packages
         if: env.IS_MAIN_ENVIRONMENT == 1
 
       - name: Save logs
@@ -183,11 +165,149 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: "combined-lcov.info"
         if: env.IS_MAIN_ENVIRONMENT == 1
+        
+  build-and-test-showcase-and-starter:
+    name: Build and test showcase and starter on Node.js ${{ matrix.node_version }} and ${{ matrix.os }}
+    needs: build-and-test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node_version: [ "10", "12" ]
+        os: [ ubuntu-latest, macOS-latest ]
+
+    steps:
+      # Some actions should be executed only in one environment.
+      # This variable determines if it is the main environment, it means the same than the one we have internally.
+      - name: Set environment variable 'IS_MAIN_ENVIRONMENT'
+        run: |
+          if [[ '${{ matrix.node_version }}' == '${{ env.MAIN_NODEJS }}' ]] && [[ '${{ matrix.os }}' == 'ubuntu-latest' ]]; then
+            echo "IS_MAIN_ENVIRONMENT=1" >> $GITHUB_ENV
+          else
+            echo "IS_MAIN_ENVIRONMENT=0" >> $GITHUB_ENV
+          fi      
+
+      # See: https://github.com/marketplace/actions/checkout
+      - uses: actions/checkout@v2
+
+      # See: https://github.com/marketplace/actions/setup-node-js-environment
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: Create file & folder for GitHub Actions logs
+        run: |
+          # cfr scripts/_ghactions-group.sh
+          mkdir -p ${{ env.LOGS_DIR }}
+          touch ${{ env.LOGS_FILE }}
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: "starter-package-json"
+          path: "starter/package.json"
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: "showcase-package-json"
+          path: "showcase/package.json"
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: "showcase-package-lock-json"
+          path: "showcase/package-lock.json"
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: stark-dist
+          path: dist/packages-dist
+
+      # See: https://github.com/marketplace/actions/cache
+      # See doc: https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules-${{ matrix.node_version }}-${{ matrix.os }}
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install npm ${{ env.NPM_VERSION }}
+        run: npm i -g npm@${{ env.NPM_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          npm run install:ci:showcase
+          npm run install:starter
+
+      - name: Linting
+        run: |
+          npm run lint:showcase
+          npm run lint:starter
+
+      - name: Testing
+        run: |
+          npm run test:ci:showcase
+          npm run test:ci:starter
+
+      - name: "Build showcase:ghpages"
+        run: npm run build:showcase:ghpages
+
+      # See: https://github.com/marketplace/actions/upload-artifact
+      - name: Upload showcase dist folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: showcase-dist
+          path: showcase/dist
+        if: env.IS_MAIN_ENVIRONMENT == 1
+
+      - name: BrowserStack Env Setup
+        uses: browserstack/github-actions/setup-env@master
+        with:
+          username: ${{ secrets.BROWSERSTACK_USERNAME }}
+          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          project-name: "Stark Showcase"
+        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
+
+      - name: BrowserStack Local Tunnel Setup
+        uses: browserstack/github-actions/setup-local@master
+        with:
+          local-testing: "start"
+          local-logging-level: "all-logs"
+          local-identifier: "github-actions-${{ github.run_number }}"
+        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
+
+      - name: Running application under test
+        run: npm run server:prod:ci &
+        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
+        working-directory: showcase
+
+      - name: Running test on BrowserStack
+        run: npm run protractor:browserstack
+        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
+        working-directory: showcase
+
+      - name: BrowserStackLocal Stop
+        uses: browserstack/github-actions/setup-local@master
+        with:
+          local-testing: stop
+        if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
+        
+      - name: Generate docs coverage
+        run: npm run docs:coverage:starter
+        if: env.IS_MAIN_ENVIRONMENT == 1
+
+      - name: Save logs
+        run: bash ./scripts/ci/print-logs.sh
 
   release:
     name: Release
     runs-on: "ubuntu-latest"
-    needs: build-and-test
+    needs: build-and-test-showcase-and-starter
     if: (startsWith(github.ref, 'refs/tags/') || github.event_name == 'schedule') && github.repository == 'NationalBankBelgium/stark'
     steps:
       - name: Get tag name if exists
