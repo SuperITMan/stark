@@ -24,6 +24,8 @@ jobs:
   build-and-test:
     name: Build and test on Node.js ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    if: github.actor != 'dependabot[bot]' || startsWith(github.ref_head, 'dependabot/npm_and_yarn/showcase')
+      || startsWith(github.ref_head, 'dependabot/npm_and_yarn/starter')
     strategy:
       matrix:
         node_version: ["10", "12"]
@@ -42,6 +44,9 @@ jobs:
 
       # See: https://github.com/marketplace/actions/checkout
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
       # See: https://github.com/marketplace/actions/setup-node-js-environment
       - name: Use Node.js ${{ matrix.node_version }}
@@ -77,6 +82,8 @@ jobs:
           echo "Commit SHA  : ${GITHUB_SHA}"
           echo "Tag name    : ${{ env.GH_ACTIONS_TAG }}"
           echo "Reference   : ${GITHUB_REF}"
+          echo "Head branch : ${GITHUB_HEAD_REF}"
+          echo "Base branch : ${GITHUB_BASE_REF}"
           echo "Build number: ${GITHUB_RUN_NUMBER}"
           echo "Repository  : ${GITHUB_REPOSITORY}"
           echo "Event       : ${GITHUB_EVENT_NAME}"
@@ -93,27 +100,17 @@ jobs:
           mkdir -p ${{ env.LOGS_DIR }}
           touch ${{ env.LOGS_FILE }}
 
-      - name: Sync packages dependencies when Dependabot bumps dependenciess
-        run: |
-          git config user.name "NBB Bot"
-          git config user.email "83765996+nbb-bot@users.noreply.github.com"
-          npm run sync:packages-dependencies
-          git push
-        if: github.actor == 'dependabot[bot]'
-
       - name: Install dependencies
-        run: |
-          npm ci
-          npm run install:ci:all
+        run: npm ci
 
-      - name: Linting
-        run: npm run lint:all
+      - name: Build packages
+        run: npm run build:trace
 
-      - name: Testing
-        run: npm run test:ci:all
+      - name: Linting packages
+        run: npm run lint:packages
 
-      - name: "Build showcase:ghpages"
-        run: npm run build:showcase:ghpages
+      - name: Testing packages
+        run: npm run test:ci:packages
 
       # See: https://github.com/marketplace/actions/upload-artifact
       - name: Upload stark packages-dist folder
@@ -122,6 +119,46 @@ jobs:
           name: stark-dist
           path: dist/packages-dist
         if: env.IS_MAIN_ENVIRONMENT == 1
+
+      - name: Generate docs coverage
+        run: npm run docs:coverage:packages
+        if: env.IS_MAIN_ENVIRONMENT == 1
+
+      - name: Combine coveralls reports
+        run: node combine-packages-coverage.js
+        if: env.IS_MAIN_ENVIRONMENT == 1
+
+      - name: Clean root node_modules
+        run: rm -rf ./node_modules
+
+      - name: Install starter
+        run: npm i
+        working-directory: starter
+
+      - name: "Install showcase with install command"
+        if: github.actor == 'nbb-bot' && startsWith(github.ref_head, 'dependabot/npm_and_yarn')
+        run: |
+          rm package-lock.json
+          npm install
+        working-directory: showcase
+
+      - name: "Install showcase with ci command"
+        if: github.actor != 'nbb-bot' || !startsWith(github.ref_head, 'dependabot/npm_and_yarn')
+        run: npm ci
+        working-directory: showcase
+
+      - name: Linting showcase & starter
+        run: |
+          npm run lint:showcase
+          npm run lint:starter
+
+      - name: Testing showcase & starter
+        run: |
+          npm run test:ci:showcase
+          npm run test:ci:starter
+
+      - name: "Build showcase:ghpages"
+        run: npm run build:showcase:ghpages
 
       # See: https://github.com/marketplace/actions/upload-artifact
       - name: Upload showcase dist folder
@@ -163,16 +200,12 @@ jobs:
           local-testing: stop
         if: env.IS_MAIN_ENVIRONMENT == 1 && github.event_name == 'push'
 
-      - name: Generate docs coverage
-        run: npm run docs:coverage
+      - name: Generate starter docs coverage
+        run: npm run docs:starter:coverage
         if: env.IS_MAIN_ENVIRONMENT == 1
 
       - name: Save logs
         run: bash ./scripts/ci/print-logs.sh
-
-      - name: Combine coveralls reports
-        run: node combine-packages-coverage.js
-        if: env.IS_MAIN_ENVIRONMENT == 1
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

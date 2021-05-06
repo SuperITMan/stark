@@ -1,16 +1,17 @@
 const fs = require("fs");
+const path = require("path");
 const execFileSync = require("child_process").execFileSync;
 
 const checkOnly = process.argv.indexOf("--check") > -1;
 const noCommit = process.argv.indexOf("--no-commit") > -1;
-const rootDeps = require("./package.json").devDependencies;
+const rootDeps = require("../package.json").devDependencies;
 
 const fileNames = {
-	"stark-build": "./packages/stark-build/package.json",
-	"stark-core": "./packages/stark-core/package.json",
-	"stark-testing": "./packages/stark-testing/package.json",
-	"stark-rbac": "./packages/stark-rbac/package.json",
-	"stark-ui": "./packages/stark-ui/package.json"
+	"stark-build": "../packages/stark-build/package.json",
+	"stark-core": "../packages/stark-core/package.json",
+	"stark-testing": "../packages/stark-testing/package.json",
+	"stark-rbac": "../packages/stark-rbac/package.json",
+	"stark-ui": "../packages/stark-ui/package.json"
 };
 
 function replaceValuesInFile(fileName, valueReplacements) {
@@ -28,6 +29,7 @@ for (const [packageName, fileName] of Object.entries(fileNames)) {
 	for (const [depName, depVersion] of Object.entries(packageDeps)) {
 		if (rootDeps[depName] !== depVersion) {
 			if (!checkOnly) {
+				const absoluteFileName = path.resolve(__dirname, fileName);
 				const commitMsg = `chore(deps): bump ${depName} in ${fileName.substring(1)} from ${depVersion.replace(
 					/[\^~]/,
 					""
@@ -40,13 +42,13 @@ for (const [packageName, fileName] of Object.entries(fileNames)) {
 					}
 				];
 
-				replaceValuesInFile(fileName, replacement);
+				replaceValuesInFile(absoluteFileName, replacement);
 
 				console.log(`${packageName} - Bump "${depName}" from "${depVersion}" to "${rootDeps[depName]}"`);
 
 				if (!noCommit) {
 					try {
-						execFileSync("git", ["add", fileName], { encoding: "utf8" });
+						execFileSync("git", ["add", absoluteFileName], { encoding: "utf8" });
 						console.log(`File ${fileName} has been staged for commit.`);
 					} catch (error) {
 						console.error(`An error happened while staging file ${fileName} for commit: `, error);
