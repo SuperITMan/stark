@@ -2,7 +2,6 @@ name: dependabot-hook
 
 on:
   push:
-  pull_request:
     
 env:
   TZ: "Europe/Brussels"
