@@ -1,1 +1,94 @@
+on:
+  push:
+    branches:
+    - dependabot/npm_and_yarn/*
 
+env:
+  TZ: "Europe/Brussels"
+  NPM_VERSION: "latest-6"
+
+jobs:
+  update-deps:
+    name: Update packages dependencies in new Dependabot PRs
+    runs-on: ubuntu-latest
+    steps:
+      # See: https://github.com/marketplace/actions/checkout
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+
+      # See: https://github.com/marketplace/actions/setup-node-js-environment
+      - name: Use Node.js 10
+        uses: actions/setup-node@v2
+        with:
+          node-version: 10
+          
+      # See: https://github.com/marketplace/actions/cache
+      # See doc: https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules-${{ matrix.node_version }}-${{ matrix.os }}
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+            
+      - name: Install npm ${{ env.NPM_VERSION }}
+        run: npm i -g npm@${{ env.NPM_VERSION }}
+        
+      - name: List main variables
+        run: |
+          echo "Commit SHA  : ${GITHUB_SHA}"
+          echo "Reference   : ${GITHUB_REF}"
+          echo "Head branch : ${GITHUB_HEAD_REF}"
+          echo "Base branch : ${GITHUB_BASE_REF}"
+          echo "Build number: ${GITHUB_RUN_NUMBER}"
+          echo "Repository  : ${GITHUB_REPOSITORY}"
+          echo "Event       : ${GITHUB_EVENT_NAME}"
+          echo "Author      : ${GITHUB_ACTOR}"
+          echo "Main ENV    : ${{ env.IS_MAIN_ENVIRONMENT }}"
+          NODE_VERSION="$(node -v)"
+          echo "Node version: $NODE_VERSION"
+     
+      - name: Sync packages dependencies when Dependabot bumps dependenciess
+        run: |
+          git config --local user.name "NBB Bot"
+          git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
+          npm run sync:packages-dependencies
+        if: github.actor == 'dependabot[bot]'
+
+      - name: Push changes made during sync of dependencies
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+        if: github.actor == 'dependabot[bot]'
+        
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build:trace
+        
+      - name: Install showcase after update of Stark dependencies
+        run: |
+          rm showcase/package-lock.json
+          npm run install:showcase
+          git config --local user.name "NBB Bot"
+          git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
+          git add showcase/package-lock.json
+          git commit -m "chore(showcase): update package-lock.json file after update of Stark dependencies" --no-verify
+        if: github.actor != 'dependabot[bot]'
+        
+      - name: Push changes made during update of showcase/package-lock.json file
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+        if: github.actor == 'dependabot[bot]'
