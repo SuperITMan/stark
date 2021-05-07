@@ -40,7 +40,7 @@ jobs:
           wait_interval: 10
           trigger_workflow: false
           wait_workflow: true
-        if: startsWith(github.head_ref, "dependabot/npm_and_yarn")
+        if: startsWith(github.head_ref, 'dependabot/npm_and_yarn')
 
     
       # Some actions should be executed only in one environment.
