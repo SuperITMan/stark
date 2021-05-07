@@ -42,6 +42,9 @@ jobs:
 
       # See: https://github.com/marketplace/actions/checkout
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
       # See: https://github.com/marketplace/actions/setup-node-js-environment
       - name: Use Node.js ${{ matrix.node_version }}
@@ -97,10 +100,16 @@ jobs:
 
       - name: Sync packages dependencies when Dependabot bumps dependenciess
         run: |
-          git config user.name "NBB Bot"
-          git config user.email "83765996+nbb-bot@users.noreply.github.com"
+          git config --local user.name "NBB Bot"
+          git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
           npm run sync:packages-dependencies
-          git push origin HEAD:${GITHUB_HEAD_REF}
+        if: github.actor == 'dependabot[bot]'
+
+      - name: Push changes made during sync of dependencies
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
         if: github.actor == 'dependabot[bot]'
 
       - name: Install dependencies
@@ -149,12 +158,18 @@ jobs:
         run: |
           rm showcase/package-lock.json
           npm run install:showcase
-          git config user.name "NBB Bot"
-          git config user.email "83765996+nbb-bot@users.noreply.github.com"
+          git config --local user.name "NBB Bot"
+          git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
           git add showcase/package-lock.json
           git commit -m "chore(showcase): update package-lock.json file after update of Stark dependencies" --no-verify
-          git push origin HEAD:${GITHUB_HEAD_REF}
         if: github.actor != 'dependabot[bot]'
+        
+      - name: Push changes made during update of showcase/package-lock.json file
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+        if: github.actor == 'dependabot[bot]'
 
       - name: Linting showcase & starter
         run: |
