@@ -10,7 +10,7 @@ env:
 
 jobs:
   update-deps:
-    if: startsWith(github.head_ref, 'dependabot/npm_and_yarn')
+    if: startsWith(github.ref, 'dependabot/npm_and_yarn')
     name: Update packages dependencies in new Dependabot PRs
     runs-on: ubuntu-latest
     steps:
