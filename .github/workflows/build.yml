@@ -104,6 +104,8 @@ jobs:
           git config --local user.name "NBB Bot"
           git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
           npm run sync:packages-dependencies
+          echo token: ${{ secrets.BOT_TOKEN }}
+          echo fake token: ${{ secrets.BOT_TOKENEEE }}
         
       - name: Push changes
         uses: ad-m/github-push-action@master
