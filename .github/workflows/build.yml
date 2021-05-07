@@ -30,6 +30,19 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
 
     steps:
+      - uses: convictional/trigger-workflow-and-wait@v1.3.0
+        with:
+          owner: SuperITMan
+          repo: stark
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow_file_name: dependabot-hook.yml
+          ref: ${GITHUB_HEAD_REF}
+          wait_interval: 10
+          trigger_workflow: false
+          wait_workflow: true
+        if: startsWith(github.head_ref, "dependabot/npm_and_yarn")
+
+    
       # Some actions should be executed only in one environment.
       # This variable determines if it is the main environment, it means the same than the one we have internally.
       - name: Set environment variable 'IS_MAIN_ENVIRONMENT'
