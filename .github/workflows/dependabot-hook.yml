@@ -69,7 +69,7 @@ jobs:
         uses: ad-m/github-push-action@master
         if: github.actor == 'dependabot[bot]'
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_TOKEN }}
           branch: ${{ github.ref }}
         
       - name: Install dependencies
@@ -92,5 +92,5 @@ jobs:
         uses: ad-m/github-push-action@master
         if: github.actor == 'dependabot[bot]'
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BOT_TOKEN }}
           branch: ${{ github.ref }}
