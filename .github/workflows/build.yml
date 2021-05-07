@@ -77,6 +77,8 @@ jobs:
           echo "Commit SHA  : ${GITHUB_SHA}"
           echo "Tag name    : ${{ env.GH_ACTIONS_TAG }}"
           echo "Reference   : ${GITHUB_REF}"
+          echo "Head branch : ${GITHUB_HEAD_REF}"
+          echo "Base branch : ${GITHUB_BASE_REF}"
           echo "Build number: ${GITHUB_RUN_NUMBER}"
           echo "Repository  : ${GITHUB_REPOSITORY}"
           echo "Event       : ${GITHUB_EVENT_NAME}"
@@ -98,7 +100,7 @@ jobs:
           git config user.name "NBB Bot"
           git config user.email "83765996+nbb-bot@users.noreply.github.com"
           npm run sync:packages-dependencies
-          git push
+          git push origin HEAD:${GITHUB_HEAD_REF}
         if: github.actor == 'dependabot[bot]'
 
       - name: Install dependencies
@@ -141,6 +143,18 @@ jobs:
       - name: Install showcase
         run: npm ci
         working-directory: showcase
+        if: github.actor != 'dependabot[bot]'
+
+      - name: Install showcase after update of Stark dependencies
+        run: |
+          rm showcase/package-lock.json
+          npm run install:showcase
+          git config user.name "NBB Bot"
+          git config user.email "83765996+nbb-bot@users.noreply.github.com"
+          git add showcase/package-lock.json
+          git commit -m "chore(showcase): update package-lock.json file after update of Stark dependencies" --no-verify
+          git push origin HEAD:${GITHUB_HEAD_REF}
+        if: github.actor != 'dependabot[bot]'
 
       - name: Linting showcase & starter
         run: |
