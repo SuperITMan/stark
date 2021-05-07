@@ -30,18 +30,43 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
 
     steps:
-      - uses: convictional/trigger-workflow-and-wait@v1.3.0
-        with:
-          owner: SuperITMan
-          repo: stark
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow_file_name: dependabot-hook.yml
-          ref: ${GITHUB_HEAD_REF}
-          wait_interval: 10
-          trigger_workflow: false
-          wait_workflow: true
-        if: startsWith(github.head_ref, 'dependabot/npm_and_yarn')
+      - name: Wait for dependabot-hook
+        run: |
+          # Find the id of the last build
+          last_workflow=$(curl -X GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/dependabot-hook.yml/runs&event=push&branch=${GITHUB_HEAD_REF}" \
+            -H 'Accept: application/vnd.github.antiope-preview+json' \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" | jq '[.workflow_runs[]] | first')
+          last_workflow_id=$(echo $last_workflow | jq '.id')
+          echo "The workflow id is [$last_workflow_id]."
+          echo ""
+          conclusion=$(echo $last_workflow | jq '.conclusion')
+          status=$(echo $last_workflow | jq '.status')
 
+          while [[ $conclusion == "null" && $status != "\"completed\"" ]]
+          do
+            echo "Sleeping for $wait_interval seconds"
+            sleep $wait_interval
+            workflow=$(curl -X GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/dependabot-hook.yml/runs&event=push&branch=${GITHUB_HEAD_REF}" \
+              -H 'Accept: application/vnd.github.antiope-preview+json' \
+              -H "Authorization: Bearer $INPUT_GITHUB_TOKEN" | jq '.workflow_runs[] | select(.id == '$last_workflow_id')')
+            conclusion=$(echo $workflow | jq '.conclusion')
+            status=$(echo $workflow | jq '.status')
+            echo "Checking conclusion [$conclusion]"
+            echo "Checking status [$status]"
+          done
+
+          if [[ $conclusion == "\"success\"" && $status == "\"completed\"" ]]
+          then
+            echo "Yes, success"
+          else
+            # Alternative "failure"
+            echo "Conclusion is not success, its [$conclusion]."
+            if [ "$propagate_failure" = true ]
+            then
+              echo "Propagating failure to upstream job"
+              exit 1
+            fi
+          fi
     
       # Some actions should be executed only in one environment.
       # This variable determines if it is the main environment, it means the same than the one we have internally.
