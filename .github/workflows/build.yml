@@ -30,45 +30,6 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
 
     steps:
-      - name: Wait for dependabot-hook
-        if: startsWith(github.head_ref, 'dependabot/npm_and_yarn') && github.event == 'pull_request'
-        run: |
-          # Find the id of the last build
-          last_workflow=$(curl -X GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/dependabot-hook.yml/runs&event=push&branch=${GITHUB_HEAD_REF}" \
-            -H 'Accept: application/vnd.github.antiope-preview+json' \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" | jq '[.workflow_runs[]] | first')
-          last_workflow_id=$(echo $last_workflow | jq '.id')
-          echo "The workflow id is [$last_workflow_id]."
-          echo ""
-          conclusion=$(echo $last_workflow | jq '.conclusion')
-          status=$(echo $last_workflow | jq '.status')
-
-          while [[ $conclusion == "null" && $status != "\"completed\"" ]]
-          do
-            echo "Sleeping for $wait_interval seconds"
-            sleep $wait_interval
-            workflow=$(curl -X GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/dependabot-hook.yml/runs&event=push&branch=${GITHUB_HEAD_REF}" \
-              -H 'Accept: application/vnd.github.antiope-preview+json' \
-              -H "Authorization: Bearer $INPUT_GITHUB_TOKEN" | jq '.workflow_runs[] | select(.id == '$last_workflow_id')')
-            conclusion=$(echo $workflow | jq '.conclusion')
-            status=$(echo $workflow | jq '.status')
-            echo "Checking conclusion [$conclusion]"
-            echo "Checking status [$status]"
-          done
-
-          if [[ $conclusion == "\"success\"" && $status == "\"completed\"" ]]
-          then
-            echo "Yes, success"
-          else
-            # Alternative "failure"
-            echo "Conclusion is not success, its [$conclusion]."
-            if [ "$propagate_failure" = true ]
-            then
-              echo "Propagating failure to upstream job"
-              exit 1
-            fi
-          fi
-    
       # Some actions should be executed only in one environment.
       # This variable determines if it is the main environment, it means the same than the one we have internally.
       - name: Set environment variable 'IS_MAIN_ENVIRONMENT'
@@ -81,6 +42,9 @@ jobs:
 
       # See: https://github.com/marketplace/actions/checkout
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
       # See: https://github.com/marketplace/actions/setup-node-js-environment
       - name: Use Node.js ${{ matrix.node_version }}
@@ -134,6 +98,20 @@ jobs:
           mkdir -p ${{ env.LOGS_DIR }}
           touch ${{ env.LOGS_FILE }}
 
+      - name: Sync packages dependencies when Dependabot bumps dependenciess
+        if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/npm_and_yarn')
+        run: |
+          git config --local user.name "NBB Bot"
+          git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
+          npm run sync:packages-dependencies
+        
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/npm_and_yarn')
+        with:
+          github_token: ${{ secrets.BOT_TOKEN }}
+          branch: ${{ github.ref }}
+
       - name: Install dependencies
         run: npm ci
 
@@ -171,8 +149,26 @@ jobs:
         env:
           HUSKY_SKIP_INSTALL: 1
 
+      - name: Install showcase after update of Stark dependencies
+        run: |
+          rm showcase/package-lock.json
+          npm run install:showcase
+          git config --local user.name "NBB Bot"
+          git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
+          git add showcase/package-lock.json
+          git commit -m "chore(showcase): update package-lock.json file after update of Stark dependencies" --no-verify
+        if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/npm_and_yarn')
+        
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/npm_and_yarn')
+        with:
+          github_token: ${{ secrets.BOT_TOKEN }}
+          branch: ${{ github.ref }}
+
       - name: Install showcase
         run: npm ci
+        if: github.actor != 'dependabot[bot]' || !startsWith(github.head_ref, 'dependabot/npm_and_yarn')
         working-directory: showcase
 
       - name: Linting showcase & starter
