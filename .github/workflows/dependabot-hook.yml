@@ -1,14 +1,16 @@
+name: dependabot-hook
+
 on:
   push:
-    branches:
-    - dependabot/npm_and_yarn/*
-
+  pull_request:
+    
 env:
   TZ: "Europe/Brussels"
   NPM_VERSION: "latest-6"
 
 jobs:
   update-deps:
+    if: startsWith(github.head_ref, 'dependabot/npm_and_yarn')
     name: Update packages dependencies in new Dependabot PRs
     runs-on: ubuntu-latest
     steps:
