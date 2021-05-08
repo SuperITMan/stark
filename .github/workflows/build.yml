@@ -26,8 +26,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ["10", "12"]
-        os: [ubuntu-latest, macOS-latest]
+        node_version: [ "10", "12" ]
+        os: [ ubuntu-latest, macOS-latest ]
 
     steps:
       # Some actions should be executed only in one environment.
@@ -40,11 +40,45 @@ jobs:
             echo "IS_MAIN_ENVIRONMENT=0" >> $GITHUB_ENV
           fi
 
+      - name: Wait for dependabot-hook
+        if: startsWith(github.head_ref, 'dependabot/npm_and_yarn') && github.event == 'pull_request'
+        run: |
+          # Find the id of the last build
+          last_workflow=$(curl -X GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/dependabot-hook.yml/runs&event=pull_request&branch=${GITHUB_HEAD_REF}" \
+            -H 'Accept: application/vnd.github.antiope-preview+json' \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" | jq '[.workflow_runs[]] | first')
+          last_workflow_id=$(echo $last_workflow | jq '.id')
+          echo "The workflow id is [$last_workflow_id]."
+          echo ""
+          conclusion=$(echo $last_workflow | jq '.conclusion')
+          status=$(echo $last_workflow | jq '.status')
+          while [[ $conclusion == "null" && $status != "\"completed\"" ]]
+          do
+            echo "Sleeping for $wait_interval seconds"
+            sleep $wait_interval
+            workflow=$(curl -X GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/dependabot-hook.yml/runs&event=pull_request&branch=${GITHUB_HEAD_REF}" \
+              -H 'Accept: application/vnd.github.antiope-preview+json' \
+              -H "Authorization: Bearer $INPUT_GITHUB_TOKEN" | jq '.workflow_runs[] | select(.id == '$last_workflow_id')')
+            conclusion=$(echo $workflow | jq '.conclusion')
+            status=$(echo $workflow | jq '.status')
+            echo "Checking conclusion [$conclusion]"
+            echo "Checking status [$status]"
+          done
+          if [[ $conclusion == "\"success\"" && $status == "\"completed\"" ]]
+          then
+            echo "Yes, success"
+          else
+            # Alternative "failure"
+            echo "Conclusion is not success, its [$conclusion]."
+            if [ "$propagate_failure" = true ]
+            then
+              echo "Propagating failure to upstream job"
+              exit 1
+            fi
+          fi
+
       # See: https://github.com/marketplace/actions/checkout
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
-          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
       # See: https://github.com/marketplace/actions/setup-node-js-environment
       - name: Use Node.js ${{ matrix.node_version }}
@@ -98,33 +132,19 @@ jobs:
           mkdir -p ${{ env.LOGS_DIR }}
           touch ${{ env.LOGS_FILE }}
 
-      - name: Sync packages dependencies when Dependabot bumps dependencies
-        if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/npm_and_yarn') && env.IS_MAIN_ENVIRONMENT == 1
-        run: |
-          git config --local user.name "NBB Bot"
-          git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
-          npm run sync:packages-dependencies
-          echo token: ${{ secrets.BOT_TOKEN }}
-          echo fake token: ${{ secrets.BOT_TOKENEEE }}
-        
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/npm_and_yarn') && env.IS_MAIN_ENVIRONMENT == 1
-        with:
-          github_token: ${{ secrets.BOT_TOKEN }}
-          branch: ${{ github.ref }}
-
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npm run install:ci:all
 
-      - name: Build packages
-        run: npm run build:trace
+      - name: Linting
+        run: npm run lint:all
 
-      - name: Linting packages
-        run: npm run lint:packages
+      - name: Testing
+        run: npm run test:ci:all
 
-      - name: Testing packages
-        run: npm run test:ci:packages
+      - name: "Build showcase:ghpages"
+        run: npm run build:showcase:ghpages
 
       # See: https://github.com/marketplace/actions/upload-artifact
       - name: Upload stark packages-dist folder
@@ -133,58 +153,6 @@ jobs:
           name: stark-dist
           path: dist/packages-dist
         if: env.IS_MAIN_ENVIRONMENT == 1
-
-      - name: Generate docs coverage
-        run: npm run docs:coverage:packages
-        if: env.IS_MAIN_ENVIRONMENT == 1
-
-      - name: Combine coveralls reports
-        run: node combine-packages-coverage.js
-        if: env.IS_MAIN_ENVIRONMENT == 1
-
-      - name: Clean root node_modules
-        run: rm -rf ./node_modules
-
-      - name: Install starter
-        run: npm i
-        working-directory: starter
-        env:
-          HUSKY_SKIP_INSTALL: 1
-
-      - name: Install showcase after update of Stark dependencies
-        run: |
-          rm showcase/package-lock.json
-          npm run install:showcase
-          git config --local user.name "NBB Bot"
-          git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
-          git add showcase/package-lock.json
-          git commit -m "chore(showcase): update package-lock.json file after update of Stark dependencies" --no-verify
-        if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/npm_and_yarn') && env.IS_MAIN_ENVIRONMENT == 1
-        
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/npm_and_yarn') && env.IS_MAIN_ENVIRONMENT == 1
-        with:
-          github_token: ${{ secrets.BOT_TOKEN }}
-          branch: ${{ github.ref }}
-
-      - name: Install showcase
-        run: npm ci
-        if: github.actor != 'dependabot[bot]' || !startsWith(github.head_ref, 'dependabot/npm_and_yarn')
-        working-directory: showcase
-
-      - name: Linting showcase & starter
-        run: |
-          npm run lint:showcase
-          npm run lint:starter
-
-      - name: Testing showcase & starter
-        run: |
-          npm run test:ci:showcase
-          npm run test:ci:starter
-
-      - name: "Build showcase:ghpages"
-        run: npm run build:showcase:ghpages
 
       # See: https://github.com/marketplace/actions/upload-artifact
       - name: Upload showcase dist folder
@@ -226,12 +194,16 @@ jobs:
           local-testing: stop
         if: env.IS_MAIN_ENVIRONMENT == 2 && github.event_name == 'push'
 
-      - name: Generate starter docs coverage
-        run: npm run docs:starter:coverage
+      - name: Generate docs coverage
+        run: npm run docs:coverage
         if: env.IS_MAIN_ENVIRONMENT == 1
 
       - name: Save logs
         run: bash ./scripts/ci/print-logs.sh
+
+      - name: Combine coveralls reports
+        run: node combine-packages-coverage.js
+        if: env.IS_MAIN_ENVIRONMENT == 1
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

@@ -1,22 +1,22 @@
 name: dependabot-hook
 
 on:
-  push:
-    branches:
-    - dependabot/npm_and_yarn/*
-    
+  pull_request_target
+
 env:
   TZ: "Europe/Brussels"
   NPM_VERSION: "latest-6"
 
 jobs:
-  update-deps:
+  dummy:
     name: Update packages dependencies in new Dependabot PRs
+    if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       # See: https://github.com/marketplace/actions/checkout
       - uses: actions/checkout@v2
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
@@ -25,7 +25,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 10
-          
+
       # See: https://github.com/marketplace/actions/cache
       # See doc: https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows
       - name: Cache node modules
@@ -40,10 +40,10 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-            
+
       - name: Install npm ${{ env.NPM_VERSION }}
         run: npm i -g npm@${{ env.NPM_VERSION }}
-        
+
       - name: List main variables
         run: |
           echo "Commit SHA  : ${GITHUB_SHA}"
@@ -57,27 +57,25 @@ jobs:
           echo "Main ENV    : ${{ env.IS_MAIN_ENVIRONMENT }}"
           NODE_VERSION="$(node -v)"
           echo "Node version: $NODE_VERSION"
-     
+
       - name: Sync packages dependencies when Dependabot bumps dependenciess
         run: |
           git config --local user.name "NBB Bot"
           git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
           npm run sync:packages-dependencies
-        if: github.actor == 'dependabot[bot]'
-        
+
       - name: Push changes
         uses: ad-m/github-push-action@master
-        if: github.actor == 'dependabot[bot]'
         with:
-          github_token: ${{ secrets.BOT_TOKEN }}
-          branch: ${{ github.ref }}
-        
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build packages
         run: npm run build:trace
-        
+
       - name: Install showcase after update of Stark dependencies
         run: |
           rm showcase/package-lock.json
@@ -86,11 +84,11 @@ jobs:
           git config --local user.email "83765996+nbb-bot@users.noreply.github.com"
           git add showcase/package-lock.json
           git commit -m "chore(showcase): update package-lock.json file after update of Stark dependencies" --no-verify
-        if: github.actor != 'dependabot[bot]'
-        
+
       - name: Push changes
         uses: ad-m/github-push-action@master
-        if: github.actor == 'dependabot[bot]'
         with:
-          github_token: ${{ secrets.BOT_TOKEN }}
-          branch: ${{ github.ref }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+      
+      
