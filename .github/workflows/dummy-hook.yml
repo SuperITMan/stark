@@ -1,7 +1,7 @@
 name: Dummy hook
 
 on:
-  push:
+  pull_request_target
   
 jobs:
   dummy:
@@ -11,6 +11,8 @@ jobs:
       - name: Show vars
         run: |
           echo ${GITHUB_REF}
+          echo ${GITHUB_HEAD_REF}
+          echo ${GITHUB_BASE_REF}
           echo GitHub token: ${{ secrets.GITHUB_TOKEN }}
           echo Bot token: ${{ secrets.BOT_TOKEN }}
           echo wrong token: ${{ secrets.BOTI_TOKEN }} 
