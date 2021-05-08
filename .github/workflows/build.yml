@@ -5,6 +5,10 @@ on:
     branches:
       - master
       - /^\d+\.\d+\.x$/
+      - dependabot/npm_and_yarn/*
+    branches-ignore:
+      - dependabot/npm_and_yarn/showcase/*
+      - dependabot/npm_and_yarn/starter/*
     tags:
       - "*"
   pull_request:
@@ -23,6 +27,7 @@ env:
 jobs:
   build-and-test:
     name: Build and test on Node.js ${{ matrix.node_version }} and ${{ matrix.os }}
+    if: startsWith(github.head_ref, 'dependabot/npm_and_yarn/showcase') || startsWith(github.head_ref, 'dependabot/npm_and_yarn/starter') || !startsWith(github.head_ref, 'dependabot/npm_and_yarn')
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -38,43 +43,6 @@ jobs:
             echo "IS_MAIN_ENVIRONMENT=1" >> $GITHUB_ENV
           else
             echo "IS_MAIN_ENVIRONMENT=0" >> $GITHUB_ENV
-          fi
-
-      - name: Wait for dependabot-hook
-        if: startsWith(github.head_ref, 'dependabot/npm_and_yarn') && github.event_name == 'pull_request'
-        run: |
-          # Find the id of the last build
-          last_workflow=$(curl -X GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/dependabot-hook.yml/runs&event=pull_request&branch=${GITHUB_HEAD_REF}" \
-            -H 'Accept: application/vnd.github.antiope-preview+json' \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" | jq '[.workflow_runs[]] | first')
-          last_workflow_id=$(echo $last_workflow | jq '.id')
-          echo "The workflow id is [$last_workflow_id]."
-          echo ""
-          conclusion=$(echo $last_workflow | jq '.conclusion')
-          status=$(echo $last_workflow | jq '.status')
-          while [[ $conclusion == "null" && $status != "\"completed\"" ]]
-          do
-            echo "Sleeping for $wait_interval seconds"
-            sleep $wait_interval
-            workflow=$(curl -X GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/dependabot-hook.yml/runs&event=pull_request&branch=${GITHUB_HEAD_REF}" \
-              -H 'Accept: application/vnd.github.antiope-preview+json' \
-              -H "Authorization: Bearer $INPUT_GITHUB_TOKEN" | jq '.workflow_runs[] | select(.id == '$last_workflow_id')')
-            conclusion=$(echo $workflow | jq '.conclusion')
-            status=$(echo $workflow | jq '.status')
-            echo "Checking conclusion [$conclusion]"
-            echo "Checking status [$status]"
-          done
-          if [[ $conclusion == "\"success\"" && $status == "\"completed\"" ]]
-          then
-            echo "Yes, success"
-          else
-            # Alternative "failure"
-            echo "Conclusion is not success, its [$conclusion]."
-            if [ "$propagate_failure" = true ]
-            then
-              echo "Propagating failure to upstream job"
-              exit 1
-            fi
           fi
 
       # See: https://github.com/marketplace/actions/checkout
