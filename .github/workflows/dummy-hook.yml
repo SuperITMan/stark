@@ -11,6 +11,7 @@ jobs:
       - name: Show vars
         run: |
           echo ${GITHUB_REF}
+          echo GitHub token: ${{ secrets.GITHUB_TOKEN }}
           echo Bot token: ${{ secrets.BOT_TOKEN }}
           echo wrong token: ${{ secrets.BOTI_TOKEN }} 
       
