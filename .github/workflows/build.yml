@@ -41,7 +41,7 @@ jobs:
           fi
 
       - name: Wait for dependabot-hook
-        if: startsWith(github.head_ref, 'dependabot/npm_and_yarn') && github.event == 'pull_request'
+        if: startsWith(github.head_ref, 'dependabot/npm_and_yarn') && github.event_name == 'pull_request'
         run: |
           # Find the id of the last build
           last_workflow=$(curl -X GET "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/dependabot-hook.yml/runs&event=pull_request&branch=${GITHUB_HEAD_REF}" \
