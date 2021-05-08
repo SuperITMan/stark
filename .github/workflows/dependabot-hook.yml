@@ -10,7 +10,7 @@ env:
 jobs:
   dummy:
     name: Update packages dependencies in new Dependabot PRs
-    if: github.actor == 'dependabot[bot]'
+    if: github.actor == 'dependabot[bot]' && !startsWith(github.ref_head, 'dependabot/npm_and_yarn/showcase') && !startsWith(github.ref_head, 'dependabot/npm_and_yarn/starter')
     runs-on: ubuntu-latest
     steps:
       # See: https://github.com/marketplace/actions/checkout
