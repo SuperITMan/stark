@@ -6,9 +6,6 @@ on:
       - master
       - /^\d+\.\d+\.x$/
       - dependabot/npm_and_yarn/*
-    branches-ignore:
-      - dependabot/npm_and_yarn/showcase/*
-      - dependabot/npm_and_yarn/starter/*
     tags:
       - "*"
   pull_request:
@@ -27,7 +24,10 @@ env:
 jobs:
   build-and-test:
     name: Build and test on Node.js ${{ matrix.node_version }} and ${{ matrix.os }}
-    if: startsWith(github.head_ref, 'dependabot/npm_and_yarn/showcase') || startsWith(github.head_ref, 'dependabot/npm_and_yarn/starter') || !startsWith(github.head_ref, 'dependabot/npm_and_yarn')
+    if: |
+      (startsWith(github.head_ref, 'dependabot/npm_and_yarn/showcase') || startsWith(github.head_ref, 'dependabot/npm_and_yarn/starter')
+      || !startsWith(github.head_ref, 'dependabot/npm_and_yarn')) && startsWstartsWith(github.ref, 'dependabot/npm_and_yarn/showcase')
+      && startsWstartsWith(github.ref, 'dependabot/npm_and_yarn/starter')
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
