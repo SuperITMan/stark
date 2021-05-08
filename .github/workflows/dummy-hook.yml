@@ -1,1 +1,17 @@
+name: Dummy hook
 
+on:
+  push:
+  
+jobs:
+  dummy:
+    name: dummy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show vars
+        run: |
+          echo ${GITHUB_REF}
+          echo Bot token: ${{ secrets.BOT_TOKEN }}
+          echo wrong token: ${{ secrets.BOTI_TOKEN }} 
+      
+      
