@@ -115,7 +115,7 @@
     "@angular/animations": "^8.2.0",
     "@angular/cdk": "^8.2.0",
     "@angular/cli": "^8.3.0",
-    "@angular/common": "^8.2.0",
+    "@angular/common": "^11.2.13",
     "@angular/compiler": "^8.2.0",
     "@angular/compiler-cli": "^8.2.0",
     "@angular/core": "^8.2.0",
