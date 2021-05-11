@@ -1,7 +1,7 @@
 name: Dummy hook
 
 on:
-  pull_request_target
+  workflow_dispatch:
   
 jobs:
   dummy:
