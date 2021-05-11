@@ -28,6 +28,7 @@ for (const [packageName, fileName] of Object.entries(fileNames)) {
 	for (const [depName, depVersion] of Object.entries(packageDeps)) {
 		if (rootDeps[depName] !== depVersion) {
 			if (!checkOnly) {
+				const updatedPath = fileName.substring(1).split("/package.json")[0]
 				const commitMsg = `chore(deps): bump ${depName} in ${fileName.substring(1)} from ${depVersion.replace(
 					/[\^~]/,
 					""
