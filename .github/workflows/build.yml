@@ -28,6 +28,7 @@ env:
 jobs:
   build-and-test:
     name: Build and test on Node.js ${{ matrix.node_version }} and ${{ matrix.os }}
+    if: github.actor != 'dependabot[bot]' || startsWith(github.ref_head, 'dependabot/npm_and_yarn/showcase') || startsWith(github.ref_head, 'dependabot/npm_and_yarn/starter')
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
