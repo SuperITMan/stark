@@ -40,16 +40,6 @@ updates:
     interval: daily
     time: "04:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: "@angular/*"
-    versions:
-    - ">=8"
-  - dependency-name: typescript
-    versions:
-    - ">= 0"
-  - dependency-name: "@types/node"
-    versions:
-    - ">=11"
   commit-message:
     prefix: chore
     include: scope
@@ -59,16 +49,6 @@ updates:
     interval: daily
     time: "04:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: "@angular/*"
-    versions:
-    - ">=8"
-  - dependency-name: typescript
-    versions:
-    - ">= 0"
-  - dependency-name: "@types/node"
-    versions:
-    - ">=11"
   commit-message:
     prefix: chore
     include: scope
