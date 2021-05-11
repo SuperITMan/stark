@@ -11,6 +11,11 @@ on:
     branches:
       - master
       - /^\d+\.\d+\.x$/
+  workflow_run:
+    workflows:
+      - "dependabot-hook"
+    types:
+      - completed
 
 env:
   TZ: "Europe/Brussels"
