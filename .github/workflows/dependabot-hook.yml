@@ -27,6 +27,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 10
+          
+      - name: Create file & folder for GitHub Actions logs
+        run: |
+          # cfr scripts/_ghactions-group.sh
+          mkdir -p ${{ env.LOGS_DIR }}
+          touch ${{ env.LOGS_FILE }}
 
       # See: https://github.com/marketplace/actions/cache
       # See doc: https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows
