@@ -69,12 +69,12 @@ jobs:
           git log -n 15
         if: github.actor == 'dependabot[bot]'
         
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        if: github.actor == 'dependabot[bot]'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }}
+      #- name: Push changes
+      #  uses: ad-m/github-push-action@master
+      #  if: github.actor == 'dependabot[bot]'
+      #  with:
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+      #    branch: ${{ github.head_ref }}
         
       - name: Install dependencies
         run: npm ci
@@ -93,11 +93,11 @@ jobs:
           git log -n 15
         if: github.actor != 'dependabot[bot]'
         
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        if: github.actor == 'dependabot[bot]'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }}
+      #- name: Push changes
+      #  uses: ad-m/github-push-action@master
+      #  if: github.actor == 'dependabot[bot]'
+      #  with:
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+      #    branch: ${{ github.head_ref }}
       
       
