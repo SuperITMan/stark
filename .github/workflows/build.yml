@@ -45,7 +45,7 @@ jobs:
 
       - name: Wait for dependabot-hook
         if: |
-          startsWith(github.head_ref, 'dependabot/npm_and_yarn') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/showcase') 
+          env.IS_MAIN_ENVIRONMENT == 2 && startsWith(github.head_ref, 'dependabot/npm_and_yarn') && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/showcase') 
           && !startsWith(github.head_ref, 'dependabot/npm_and_yarn/starter') && github.event_name == 'pull_request'
         run: |
           # Find the id of the last build
