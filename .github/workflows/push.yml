@@ -1,1 +1,22 @@
+name: Push
 
+on:
+  push:
+  pull_request:
+  
+jobs:
+  test:
+    runs-on: "ubuntu-latest"
+    name: "test"
+    steps:
+      - run: |
+          what da fuck?
+          echo "Commit SHA  : ${GITHUB_SHA}"
+          echo "Reference   : ${GITHUB_REF}"
+          echo "Head branch : ${GITHUB_HEAD_REF}"
+          echo "Base branch : ${GITHUB_BASE_REF}"
+          echo "Build number: ${GITHUB_RUN_NUMBER}"
+          echo "Repository  : ${GITHUB_REPOSITORY}"
+          echo "Event       : ${GITHUB_EVENT_NAME}"
+          echo "Author      : ${GITHUB_ACTOR}"
+          
