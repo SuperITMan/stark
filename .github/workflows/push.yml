@@ -9,6 +9,11 @@ jobs:
     runs-on: "ubuntu-latest"
     name: "test"
     steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
       - run: |
           echo "what da fuck?"
           echo "Commit SHA  : ${GITHUB_SHA}"
@@ -19,4 +24,5 @@ jobs:
           echo "Repository  : ${GITHUB_REPOSITORY}"
           echo "Event       : ${GITHUB_EVENT_NAME}"
           echo "Author      : ${GITHUB_ACTOR}"
+          git log -n 10
           
