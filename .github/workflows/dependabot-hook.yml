@@ -84,6 +84,7 @@ jobs:
           npm run install:showcase
           git add showcase/package-lock.json
           git commit -m "chore(showcase): update package-lock.json file after update of Stark dependencies" --no-verify
+          git log -n 4
 
       - name: Push changes
         uses: ad-m/github-push-action@master
