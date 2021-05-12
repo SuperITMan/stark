@@ -10,7 +10,7 @@ jobs:
     name: "test"
     steps:
       - run: |
-          what da fuck?
+          echo "what da fuck?"
           echo "Commit SHA  : ${GITHUB_SHA}"
           echo "Reference   : ${GITHUB_REF}"
           echo "Head branch : ${GITHUB_HEAD_REF}"
