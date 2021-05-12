@@ -5,18 +5,14 @@ on:
     branches:
       - master
       - /^\d+\.\d+\.x$/
+      - "dependabot/npm_and_yarn/*"
     tags:
       - "*"
   pull_request:
     branches:
       - master
       - /^\d+\.\d+\.x$/
-  workflow_run:
-    workflows:
-      - dependabot-hook
-    types:
-      - completed
-
+      
 env:
   TZ: "Europe/Brussels"
   MAIN_NODEJS: "10"
