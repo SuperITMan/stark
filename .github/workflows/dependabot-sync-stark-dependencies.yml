@@ -53,6 +53,7 @@ jobs:
 
       - name: Sync stark packages dependendencies
         run: |
+          npm i replace-in-file
           echo "Sync packages dependencies when based on Dependabot update for PR ${PR_NUMBER}: $(_jq '.title')"
           npm run sync:packages-dependencies
           git push
