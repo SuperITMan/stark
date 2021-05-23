@@ -30,7 +30,7 @@ for (const [packageName, fileName] of Object.entries(fileNames)) {
 		if (rootDeps[depName] !== depVersion) {
 			if (!checkOnly) {
 				const absoluteFileName = path.resolve(__dirname, fileName);
-				const commitMsg = `chore(deps): bump ${depName} in ${fileName.substring(1)} from ${depVersion.replace(
+				const commitMsg = `chore(deps): bump ${depName} in ${fileName.substring(2)} from ${depVersion.replace(
 					/[\^~]/,
 					""
 				)} to ${rootDeps[depName].replace(/[\^~]/, "")}`;

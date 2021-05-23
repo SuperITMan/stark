@@ -24,8 +24,6 @@ jobs:
   build-and-test:
     name: Build and test on Node.js ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    if: github.actor != 'dependabot[bot]' || startsWith(github.ref_head, 'dependabot/npm_and_yarn/showcase')
-      || startsWith(github.ref_head, 'dependabot/npm_and_yarn/starter')
     strategy:
       matrix:
         node_version: ["10", "12"]
@@ -93,6 +91,9 @@ jobs:
           echo "Node version: $NODE_VERSION"
           # This ensures that we are authenticated without requiring to have an actual .npmrc file within the project
           # echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+
+      - name: Check if dependencies are in sync between root and packages
+        run: "npm run check:packages-dependencies"
 
       - name: Create file & folder for GitHub Actions logs
         run: |

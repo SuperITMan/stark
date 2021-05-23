@@ -189,7 +189,6 @@
     "install:ci:showcase": "cd showcase && npm ci && cd ..",
     "ng": "ng",
     "ngc": "ngc",
-    "postinstall": "npm run check:packages-dependencies",
     "prettier-check": "prettier \"**/*.{css,html,js,json,md,pcss,scss,ts,yml}\" --write --html-whitespace-sensitivity strict",
     "preupdate:showcase": "npm run clean:showcase",
     "preupdate:starter": "npm run clean:starter",
