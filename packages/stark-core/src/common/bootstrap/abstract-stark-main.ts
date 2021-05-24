@@ -1,6 +1,7 @@
 import { ApplicationRef, ComponentRef, enableProdMode, NgModuleRef } from "@angular/core";
 import { disableDebugTools, enableDebugTools } from "@angular/platform-browser";
-import { createNewHosts } from "@angularclass/hmr";
+// tslint:disable:no-commented-code
+// import { bootstrapHmr } from "./stark-hmr";
 
 import { StarkMain } from "./stark-main.intf";
 import { StarkEnvironment } from "../environment";
@@ -57,15 +58,15 @@ export abstract class AbstractStarkMain implements StarkMain {
 	 * Initialize by configuring HMR if it is enabled or normally instead.
 	 */
 	protected initialize = (): void => {
-		if (ENV === "development" && this.environment.hmr) {
-			if (module["hot"]) {
-				this.bootstrapHmr(module, this.main);
-			} else {
-				console.error("HMR is not enabled for webpack-dev-server! This is most probably due to a bug in Stark.");
-			}
-		} else {
-			this.invokeMain();
-		}
+		// if (ENV === "development" && this.environment.hmr) {
+		//  	if (module["hot"]) {
+		//  		bootstrapHmr(module, this.main);
+		//  	} else {
+		//  		console.error("HMR is not enabled for webpack-dev-server! This is most probably due to a bug in Stark.");
+		//  	}
+		// } else {
+		this.invokeMain();
+		// }
 	};
 
 	/**
@@ -116,34 +117,6 @@ We need great software developers like you! https://jobs.nbb.be
 
 		this.bootstrapDomReady();
 	}
-
-	/**
-	 * Configure HMR
-	 * Code based on: https://github.com/angular/angular-cli/wiki/stories-configure-hmr
-	 * Reference: https://github.com/PatrickJS/angular-hmr
-	 * @ignore
-	 */
-	protected bootstrapHmr: Function = (module: any, bootstrap: () => Promise<NgModuleRef<any>>) => {
-		if (ENV === "development") {
-			console.log("Bootstrapping HMR");
-			let ngModule: NgModuleRef<any>;
-			module.hot.accept();
-			bootstrap().then(
-				(mod: NgModuleRef<any>) => {
-					ngModule = mod;
-				},
-				(reason: any) => console.error("HMR bootstrap: bootstrap failed due to ", reason)
-			);
-
-			module.hot.dispose(() => {
-				const appRef: ApplicationRef = ngModule.injector.get(ApplicationRef);
-				const elements: any[] = appRef.components.map((c: ComponentRef<any>) => c.location.nativeElement);
-				const makeVisible: () => void = createNewHosts(elements);
-				ngModule.destroy();
-				makeVisible();
-			});
-		}
-	};
 
 	/**
 	 * Modify/decorate the NgModule instance created by Angular.
