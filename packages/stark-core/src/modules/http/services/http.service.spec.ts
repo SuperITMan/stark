@@ -1,4 +1,4 @@
-/*tslint:disable:completed-docs*/
+/* tslint:disable:completed-docs no-unbound-method */
 import createSpyObj = jasmine.createSpyObj;
 import Spy = jasmine.Spy;
 import SpyObj = jasmine.SpyObj;
@@ -958,13 +958,13 @@ describe("Service: StarkHttpService", () => {
 					const expectedEtags: { [uuid: string]: string } = {};
 					expectedEtags[mockUuid] = mockEtag;
 
-					const mockResourceWithoutUuid: MockResource = { ...mockResourceWithEtag };
+					const mockResourceWithoutUuid: Partial<MockResource> = { ...mockResourceWithEtag };
 					delete mockResourceWithoutUuid.uuid;
 
 					const httpResponse: Partial<HttpResponse<StarkHttpRawCollectionResponseData<MockResource>>> = {
 						status: expectedStatusCode,
 						body: {
-							items: [mockResourceWithoutUuid],
+							items: [<MockResource>mockResourceWithoutUuid],
 							metadata: {
 								sortedBy: [],
 								pagination: mockPaginationMetadata,
@@ -982,7 +982,7 @@ describe("Service: StarkHttpService", () => {
 						(result: StarkCollectionResponseWrapper<MockResource>) => {
 							expect(result).toBeDefined();
 							expect(result.starkHttpStatusCode).toBe(expectedStatusCode);
-							assertResponseData(result.data, [mockResourceWithoutUuid]); // should contain the etag now
+							assertResponseData(result.data, [<MockResource>mockResourceWithoutUuid]); // should contain the etag now
 							assertCollectionMetadata(result.metadata, {
 								sortedBy: [],
 								pagination: mockPaginationMetadata,
@@ -1522,7 +1522,8 @@ function httpHeadersGetter(inputHeaders: { [name: string]: string }): HttpHeader
 }
 
 class HttpServiceHelper<P extends StarkResource> extends StarkHttpServiceImpl<P> {
-	public retryDelay!: number;
+	// `declare` is necessary because this declaration overwrites StarkHttpServiceImpl `retryDelay` declaration.
+	public declare retryDelay: number;
 
 	public constructor(logger: MockStarkLoggingService, sessionService: MockStarkSessionService, httpClient: SpyObj<HttpClient>) {
 		super(logger, sessionService, <HttpClient>(<unknown>httpClient));
