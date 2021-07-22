@@ -4,8 +4,8 @@ import "core-js/es";
 import "core-js/proposals/reflect-metadata";
 
 /* tslint:disable:no-import-side-effect */
-import "zone.js/dist/zone";
-import "zone.js/dist/zone-testing";
+import "zone.js";
+import "zone.js/testing";
 import "zone.js/dist/long-stack-trace-zone";
 /* tslint:enable:no-import-side-effect */
 

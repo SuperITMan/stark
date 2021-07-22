@@ -1,4 +1,4 @@
-/*tslint:disable:completed-docs no-big-function*/
+/* tslint:disable:completed-docs no-big-function no-unbound-method */
 import { HttpHeaders, HttpRequest } from "@angular/common/http";
 import { EventEmitter, Injector } from "@angular/core";
 import { DEFAULT_INTERRUPTSOURCES, Idle, InterruptSource } from "@ng-idle/core";
