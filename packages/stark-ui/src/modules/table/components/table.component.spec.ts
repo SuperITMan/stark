@@ -1,6 +1,6 @@
 /* tslint:disable:completed-docs component-max-inline-declarations no-identical-functions no-lifecycle-call deprecation */
 import { SelectionModel } from "@angular/cdk/collections";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Component, NO_ERRORS_SCHEMA, ViewChild } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
@@ -138,47 +138,49 @@ describe("TableComponent", () => {
 	const columnSelectSelector = "cdk-column-select";
 	const rowSelector = "table tbody tr";
 
-	beforeEach(async(() => {
-		return TestBed.configureTestingModule({
-			imports: [
-				// Common
-				FormsModule,
-				ReactiveFormsModule,
-				NoopAnimationsModule,
-				TranslateModule.forRoot(),
+	beforeEach(
+		waitForAsync(() => {
+			return TestBed.configureTestingModule({
+				imports: [
+					// Common
+					FormsModule,
+					ReactiveFormsModule,
+					NoopAnimationsModule,
+					TranslateModule.forRoot(),
 
-				// Material
-				MatCheckboxModule,
-				MatDialogModule,
-				MatInputModule,
-				MatFormFieldModule,
-				MatMenuModule,
-				MatPaginatorModule,
-				MatSelectModule,
-				MatTableModule,
-				MatTooltipModule
-			],
-			declarations: [
-				TestHostComponent,
-				StarkActionBarComponent,
-				StarkPaginationComponent,
-				StarkTableComponent,
-				StarkTableColumnComponent,
-				StarkTableMultisortDialogComponent,
-				StarkTableRowContentDirective
-			],
-			providers: [
-				{ provide: STARK_LOGGING_SERVICE, useValue: new MockStarkLoggingService() },
-				TranslateService,
-				{
-					// See https://github.com/NationalBankBelgium/stark/issues/1088
-					provide: HAMMER_LOADER,
-					useValue: (): Promise<any> => new Subject<any>().toPromise()
-				}
-			],
-			schemas: [NO_ERRORS_SCHEMA] // to avoid errors due to "mat-icon" directive not known (which we don't want to add in these tests)
-		}).compileComponents();
-	}));
+					// Material
+					MatCheckboxModule,
+					MatDialogModule,
+					MatInputModule,
+					MatFormFieldModule,
+					MatMenuModule,
+					MatPaginatorModule,
+					MatSelectModule,
+					MatTableModule,
+					MatTooltipModule
+				],
+				declarations: [
+					TestHostComponent,
+					StarkActionBarComponent,
+					StarkPaginationComponent,
+					StarkTableComponent,
+					StarkTableColumnComponent,
+					StarkTableMultisortDialogComponent,
+					StarkTableRowContentDirective
+				],
+				providers: [
+					{ provide: STARK_LOGGING_SERVICE, useValue: new MockStarkLoggingService() },
+					TranslateService,
+					{
+						// See https://github.com/NationalBankBelgium/stark/issues/1088
+						provide: HAMMER_LOADER,
+						useValue: (): Promise<any> => new Subject<any>().toPromise()
+					}
+				],
+				schemas: [NO_ERRORS_SCHEMA] // to avoid errors due to "mat-icon" directive not known (which we don't want to add in these tests)
+			}).compileComponents();
+		})
+	);
 
 	beforeEach(() => {
 		hostFixture = TestBed.createComponent(TestHostComponent);
@@ -1003,7 +1005,7 @@ describe("TableComponent", () => {
 				hostComponent.tableFilter = { globalFilterValue: "" };
 				hostFixture.detectChanges();
 
-				expect(globalFilterButton.classes["filter-enabled"]).toBe(false);
+				expect(globalFilterButton.classes["filter-enabled"]).toBeUndefined();
 			});
 		});
 
