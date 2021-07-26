@@ -1,7 +1,7 @@
 /* tslint:disable:no-null-keyword completed-docs component-max-inline-declarations no-big-function */
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { Component, EventEmitter, ViewChild } from "@angular/core";
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from "@angular/core/testing";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors } from "@angular/forms";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from "@angular/material-moment-adapter";
@@ -51,31 +51,33 @@ describe("DateRangePickerComponent", () => {
 		});
 	}
 
-	beforeEach(async(() => {
-		return TestBed.configureTestingModule({
-			declarations: [
-				StarkTimestampMaskDirective,
-				StarkDatePickerComponent,
-				StarkDateRangePickerComponent,
-				TestModelComponent,
-				TestFormGroupComponent
-			],
-			imports: [
-				NoopAnimationsModule,
-				MatDatepickerModule,
-				MatFormFieldModule,
-				FormsModule,
-				ReactiveFormsModule,
-				TranslateModule.forRoot()
-			],
-			providers: [
-				{ provide: STARK_LOGGING_SERVICE, useValue: new MockStarkLoggingService() },
-				{ provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-				{ provide: MAT_DATE_LOCALE, useValue: "en-us" },
-				{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] }
-			]
-		}).compileComponents();
-	}));
+	beforeEach(
+		waitForAsync(() => {
+			TestBed.configureTestingModule({
+				declarations: [
+					StarkTimestampMaskDirective,
+					StarkDatePickerComponent,
+					StarkDateRangePickerComponent,
+					TestModelComponent,
+					TestFormGroupComponent
+				],
+				imports: [
+					NoopAnimationsModule,
+					MatDatepickerModule,
+					MatFormFieldModule,
+					FormsModule,
+					ReactiveFormsModule,
+					TranslateModule.forRoot()
+				],
+				providers: [
+					{ provide: STARK_LOGGING_SERVICE, useValue: new MockStarkLoggingService() },
+					{ provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+					{ provide: MAT_DATE_LOCALE, useValue: "en-us" },
+					{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] }
+				]
+			}).compileComponents();
+		})
+	);
 
 	describe("uncontrolled", () => {
 		let fixture: ComponentFixture<StarkDateRangePickerComponent>;
@@ -499,7 +501,7 @@ describe("DateRangePickerComponent", () => {
 
 				expect(mockObserver.next).toHaveBeenCalledTimes(1);
 				expect(mockObserver.next).toHaveBeenCalledWith({
-					startDate: null, // TODO: null is emitted instead of undefined because it seems Angular Forms work internally with null initial values rather than undefined
+					startDate: undefined,
 					endDate: endDate
 				});
 				expect(mockObserver.error).not.toHaveBeenCalled();
