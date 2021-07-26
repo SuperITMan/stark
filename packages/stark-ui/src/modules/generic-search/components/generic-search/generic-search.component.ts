@@ -178,7 +178,7 @@ export class StarkGenericSearchComponent extends AbstractStarkUiComponent implem
 	 * The form model object is passed as parameter to this function.
 	 */
 	@Output()
-	public readonly searchTriggered = new EventEmitter<FormGroup | undefined>();
+	public readonly searchTriggered = new EventEmitter<FormGroup>();
 
 	/**
 	 * Callback function to be called when the visibility of the generic form changes.

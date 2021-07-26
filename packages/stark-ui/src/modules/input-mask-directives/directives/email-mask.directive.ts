@@ -3,6 +3,7 @@ import { COMPOSITION_BUFFER_MODE, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { CombinedPipeMask } from "text-mask-core";
 import { emailMask } from "text-mask-addons";
 import { MaskedInputDirective, TextMaskConfig as Ng2TextMaskConfig } from "angular2-text-mask";
+import { BooleanInput } from "@angular/cdk/coercion";
 
 /**
  * @ignore
@@ -61,6 +62,10 @@ export class StarkEmailMaskDirective extends MaskedInputDirective implements OnC
 	/* tslint:disable:no-input-rename */
 	@Input("starkEmailMask")
 	public maskConfig = true; // enabled by default
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_maskConfig: BooleanInput;
 
 	/**
 	 * Class constructor

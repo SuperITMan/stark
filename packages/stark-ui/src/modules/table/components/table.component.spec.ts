@@ -205,9 +205,9 @@ describe("TableComponent", () => {
 			expect(component.columnProperties).toEqual([]);
 			expect(component.data).toBe(hostComponent.dummyData);
 			expect(component.filter).toBeDefined(); // the default filter is set
-			expect(component.fixedHeader).toBe(hostComponent.fixedHeader);
+			expect(component.fixedHeader).toBe(<any>hostComponent.fixedHeader);
 			expect(component.multiSelect).toBe(hostComponent.multiSelect);
-			expect(component.multiSort).toBe(hostComponent.multiSort);
+			expect(component.multiSort).toBe(<any>hostComponent.multiSort);
 			expect(component.orderProperties).toBe(hostComponent.orderProperties);
 			expect(component.showRowsCounter).toBe(false);
 			expect(component.showRowIndex).toBe(false);
