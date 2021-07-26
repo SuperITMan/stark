@@ -386,13 +386,13 @@ export class StarkPaginationComponent extends MatPaginator implements OnInit, On
 					input[2] = <number>this.paginationConfig.page;
 				}
 
-				if (<number>input[2] - 1 === min + 1) {
+				if (input[2] - 1 === min + 1) {
 					input[1] = min + 1;
 				} else {
 					input[1] = "...";
 				}
 
-				if (<number>input[2] + 1 === max - 1) {
+				if (input[2] + 1 === max - 1) {
 					input[3] = max - 1;
 				} else {
 					input[3] = "...";

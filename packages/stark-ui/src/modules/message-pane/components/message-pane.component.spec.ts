@@ -1,7 +1,7 @@
 /* tslint:disable:completed-docs no-big-function no-duplicate-string max-union-size no-identical-functions no-lifecycle-call */
 
 /* angular imports */
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from "@angular/core/testing";
 import { Component, DebugElement, NO_ERRORS_SCHEMA, ViewChild } from "@angular/core";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { By } from "@angular/platform-browser";
@@ -168,18 +168,20 @@ describe("MessagePaneComponent", () => {
 	/**
 	 * async beforeEach
 	 */
-	beforeEach(async(() => {
-		return TestBed.configureTestingModule({
-			declarations: [StarkMessagePaneComponent, TestHostComponent],
-			imports: [CommonModule, MatSelectModule, MatOptionModule, FormsModule, TranslateModule.forRoot(), NoopAnimationsModule],
-			providers: [
-				{ provide: STARK_LOGGING_SERVICE, useValue: new MockStarkLoggingService() },
-				{ provide: STARK_MESSAGE_PANE_SERVICE, useValue: mockMessagePaneService },
-				TranslateService
-			],
-			schemas: [NO_ERRORS_SCHEMA] // to avoid errors due to "mat-icon" directive not known (which we don't want to add in these tests)
-		}).compileComponents();
-	}));
+	beforeEach(
+		waitForAsync(() => {
+			return TestBed.configureTestingModule({
+				declarations: [StarkMessagePaneComponent, TestHostComponent],
+				imports: [CommonModule, MatSelectModule, MatOptionModule, FormsModule, TranslateModule.forRoot(), NoopAnimationsModule],
+				providers: [
+					{ provide: STARK_LOGGING_SERVICE, useValue: new MockStarkLoggingService() },
+					{ provide: STARK_MESSAGE_PANE_SERVICE, useValue: mockMessagePaneService },
+					TranslateService
+				],
+				schemas: [NO_ERRORS_SCHEMA] // to avoid errors due to "mat-icon" directive not known (which we don't want to add in these tests)
+			}).compileComponents();
+		})
+	);
 
 	beforeEach(() => {
 		hostFixture = TestBed.createComponent(TestHostComponent);
@@ -273,13 +275,13 @@ describe("MessagePaneComponent", () => {
 			expect(component.hide$).toBeDefined();
 			(<Observable<string>>component.hide$).subscribe(mockObserver);
 
-			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBe(false);
+			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBeUndefined();
 			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(true); // not yet removed
 
 			component.showPane();
 
 			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(true); // because of showPane()
-			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBe(false);
+			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBeUndefined();
 
 			expect(mockObserver.next).not.toHaveBeenCalled();
 			expect(mockObserver.error).not.toHaveBeenCalled();
@@ -288,7 +290,7 @@ describe("MessagePaneComponent", () => {
 			tick(component.hideAnimationDelay + 10);
 
 			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(true); // because of showPane()
-			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBe(false);
+			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBeUndefined();
 
 			expect(mockObserver.next).toHaveBeenCalledTimes(1);
 			expect(mockObserver.next.calls.argsFor(0)[0]).toContain("pane hidden");
@@ -311,11 +313,11 @@ describe("MessagePaneComponent", () => {
 			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(true);
 
 			component.hidePane();
-			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBe(false);
+			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBeUndefined();
 			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(true); // not yet removed
 
 			tick(component.hideAnimationDelay + 10);
-			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(false);
+			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBeUndefined();
 		}));
 
 		it("should create a new hide$ Subject that should emit once the hide process has finished", fakeAsync(() => {
@@ -338,11 +340,11 @@ describe("MessagePaneComponent", () => {
 			expect(mockObserver.error).not.toHaveBeenCalled();
 			expect(mockObserver.complete).not.toHaveBeenCalled();
 
-			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBe(false);
+			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBeUndefined();
 			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(true); // not yet removed
 
 			tick(component.hideAnimationDelay + 10);
-			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(false);
+			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBeUndefined();
 
 			expect(mockObserver.next).toHaveBeenCalledTimes(1);
 			expect(mockObserver.next.calls.argsFor(0)[0]).toContain("pane hidden");
@@ -432,7 +434,7 @@ describe("MessagePaneComponent", () => {
 				hostFixture.detectChanges();
 
 				expect(component.expandMessages).toHaveBeenCalledTimes(1);
-				expect(debugElementComponent.classes["collapsed"]).toBe(false);
+				expect(debugElementComponent.classes["collapsed"]).toBeUndefined();
 			});
 
 			it("should clear all messages and hide the message pane component", () => {

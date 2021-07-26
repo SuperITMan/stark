@@ -13,7 +13,6 @@ import {
 	Output,
 	Renderer2,
 	SimpleChanges,
-	Type,
 	ViewChild,
 	ViewEncapsulation
 } from "@angular/core";
@@ -59,7 +58,8 @@ const componentName = "stark-dropdown";
 		}
 	]
 })
-export class StarkDropdownComponent extends AbstractStarkUiComponent
+export class StarkDropdownComponent
+	extends AbstractStarkUiComponent
 	implements OnInit, OnChanges, OnInit, OnDestroy, ControlValueAccessor, MatFormFieldControl<any | any[]>, Validator {
 	/**
 	 * Variable that will be incremented automatically to serve as unique id for every new instance of this component
@@ -298,7 +298,7 @@ export class StarkDropdownComponent extends AbstractStarkUiComponent
 		this.optionsAreSimpleTypes = this.areSimpleTypes();
 
 		// tslint:disable-next-line:no-null-keyword
-		this.ngControl = this.injector.get<NgControl>(<Type<NgControl>>NgControl, <any>null);
+		this.ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 
 		if (this.ngControl !== null) {
 			this.ngControl.valueAccessor = this;

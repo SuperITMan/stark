@@ -1,9 +1,8 @@
 /* tslint:disable:completed-docs no-lifecycle-call */
 import { Observable, of, Subject } from "rxjs";
 import { Component, ViewChild } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
-import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
 import { STARK_LOGGING_SERVICE } from "@nationalbankbelgium/stark-core";
 import { MockStarkLoggingService } from "@nationalbankbelgium/stark-core/testing";
 import { StarkProgressIndicatorType, StarkProgressIndicatorConfig } from "../entities";
@@ -31,24 +30,20 @@ describe("ProgressIndicatorDirective", () => {
 
 	let mockStarkProgressIndicatorService!: MockStarkProgressIndicatorService;
 
-	beforeEach(async(() => {
-		mockStarkProgressIndicatorService = new MockStarkProgressIndicatorService();
+	beforeEach(
+		waitForAsync(() => {
+			mockStarkProgressIndicatorService = new MockStarkProgressIndicatorService();
 
-		return TestBed.configureTestingModule({
-			imports: [],
-			declarations: [TestComponent, StarkProgressIndicatorComponent, StarkProgressIndicatorDirective],
-			providers: [
-				{ provide: STARK_PROGRESS_INDICATOR_SERVICE, useValue: mockStarkProgressIndicatorService },
-				{ provide: STARK_LOGGING_SERVICE, useValue: new MockStarkLoggingService() }
-			]
+			TestBed.configureTestingModule({
+				imports: [],
+				declarations: [TestComponent, StarkProgressIndicatorComponent, StarkProgressIndicatorDirective],
+				providers: [
+					{ provide: STARK_PROGRESS_INDICATOR_SERVICE, useValue: mockStarkProgressIndicatorService },
+					{ provide: STARK_LOGGING_SERVICE, useValue: new MockStarkLoggingService() }
+				]
+			}).compileComponents();
 		})
-			.overrideModule(BrowserDynamicTestingModule, {
-				// FIXME review after https://github.com/angular/angular/issues/10760
-				// add entryComponent to TestingModule (suggested in https://github.com/angular/angular/issues/10760#issuecomment-250522300)
-				set: { entryComponents: [StarkProgressIndicatorComponent] }
-			})
-			.compileComponents();
-	}));
+	);
 
 	beforeEach(() => {
 		mockStarkProgressIndicatorService.isVisible.and.returnValue(new Observable());
@@ -109,19 +104,19 @@ describe("ProgressIndicatorDirective", () => {
 			const hostElement = hostFixture.debugElement.query(By.css(hostElementSelector));
 
 			expect(hostElement).toBeTruthy();
-			expect(hostElement.classes).toEqual({}); // host element should be shown
+			expect(hostElement.classes).toEqual({ "": true }); // host element should be shown
 			expect(progressIndicatorComponent).toBeFalsy(); // progress indicator should be hidden
 
 			isVisible$.next(true); // show
 			progressIndicatorComponent = hostFixture.debugElement.query(By.directive(StarkProgressIndicatorComponent));
 
-			expect(hostElement.classes).toEqual({ "stark-hide": true }); // host element should be hidden
+			expect(hostElement.classes["stark-hide"]).toBe(true); // host element should be hidden
 			expect(progressIndicatorComponent).toBeTruthy(); // progress indicator should be shown
 
 			isVisible$.next(false); // hide again
 			progressIndicatorComponent = hostFixture.debugElement.query(By.directive(StarkProgressIndicatorComponent));
 
-			expect(hostElement.classes).toEqual({ "stark-hide": false }); // host element should be shown
+			expect(hostElement.classes["stark-hide"]).toBeUndefined(); // host element should be shown
 			expect(progressIndicatorComponent).toBeFalsy(); // progress indicator should be hidden
 		});
 	});
