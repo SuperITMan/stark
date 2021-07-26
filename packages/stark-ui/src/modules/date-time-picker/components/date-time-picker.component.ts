@@ -14,7 +14,6 @@ import {
 	Output,
 	Renderer2,
 	SimpleChanges,
-	Type,
 	ViewChild
 } from "@angular/core";
 import {
@@ -32,7 +31,7 @@ import {
 	Validators
 } from "@angular/forms";
 import { FocusMonitor, FocusOrigin } from "@angular/cdk/a11y";
-import { coerceBooleanProperty } from "@angular/cdk/coercion";
+import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
 import { MatFormField, MatFormFieldControl } from "@angular/material/form-field";
 import moment from "moment";
 import { Subject, Subscription } from "rxjs";
@@ -173,8 +172,8 @@ export class StarkDateTimePickerComponent
 		return this._required;
 	}
 
-	public set required(isRequired: boolean) {
-		this._required = coerceBooleanProperty(isRequired);
+	public set required(value: boolean) {
+		this._required = coerceBooleanProperty(value);
 		if (this._required) {
 			this.dateTimeFormGroup.controls["date"].setValidators([Validators.required]);
 			this.dateTimeFormGroup.controls["time"].setValidators([Validators.required]);
@@ -183,6 +182,10 @@ export class StarkDateTimePickerComponent
 			this.dateTimeFormGroup.controls["time"].clearValidators();
 		}
 	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_required: BooleanInput;
 
 	/**
 	 * @ignore
@@ -198,10 +201,10 @@ export class StarkDateTimePickerComponent
 		return this._disabled;
 	}
 
-	public set disabled(isDisabled: boolean) {
-		this._disabled = coerceBooleanProperty(isDisabled);
+	public set disabled(value: boolean) {
+		this._disabled = coerceBooleanProperty(value);
 
-		if (isDisabled) {
+		if (this._disabled) {
 			this.dateTimeFormGroup.disable();
 		} else {
 			this.dateTimeFormGroup.enable();
@@ -499,7 +502,7 @@ export class StarkDateTimePickerComponent
 	 * Component lifecycle hook
 	 */
 	public ngOnInit(): void {
-		this.ngControl = this.injector.get<NgControl>(<Type<NgControl>>NgControl, <any>null);
+		this.ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 
 		if (this.ngControl !== null) {
 			this.ngControl.valueAccessor = this;

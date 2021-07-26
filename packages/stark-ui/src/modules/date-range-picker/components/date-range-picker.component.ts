@@ -11,7 +11,6 @@ import {
 	OnInit,
 	Output,
 	Renderer2,
-	Type,
 	ViewChild,
 	ViewEncapsulation
 } from "@angular/core";
@@ -33,6 +32,7 @@ import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium
 import { AbstractStarkUiComponent } from "../../../common/classes/abstract-component";
 import { StarkDatePickerComponent, StarkDatePickerFilter, StarkDatePickerMaskConfig } from "../../date-picker/components";
 import { StarkDateRangePickerEvent } from "./date-range-picker-event.intf";
+import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
 
 /**
  * @ignore
@@ -251,7 +251,23 @@ export class StarkDateRangePickerComponent extends AbstractStarkUiComponent impl
 	 * Whether the date pickers are required
 	 */
 	@Input()
-	public required = false;
+	public get required(): boolean {
+		return this._required;
+	}
+
+	public set required(value: boolean) {
+		this._required = coerceBooleanProperty(value);
+	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_required: BooleanInput;
+
+	/**
+	 * @ignore
+	 * @internal
+	 */
+	private _required = false;
 
 	/**
 	 * HTML "name" attribute of the element.
@@ -431,7 +447,7 @@ export class StarkDateRangePickerComponent extends AbstractStarkUiComponent impl
 	 */
 	private _setupNgControl(): void {
 		// Get the ngControl from the injector
-		const ngControl = this.injector.get<NgControl>(<Type<NgControl>>NgControl, <any>null);
+		const ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 		if (!ngControl) {
 			return;
 		}
