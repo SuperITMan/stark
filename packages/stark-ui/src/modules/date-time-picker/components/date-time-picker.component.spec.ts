@@ -285,8 +285,8 @@ describe("DateTimePickerComponent", () => {
 				expect(component.dateFilter).toBeUndefined();
 				expect(component.disabled).toBe(false);
 				expect(component.required).toBe(false);
-				expect(component.max).toBeUndefined();
-				expect(component.min).toBeUndefined();
+				expect(component.max).toBeNull();
+				expect(component.min).toBeNull();
 				expect(component.pickerId).toBeUndefined();
 				expect(component.pickerName).toBeUndefined();
 				expect(component.placeholder).toEqual("");
@@ -630,8 +630,8 @@ describe("DateTimePickerComponent", () => {
 				expect(component.dateFilter).toBeUndefined();
 				expect(component.disabled).toBe(false);
 				expect(component.required).toBe(false);
-				expect(component.max).toBeUndefined();
-				expect(component.min).toBeUndefined();
+				expect(component.max).toBeNull();
+				expect(component.min).toBeNull();
 				expect(component.pickerId).toBeUndefined();
 				expect(component.pickerName).toBeUndefined();
 				expect(component.placeholder).toEqual("");

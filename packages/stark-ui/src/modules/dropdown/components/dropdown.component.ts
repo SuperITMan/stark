@@ -23,7 +23,7 @@ import { Subject, Subscription } from "rxjs";
 import { MatFormField, MatFormFieldControl } from "@angular/material/form-field";
 import { FocusMonitor, FocusOrigin } from "@angular/cdk/a11y";
 import { MatSelect, MatSelectChange } from "@angular/material/select";
-import { coerceBooleanProperty } from "@angular/cdk/coercion";
+import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
 import { TranslateService } from "@ngx-translate/core";
 import isEqual from "lodash-es/isEqual";
 
@@ -123,7 +123,23 @@ export class StarkDropdownComponent
 	 * will enable this feature. (optional)
 	 */
 	@Input()
-	public multiSelect = false;
+	public get multiSelect(): boolean {
+		return this._multiSelect;
+	}
+
+	public set multiSelect(value: boolean) {
+		this._multiSelect = coerceBooleanProperty(value);
+	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_multiSelect: BooleanInput;
+
+	/**
+	 * @ignore
+	 * @internal
+	 */
+	private _multiSelect = false;
 
 	/**
 	 * Array of options to be included in the dropdown list. This parameter is a one-way
@@ -158,7 +174,23 @@ export class StarkDropdownComponent
 	 * If the dropdown is required or not. by default, the dropdown is not required
 	 */
 	@Input()
-	public required = false;
+	public get required(): boolean {
+		return this._required;
+	}
+
+	public set required(value: boolean) {
+		this._required = coerceBooleanProperty(value);
+	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_required: BooleanInput;
+
+	/**
+	 * @ignore
+	 * @internal
+	 */
+	private _required = false;
 
 	/**
 	 * Source object to be bound to the dropdown ngModel.

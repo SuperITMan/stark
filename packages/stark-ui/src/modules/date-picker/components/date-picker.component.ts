@@ -141,7 +141,43 @@ export class StarkDatePickerComponent
 	 * - If a {@link StarkTimestampMaskConfig} is passed, it is set as the date mask config.
 	 */
 	@Input()
-	public dateMask?: StarkDatePickerMaskConfig;
+	public set dateMask(value: StarkDatePickerMaskConfig) {
+		if (isStarkTimestampMaskConfig(value)) {
+			// only valid configs will be passed to the mask directive
+			this.dateMaskConfig = value;
+		} else if (typeof value !== "object") {
+			this.dateMaskConfig = coerceBooleanProperty(value) ? DEFAULT_DATE_MASK_CONFIG : undefined;
+		} else {
+			throw new Error(
+				componentName + ": the provided dateMask is not of type `StarkDatePickerMaskConfig`. Please provide a correct value."
+			);
+		}
+
+		if (isStarkTimestampMaskConfig(this.dateMaskConfig)) {
+			const dateInputFormats: string[] =
+				this.dateFormats.parse.dateInput instanceof Array ? this.dateFormats.parse.dateInput : [this.dateFormats.parse.dateInput];
+
+			const isValidParser: boolean = dateInputFormats.some((format: string) =>
+				// tslint:disable-next-line:no-non-null-assertion
+				moment("01-12-10", format).isSame(moment("01-12-10", this.dateMaskConfig!.format), "day")
+			);
+
+			if (!isValidParser) {
+				throw new Error(
+					componentName +
+						': dateMask.format ["' +
+						this.dateMaskConfig.format +
+						'"] and the provided parse format(s) in MAT_DATE_FORMATS ["' +
+						dateInputFormats.join('","') +
+						'"] are NOT compatible. Please adapt one of them.'
+				);
+			}
+		}
+	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_dateMask: BooleanInput | StarkDatePickerMaskConfig;
 
 	/**
 	 * Whether the datepicker is disabled
@@ -515,41 +551,6 @@ export class StarkDatePickerComponent
 				this.ngControl.control.updateValueAndValidity({ emitEvent: false });
 			}
 			this.stateChanges.next();
-		}
-
-		if (changes["dateMask"]) {
-			if (isStarkTimestampMaskConfig(changes["dateMask"].currentValue)) {
-				// only valid configs will be passed to the mask directive
-				this.dateMaskConfig = changes["dateMask"].currentValue;
-			} else if (typeof changes["dateMask"].currentValue !== "object") {
-				this.dateMaskConfig = coerceBooleanProperty(changes["dateMask"].currentValue) ? DEFAULT_DATE_MASK_CONFIG : undefined;
-			} else {
-				throw new Error(
-					componentName + ": the provided dateMask is not of type `StarkDatePickerMaskConfig`. Please provide a correct value."
-				);
-			}
-
-			if (this.dateMaskConfig) {
-				const dateInputFormats: string[] =
-					this.dateFormats.parse.dateInput instanceof Array
-						? this.dateFormats.parse.dateInput
-						: [this.dateFormats.parse.dateInput];
-
-				const isValidParser: boolean = dateInputFormats.some((format: string) =>
-					moment("01-12-10", format).isSame(moment("01-12-10", (<StarkTimestampMaskConfig>this.dateMaskConfig).format), "day")
-				);
-
-				if (!isValidParser) {
-					throw new Error(
-						componentName +
-							': dateMask.format ["' +
-							this.dateMaskConfig.format +
-							'"] and the provided parse format(s) in MAT_DATE_FORMATS ["' +
-							dateInputFormats.join('","') +
-							'"] are NOT compatible. Please adapt one of them.'
-					);
-				}
-			}
 		}
 	}
 

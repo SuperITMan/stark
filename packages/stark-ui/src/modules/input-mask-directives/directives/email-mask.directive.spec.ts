@@ -5,6 +5,7 @@ import { By } from "@angular/platform-browser";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Observer } from "rxjs";
 import { StarkEmailMaskDirective } from "./email-mask.directive";
+import { BooleanInput } from "@angular/cdk/coercion";
 
 describe("EmailMaskDirective", () => {
 	let fixture: ComponentFixture<TestComponent>;
@@ -16,7 +17,7 @@ describe("EmailMaskDirective", () => {
 		template: getTemplate("[starkEmailMask]='emailMaskConfig'")
 	})
 	class TestComponent {
-		public emailMaskConfig?: boolean | "" = true;
+		public emailMaskConfig: BooleanInput = true;
 		public ngModelValue = "";
 		public formControl = new FormControl("");
 	}

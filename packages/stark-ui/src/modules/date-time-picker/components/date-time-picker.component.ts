@@ -264,13 +264,61 @@ export class StarkDateTimePickerComponent
 	 * Input for {@link StarkDatePickerComponent}
 	 */
 	@Input()
-	public max?: Date;
+	public set max(value: moment.Moment | null) {
+		if (value === undefined) {
+			// tslint:disable-next-line:no-null-keyword
+			this._max = null;
+		} else if (value instanceof Date) {
+			this._max = moment(value);
+		} else {
+			this._max = value;
+		}
+	}
+
+	public get max(): moment.Moment | null {
+		return this._max;
+	}
+
+	// Information about input setter coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name max-union-size prefer-optional
+	public static ngAcceptInputType_max: Date | undefined | moment.Moment | null;
+
+	/**
+	 * @ignore
+	 * Angular expects a Moment or null value.
+	 */
+	// tslint:disable-next-line:no-null-keyword
+	private _max: moment.Moment | null = null;
 
 	/**
 	 * Input for {@link StarkDatePickerComponent}
 	 */
 	@Input()
-	public min?: Date;
+	public set min(value: moment.Moment | null) {
+		if (value === undefined) {
+			// tslint:disable-next-line:no-null-keyword
+			this._min = null;
+		} else if (value instanceof Date) {
+			this._min = moment(value);
+		} else {
+			this._min = value;
+		}
+	}
+
+	public get min(): moment.Moment | null {
+		return this._min;
+	}
+
+	// Information about input setter coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name max-union-size prefer-optional
+	public static ngAcceptInputType_min: Date | undefined | moment.Moment | null;
+
+	/**
+	 * @ignore
+	 * Angular expects a Moment or null value.
+	 */
+	// tslint:disable-next-line:no-null-keyword
+	public _min: moment.Moment | null = null;
 
 	/**
 	 * Output that will emit a specific date whenever the selection has changed
@@ -528,10 +576,10 @@ export class StarkDateTimePickerComponent
 		if (changes["min"] || changes["max"]) {
 			const validators: ValidatorFn[] = [];
 			if (this.min) {
-				validators.push(this._starkMinDateValidator(this.min));
+				validators.push(this._starkMinDateValidator(this.min.toDate()));
 			}
 			if (this.max) {
-				validators.push(this._starkMaxDateValidator(this.max));
+				validators.push(this._starkMaxDateValidator(this.max.toDate()));
 			}
 			this.dateTimeFormGroup.setValidators(validators);
 		}

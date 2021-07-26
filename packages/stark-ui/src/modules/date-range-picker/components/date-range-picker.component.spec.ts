@@ -104,8 +104,8 @@ describe("DateRangePickerComponent", () => {
 				expect(component.endDate).toBeUndefined();
 				expect(component.endDateLabel).toBeDefined();
 				expect(component.endDateLabel).toEqual("STARK.DATE_RANGE_PICKER.TO");
-				expect(component.endMaxDate).toBeUndefined();
-				expect(component.endMinDate).toBeUndefined();
+				expect(component.endMaxDate).toBeNull();
+				expect(component.endMinDate).toBeNull();
 				expect(component.rangePickerId).toBeDefined();
 				expect(component.rangePickerId).toEqual("");
 				expect(component.rangePickerName).toBeDefined();
@@ -113,8 +113,8 @@ describe("DateRangePickerComponent", () => {
 				expect(component.startDate).toBeUndefined();
 				expect(component.startDateLabel).toBeDefined();
 				expect(component.startDateLabel).toEqual("STARK.DATE_RANGE_PICKER.FROM");
-				expect(component.startMaxDate).toBeUndefined();
-				expect(component.startMinDate).toBeUndefined();
+				expect(component.startMaxDate).toBeNull();
+				expect(component.startMinDate).toBeNull();
 				expect(component.dateRangeChanged).toBeDefined();
 				expect(component.dateRangeChanged).toEqual(new EventEmitter<StarkDateRangePickerEvent>());
 			});
@@ -135,11 +135,11 @@ describe("DateRangePickerComponent", () => {
 				component.startDateLabel = "startDateLabel";
 				component.endDateLabel = "endDateLabel";
 				const minDate = new Date(2018, 6, 1);
-				component.startMinDate = minDate;
-				component.endMinDate = minDate;
+				component.startMinDate = <any>minDate;
+				component.endMinDate = <any>minDate;
 				const maxDate = new Date(2018, 6, 2);
-				component.startMaxDate = maxDate;
-				component.endMaxDate = maxDate;
+				component.startMaxDate = <any>maxDate;
+				component.endMaxDate = <any>maxDate;
 				fixture.detectChanges();
 
 				expect(fixture.nativeElement.querySelector("#test-id-start-input")).toBeTruthy();

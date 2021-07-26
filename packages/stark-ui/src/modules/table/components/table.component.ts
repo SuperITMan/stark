@@ -25,7 +25,7 @@ import { FormControl } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatColumnDef, MatTable, MatTableDataSource } from "@angular/material/table";
 import { SelectionChange, SelectionModel } from "@angular/cdk/collections";
-import { coerceBooleanProperty } from "@angular/cdk/coercion";
+import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 import { Subscription } from "rxjs";
 import { distinctUntilChanged } from "rxjs/operators";
@@ -173,6 +173,9 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 	@Input()
 	public data: object[] = [];
 
+	// tslint:disable-next-line:variable-name prefer-optional
+	public static ngAcceptInputType_data: object[] | undefined;
+
 	/**
 	 * Object which contains filtering information for the table.
 	 */
@@ -190,7 +193,13 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 	 * If you need to change the height, please redefine the value for `.stark-table .fixed-header { height: 400px; }`
 	 */
 	@Input()
-	public fixedHeader?: string;
+	public set fixedHeader(value: boolean) {
+		this.isFixedHeaderEnabled = coerceBooleanProperty(value);
+	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_fixedHeader: BooleanInput;
 
 	/**
 	 * HTML id of the table
@@ -207,7 +216,7 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 
 	/**
 	 * Allows multiple row selection. Setting the attribute to "true" or empty will enable this feature.
-	 * @deprecated  - use {@link selection} instead
+	 * @deprecated - use {@link selection} instead
 	 */
 	@Input()
 	public multiSelect?: string;
@@ -216,7 +225,13 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 	 * Allows sorting by multiple columns. Setting the attribute to "true" or empty will enable this feature.
 	 */
 	@Input()
-	public multiSort?: string;
+	public set multiSort(value: boolean) {
+		this.isMultiSortEnabled = coerceBooleanProperty(value);
+	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_multiSort: BooleanInput;
 
 	/**
 	 * Columns to be sorted by default
@@ -254,9 +269,13 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 		return this._showRowsCounter;
 	}
 
-	public set showRowsCounter(showRowsCounter: boolean) {
-		this._showRowsCounter = coerceBooleanProperty(showRowsCounter);
+	public set showRowsCounter(value: boolean) {
+		this._showRowsCounter = coerceBooleanProperty(value);
 	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_showRowsCounter: BooleanInput;
 
 	/**
 	 * @ignore
@@ -347,8 +366,8 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 		return this._showRowIndex;
 	}
 
-	public set showRowIndex(showRowIndex: boolean) {
-		this._showRowIndex = coerceBooleanProperty(showRowIndex);
+	public set showRowIndex(value: boolean) {
+		this._showRowIndex = coerceBooleanProperty(value);
 
 		if (this._showRowIndex) {
 			if (!this.displayedColumns.includes("rowIndex")) {
@@ -359,6 +378,10 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 			this.displayedColumns.splice(i);
 		}
 	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_showRowIndex: BooleanInput;
 
 	/**
 	 * @ignore
@@ -585,14 +608,6 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 		if (changes["filter"]) {
 			this.filter = { ...defaultFilter, ...this.filter };
 			this._globalFilterFormCtrl.setValue(this.filter.globalFilterValue);
-		}
-
-		if (changes["fixedHeader"]) {
-			this.isFixedHeaderEnabled = coerceBooleanProperty(this.fixedHeader);
-		}
-
-		if (changes["multiSort"]) {
-			this.isMultiSortEnabled = coerceBooleanProperty(this.multiSort);
 		}
 
 		// tslint:disable:deprecation
