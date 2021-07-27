@@ -180,6 +180,9 @@ export class StarkDropdownComponent
 
 	public set required(value: boolean) {
 		this._required = coerceBooleanProperty(value);
+		this.setDefaultBlank();
+		this.stateChanges.next();
+		this._onValidatorChange();
 	}
 
 	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
@@ -222,13 +225,13 @@ export class StarkDropdownComponent
 	/**
 	 * Reference to the single MatSelect element embedded in this component
 	 */
-	@ViewChild("singleSelect", { static: true })
+	@ViewChild("singleSelectEl")
 	private singleSelectElement?: MatSelect;
 
 	/**
 	 * Reference to the multi MatSelect element embedded in this component
 	 */
-	@ViewChild("multiSelect", { static: true })
+	@ViewChild("multiSelectEl")
 	private multiSelectElement?: MatSelect;
 
 	/**
@@ -371,19 +374,9 @@ export class StarkDropdownComponent
 			this.optionsAreSimpleTypes = this.areSimpleTypes();
 		}
 
-		if (changes["multiSelect"]) {
+		if (changes["multiSelect"] && !changes["multiSelect"].isFirstChange()) {
 			// This avoids an error when switching between "simple select" and "multiple select"
-			if (!changes["multiSelect"].isFirstChange()) {
-				this.onInternalValueChange(undefined);
-			}
-			this.multiSelect = coerceBooleanProperty(changes["multiSelect"].currentValue);
-		}
-
-		if (changes["required"]) {
-			this.required = coerceBooleanProperty(changes["required"].currentValue);
-			this.setDefaultBlank();
-			this.stateChanges.next();
-			this._onValidatorChange();
+			this.onInternalValueChange(undefined);
 		}
 
 		if (changes["placeholder"]) {
