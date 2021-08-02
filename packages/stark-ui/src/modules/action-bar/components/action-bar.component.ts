@@ -116,6 +116,30 @@ export class StarkActionBarComponent extends AbstractStarkUiComponent implements
 	}
 
 	/**
+	 * Returns action icon based on `action.iconSwitchFunction()` state
+	 * @param action - {@link StarkAction} object
+	 * @ignore
+	 */
+	public getActionIcon(action: StarkAction): string {
+		if (!!action.iconSwitchFunction && action.iconSwitchFunction()) {
+			return <string> action.iconActivated;
+		}
+		return action.icon;
+	}
+
+	/**
+	 * Returns action icon based on `action.iconSwitchFunction()` state
+	 * @param action - {@link StarkAction} object
+	 * @ignore
+	 */
+	public getActionLabel(action: StarkAction): string {
+		if (!!action.labelSwitchFunction && action.labelSwitchFunction()) {
+			return <string> action.labelActivated;
+		}
+		return action.label;
+	}
+
+	/**
 	 * @ignore
 	 */
 	public trackAction(_index: number, action: StarkAction): string {

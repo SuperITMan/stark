@@ -24,9 +24,10 @@ import {
 	StarkColumnCellClickedOutput,
 	StarkColumnFilterChangedOutput,
 	StarkColumnSortChangedOutput,
-	StarkTableColumnFilter,
 	StarkTableColumnSortingDirection
 } from "../entities";
+import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
+import { MenuPositionY } from "@angular/material/menu";
 
 /**
  * Component to display a column inside the StarkTableComponent
@@ -99,7 +100,23 @@ export class StarkTableColumnComponent extends AbstractStarkUiComponent implemen
 	 * Whether this column is filterable
 	 */
 	@Input()
-	public filterable = false;
+	public get filterable(): boolean {
+		return this._filterable;
+	}
+
+	public set filterable(value: boolean) {
+		this._filterable = coerceBooleanProperty(value);
+	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_filterable: BooleanInput;
+
+	/**
+	 * @ignore
+	 * @internal
+	 */
+	private _filterable = false;
 
 	/**
 	 * Value of the filter
@@ -125,6 +142,9 @@ export class StarkTableColumnComponent extends AbstractStarkUiComponent implemen
 	public get headerLabel(): string {
 		return this._headerLabel || this.name;
 	}
+
+	// tslint:disable-next-line:variable-name prefer-optional
+	public static ngAcceptInputType_headerLabel: string | undefined;
 
 	/**
 	 * @ignore
@@ -167,19 +187,22 @@ export class StarkTableColumnComponent extends AbstractStarkUiComponent implemen
 	 * Default: `"below"`
 	 */
 	@Input()
-	public get filterPosition(): StarkTableColumnFilter["filterPosition"] {
+	public get filterPosition(): MenuPositionY {
 		return this._filterPosition;
 	}
 
-	public set filterPosition(value: StarkTableColumnFilter["filterPosition"]) {
+	public set filterPosition(value: MenuPositionY) {
 		this._filterPosition = value || "below";
 	}
+
+	// tslint:disable-next-line:variable-name prefer-optional
+	public static ngAcceptInputType_filterPosition: MenuPositionY | undefined;
 
 	/**
 	 * @ignore
 	 * @internal
 	 */
-	private _filterPosition?: StarkTableColumnFilter["filterPosition"] = "below";
+	private _filterPosition: MenuPositionY = "below";
 
 	/**
 	 * Priority of the column.
@@ -187,13 +210,32 @@ export class StarkTableColumnComponent extends AbstractStarkUiComponent implemen
 	@Input()
 	public sortPriority = 100;
 
+	// tslint:disable-next-line:variable-name prefer-optional
+	public static ngAcceptInputType_sortPriority: number | undefined;
+
 	/**
 	 * Whether the column is visible or not.
 	 *
 	 * Default: `true`
 	 */
 	@Input()
-	public visible = true;
+	public get visible(): boolean {
+		return this._visible;
+	}
+
+	public set visible(value: boolean) {
+		this._visible = coerceBooleanProperty(value);
+	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_visible: BooleanInput;
+
+	/**
+	 * @ignore
+	 * @internal
+	 */
+	private _visible = true;
 
 	/**
 	 * A function to generate classNames for cells based on the value, its row and the name of the column.
@@ -212,7 +254,23 @@ export class StarkTableColumnComponent extends AbstractStarkUiComponent implemen
 	 * Make the column stick to the right side of the table
 	 */
 	@Input()
-	public stickyEnd = false;
+	public get stickyEnd(): boolean {
+		return this._stickyEnd;
+	}
+
+	public set stickyEnd(value: boolean) {
+		this._stickyEnd = coerceBooleanProperty(value);
+	}
+
+	// Information about boolean coercion https://angular.io/guide/template-typecheck#input-setter-coercion
+	// tslint:disable-next-line:variable-name
+	public static ngAcceptInputType_stickyEnd: BooleanInput;
+
+	/**
+	 * @ignore
+	 * @internal
+	 */
+	private _stickyEnd = false;
 
 	/**
 	 * Output that will emit a StarkColumnCellClickedOutput whenever a cell in the column is clicked
@@ -242,7 +300,8 @@ export class StarkTableColumnComponent extends AbstractStarkUiComponent implemen
 	 * Reference to the transcluded template in this component via the ngTemplateOutlet
 	 */
 	@ContentChild(TemplateRef, { static: true })
-	public columnTemplate?: TemplateRef<object>;
+	// tslint:disable-next-line:no-null-keyword
+	public columnTemplate: TemplateRef<object> | null = null;
 
 	/**
 	 * @ignore
