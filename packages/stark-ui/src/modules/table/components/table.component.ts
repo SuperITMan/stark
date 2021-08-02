@@ -180,7 +180,22 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 	 * Object which contains filtering information for the table.
 	 */
 	@Input()
-	public filter: StarkTableFilter = defaultFilter;
+	public get filter(): StarkTableFilter {
+		return this._filter;
+	}
+
+	public set filter(value: StarkTableFilter) {
+		this._filter = { ...defaultFilter, ...value};
+	}
+
+	// tslint:disable-next-line:variable-name prefer-optional
+	public static ngAcceptInputType_filter: StarkTableFilter | undefined;
+
+	/**
+	 * @ignore
+	 * @internal
+	 */
+	private _filter: StarkTableFilter = defaultFilter;
 
 	/**
 	 * Allows to fix the header to the top of the scrolling viewport containing the table.
@@ -1232,5 +1247,15 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 		columnProperties?: StarkTableColumnProperties
 	): columnProperties is StarkTableColumnProperties & Required<Pick<StarkTableColumnProperties, "onClickCallback">> {
 		return !!columnProperties && columnProperties.onClickCallback instanceof Function;
+	}
+
+	/**
+	 * @ignore
+	 * Type guard
+	 */
+	public isGlobalFilterPresent(
+		filter: StarkTableFilter
+	): filter is StarkTableFilter & Required<Pick<StarkTableFilter, "filterPosition">> {
+		return !!filter && !!filter.globalFilterPresent && (filter.filterPosition === "above" || filter.filterPosition === "below");
 	}
 }

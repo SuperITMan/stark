@@ -456,6 +456,14 @@ export class StarkPaginationComponent extends MatPaginator implements OnInit, On
 	}
 
 	/**
+	 *  dddd
+	 * @param paginationConfig -ddd ddd
+	 */
+	public isItemsPerPagePresent(paginationConfig: StarkPaginationConfig): paginationConfig is StarkPaginationConfig & Required<Pick<StarkPaginationConfig, "itemsPerPageOptions" | "itemsPerPage">> {
+		return !!paginationConfig.itemsPerPageIsPresent && !!paginationConfig.itemsPerPage && !!paginationConfig.itemsPerPageOptions;
+	}
+
+	/**
 	 * @ignore
 	 */
 	public trackPageNumberFn(_index: number): number {
