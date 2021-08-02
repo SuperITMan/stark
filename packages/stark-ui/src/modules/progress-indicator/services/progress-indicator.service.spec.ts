@@ -512,6 +512,6 @@ describe("ProgressIndicatorService", () => {
 });
 
 class ProgressIndicatorServiceHelper extends StarkProgressIndicatorServiceImpl {
-	public progressIndicatorMap!: Map<string, StarkProgressIndicatorFullConfig>;
-	public progressIndicatorMap$!: Observable<Map<string, StarkProgressIndicatorFullConfig>>;
+	public declare progressIndicatorMap: Map<string, StarkProgressIndicatorFullConfig>;
+	public declare progressIndicatorMap$: Observable<Map<string, StarkProgressIndicatorFullConfig>>;
 }
