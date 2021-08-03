@@ -595,10 +595,10 @@ describe("Service: StarkRoutingService", () => {
 						);
 
 						const currentStateParams: RawParams = routingService.getCurrentStateParams();
-						expect(currentStateParams.requestId).toBeDefined();
-						expect(currentStateParams.requestId).toBe(requestId);
-						expect(currentStateParams.onBehalfView).toBeDefined();
-						expect(currentStateParams.onBehalfView).toBe(true);
+						expect(currentStateParams["requestId"]).toBeDefined();
+						expect(currentStateParams["requestId"]).toBe(requestId);
+						expect(currentStateParams["onBehalfView"]).toBeDefined();
+						expect(currentStateParams["onBehalfView"]).toBe(true);
 					}),
 					catchError((error: any) => {
 						return throwError(`getCurrentStateParams ${error}`);
@@ -658,10 +658,10 @@ describe("Service: StarkRoutingService", () => {
 						);
 
 						const currentStateParams: RawParams = routingService.getCurrentStateParams(true);
-						expect(currentStateParams.requestId).toBeDefined();
-						expect(currentStateParams.requestId).toBe(requestId);
-						expect(currentStateParams.onBehalfView).toBeDefined();
-						expect(currentStateParams.onBehalfView).toBe(true);
+						expect(currentStateParams["requestId"]).toBeDefined();
+						expect(currentStateParams["requestId"]).toBe(requestId);
+						expect(currentStateParams["onBehalfView"]).toBeDefined();
+						expect(currentStateParams["onBehalfView"]).toBe(true);
 					}),
 					catchError((error: any) => {
 						return throwError(`getCurrentStateParams ${error}`);
@@ -877,10 +877,10 @@ describe("Service: StarkRoutingService", () => {
 						);
 
 						const currentStateParams: RawParams = routingService.getCurrentStateParams();
-						expect(currentStateParams.requestId).toBeDefined();
-						expect(currentStateParams.requestId).toBe(requestId);
-						expect(currentStateParams.onBehalfView).toBeDefined();
-						expect(currentStateParams.onBehalfView).toBe(true);
+						expect(currentStateParams["requestId"]).toBeDefined();
+						expect(currentStateParams["requestId"]).toBe(requestId);
+						expect(currentStateParams["onBehalfView"]).toBeDefined();
+						expect(currentStateParams["onBehalfView"]).toBe(true);
 					}),
 					catchError((error: any) => {
 						return throwError(`navigateToHome ${error}`);

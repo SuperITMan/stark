@@ -134,7 +134,7 @@ export class StarkAppSidebarComponent extends AbstractStarkUiComponent implement
 	/**
 	 * Component lifecycle OnInit hook
 	 */
-	public ngOnInit(): void {
+	public override ngOnInit(): void {
 		super.ngOnInit();
 		this.logger.debug(componentName + ": component initialized");
 

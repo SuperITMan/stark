@@ -549,7 +549,8 @@ export class StarkDateTimePickerComponent
 	/**
 	 * Component lifecycle hook
 	 */
-	public ngOnInit(): void {
+	public override ngOnInit(): void {
+		super.ngOnInit();
 		this.ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 
 		if (this.ngControl !== null) {
@@ -565,7 +566,6 @@ export class StarkDateTimePickerComponent
 			this.placeholder = this.originalPlaceholder;
 		});
 
-		super.ngOnInit();
 		this.logger.debug(componentName + ": component initialized");
 	}
 

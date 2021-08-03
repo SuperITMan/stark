@@ -138,7 +138,8 @@ export class StarkPaginationComponent extends MatPaginator implements OnInit, On
 	/**
 	 * Component lifecycle hook
 	 */
-	public ngOnInit(): void {
+	public override ngOnInit(): void {
+		super.ngOnInit();
 		this.paginationConfig = this.normalizePaginationConfig(this.paginationConfig);
 		this.setMatPaginatorProperties(this.paginationConfig);
 
@@ -146,7 +147,6 @@ export class StarkPaginationComponent extends MatPaginator implements OnInit, On
 
 		this.setPageNumbers();
 
-		super.ngOnInit();
 		this.logger.debug(componentName + ": controller initialized");
 	}
 
@@ -459,7 +459,9 @@ export class StarkPaginationComponent extends MatPaginator implements OnInit, On
 	 *  dddd
 	 * @param paginationConfig -ddd ddd
 	 */
-	public isItemsPerPagePresent(paginationConfig: StarkPaginationConfig): paginationConfig is StarkPaginationConfig & Required<Pick<StarkPaginationConfig, "itemsPerPageOptions" | "itemsPerPage">> {
+	public isItemsPerPagePresent(
+		paginationConfig: StarkPaginationConfig
+	): paginationConfig is StarkPaginationConfig & Required<Pick<StarkPaginationConfig, "itemsPerPageOptions" | "itemsPerPage">> {
 		return !!paginationConfig.itemsPerPageIsPresent && !!paginationConfig.itemsPerPage && !!paginationConfig.itemsPerPageOptions;
 	}
 

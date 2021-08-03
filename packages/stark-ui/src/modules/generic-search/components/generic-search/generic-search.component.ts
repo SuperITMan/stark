@@ -231,8 +231,8 @@ export class StarkGenericSearchComponent extends AbstractStarkUiComponent implem
 	 */
 	public constructor(
 		@Inject(STARK_LOGGING_SERVICE) private logger: StarkLoggingService,
-		protected renderer: Renderer2,
-		protected elementRef: ElementRef
+		renderer: Renderer2,
+		elementRef: ElementRef
 	) {
 		super(renderer, elementRef);
 	}
@@ -249,7 +249,9 @@ export class StarkGenericSearchComponent extends AbstractStarkUiComponent implem
 	/**
 	 * Component lifecycle hook
 	 */
-	public ngOnInit(): void {
+	public override ngOnInit(): void {
+		super.ngOnInit();
+
 		this.normalizedFormButtonsConfig = this.normalizeFormButtonsConfig(this.formButtonsConfig);
 		this.normalizedFormActionBarConfig = this.normalizeFormActionBarConfig(this.formActionBarConfig);
 		this.actionBarConfig = this.buildActionBarConfig(this.normalizedFormActionBarConfig);

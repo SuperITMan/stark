@@ -473,8 +473,8 @@ export class StarkDateRangePickerComponent extends AbstractStarkUiComponent impl
 	public constructor(
 		@Inject(STARK_LOGGING_SERVICE) public logger: StarkLoggingService,
 		private injector: Injector,
-		protected renderer: Renderer2,
-		protected elementRef: ElementRef,
+		renderer: Renderer2,
+		elementRef: ElementRef,
 		protected cdRef: ChangeDetectorRef
 	) {
 		super(renderer, elementRef);
@@ -485,7 +485,9 @@ export class StarkDateRangePickerComponent extends AbstractStarkUiComponent impl
 	/**
 	 * Angular lifecycle method
 	 */
-	public ngOnInit(): void {
+	public override ngOnInit(): void {
+		super.ngOnInit();
+
 		this._setupNgControl();
 		this.logger.debug(componentName + ": component initialized");
 	}
