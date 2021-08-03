@@ -425,7 +425,7 @@ export class MovieSearchPageComponent extends AbstractStarkSearchComponent<Movie
   /**
    * Component lifecycle hook
    */
-  public ngOnInit(): void {
+  public override ngOnInit(): void {
     super.ngOnInit();
 
     this.results$.subscribe((movies: Movie[]) => (this.searchResults = movies));
@@ -465,7 +465,7 @@ export class MovieSearchPageComponent extends AbstractStarkSearchComponent<Movie
   /**
    * Component lifecycle hook
    */
-  public ngOnDestroy(): void {
+  public override ngOnDestroy(): void {
     super.ngOnDestroy();
   }
 }

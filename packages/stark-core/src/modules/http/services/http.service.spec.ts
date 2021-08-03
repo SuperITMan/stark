@@ -1529,11 +1529,11 @@ class HttpServiceHelper<P extends StarkResource> extends StarkHttpServiceImpl<P>
 		super(logger, sessionService, <HttpClient>(<unknown>httpClient));
 	}
 
-	public addDevAuthenticationHeaders(request: StarkHttpRequest<P>): StarkHttpRequest<P> {
+	public override addDevAuthenticationHeaders(request: StarkHttpRequest<P>): StarkHttpRequest<P> {
 		return super.addDevAuthenticationHeaders(request);
 	}
 
-	public addCorrelationIdentifierHeader(request: StarkHttpRequest<P>): StarkHttpRequest<P> {
+	public override addCorrelationIdentifierHeader(request: StarkHttpRequest<P>): StarkHttpRequest<P> {
 		return super.addCorrelationIdentifierHeader(request);
 	}
 }

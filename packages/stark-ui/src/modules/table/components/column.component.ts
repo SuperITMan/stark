@@ -314,14 +314,17 @@ export class StarkTableColumnComponent extends AbstractStarkUiComponent implemen
 	 * @param renderer - Angular `Renderer2` wrapper for DOM manipulations.
 	 * @param elementRef - Reference to the DOM element where this component is attached to.
 	 */
-	public constructor(protected renderer: Renderer2, protected elementRef: ElementRef) {
+	// tslint:disable-next-line:unnecessary-constructor
+	public constructor(renderer: Renderer2, elementRef: ElementRef) {
 		super(renderer, elementRef);
 	}
 
 	/**
 	 * Component lifecycle hook
 	 */
-	public ngOnInit(): void {
+	public override ngOnInit(): void {
+		super.ngOnInit();
+
 		this._filterFormCtrl.valueChanges.pipe(distinctUntilChanged()).subscribe((value?: string | null) => {
 			this.filterValue = value === null ? undefined : value;
 			this.filterChanged.emit({

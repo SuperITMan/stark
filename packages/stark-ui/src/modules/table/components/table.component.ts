@@ -185,7 +185,7 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 	}
 
 	public set filter(value: StarkTableFilter) {
-		this._filter = { ...defaultFilter, ...value};
+		this._filter = { ...defaultFilter, ...value };
 	}
 
 	// tslint:disable-next-line:variable-name prefer-optional
@@ -544,8 +544,8 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 		@Inject(STARK_LOGGING_SERVICE) public logger: StarkLoggingService,
 		public dialogService: MatDialog,
 		private cdRef: ChangeDetectorRef,
-		protected renderer: Renderer2,
-		protected elementRef: ElementRef
+		renderer: Renderer2,
+		elementRef: ElementRef
 	) {
 		super(renderer, elementRef);
 	}
@@ -553,10 +553,11 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 	/**
 	 * Component lifecycle hook
 	 */
-	public ngOnInit(): void {
-		this.logger.debug(componentName + ": component initialized");
+	public override ngOnInit(): void {
+		super.ngOnInit();
 
 		this._resetSelection();
+		this.logger.debug(componentName + ": component initialized");
 	}
 
 	/**

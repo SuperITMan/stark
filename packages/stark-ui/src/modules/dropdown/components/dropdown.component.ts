@@ -310,8 +310,8 @@ export class StarkDropdownComponent
 	 */
 	public constructor(
 		@Inject(STARK_LOGGING_SERVICE) public logger: StarkLoggingService,
-		protected renderer: Renderer2,
-		protected elementRef: ElementRef,
+		renderer: Renderer2,
+		elementRef: ElementRef,
 		private fm: FocusMonitor,
 		private injector: Injector,
 		private translateService: TranslateService,
@@ -328,7 +328,8 @@ export class StarkDropdownComponent
 	/**
 	 * Component lifecycle hook
 	 */
-	public ngOnInit(): void {
+	public override ngOnInit(): void {
+		super.ngOnInit();
 		this.logger.debug(componentName + ": component initialized");
 		this.optionsAreSimpleTypes = this.areSimpleTypes();
 
@@ -362,7 +363,6 @@ export class StarkDropdownComponent
 		});
 
 		this.setDefaultBlank();
-		super.ngOnInit();
 	}
 
 	/**

@@ -39,7 +39,7 @@
     "@commitlint/config-conventional": "^13.1.0",
     "@compodoc/compodoc": "1.1.13",
     "@mdi/angular-material": "^4.0.96",
-    "@nationalbankbelgium/code-style": "^1.5.0",
+    "@nationalbankbelgium/code-style": "^1.6.0",
     "@ng-idle/core": "^11.0.3",
     "@ng-idle/keepalive": "^11.0.3",
     "@ngrx/effects": "^12.3.0",

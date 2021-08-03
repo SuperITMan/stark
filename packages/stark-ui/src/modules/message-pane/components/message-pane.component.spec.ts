@@ -263,8 +263,8 @@ describe("MessagePaneComponent", () => {
 			const mockObserver: SpyObj<Observer<any>> = createSpyObj<Observer<any>>("observerSpy", ["next", "error", "complete"]);
 
 			component.ngOnInit();
-			component.renderer.addClass(component.elementRef.nativeElement, starkMessagePaneDisplayAnimatedClass);
-			component.renderer.addClass(component.elementRef.nativeElement, starkMessagePaneDisplayedClass);
+			component["renderer"].addClass(component["elementRef"].nativeElement, starkMessagePaneDisplayAnimatedClass);
+			component["renderer"].addClass(component["elementRef"].nativeElement, starkMessagePaneDisplayedClass);
 
 			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(true);
 			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBe(true);
@@ -305,9 +305,9 @@ describe("MessagePaneComponent", () => {
 	describe("hidePane", () => {
 		it("should remove classes from the root element", fakeAsync(() => {
 			component.ngOnInit();
-			expect(component.elementRef.nativeElement).toBeTruthy();
-			component.renderer.addClass(component.elementRef.nativeElement, starkMessagePaneDisplayAnimatedClass);
-			component.renderer.addClass(component.elementRef.nativeElement, starkMessagePaneDisplayedClass);
+			expect(component["elementRef"].nativeElement).toBeTruthy();
+			component["renderer"].addClass(component["elementRef"].nativeElement, starkMessagePaneDisplayAnimatedClass);
+			component["renderer"].addClass(component["elementRef"].nativeElement, starkMessagePaneDisplayedClass);
 
 			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBe(true);
 			expect(debugElementComponent.classes[starkMessagePaneDisplayedClass]).toBe(true);
@@ -324,8 +324,8 @@ describe("MessagePaneComponent", () => {
 			const mockObserver: SpyObj<Observer<any>> = createSpyObj<Observer<any>>("observerSpy", ["next", "error", "complete"]);
 
 			component.ngOnInit();
-			component.renderer.addClass(component.elementRef.nativeElement, starkMessagePaneDisplayAnimatedClass);
-			component.renderer.addClass(component.elementRef.nativeElement, starkMessagePaneDisplayedClass);
+			component["renderer"].addClass(component["elementRef"].nativeElement, starkMessagePaneDisplayAnimatedClass);
+			component["renderer"].addClass(component["elementRef"].nativeElement, starkMessagePaneDisplayedClass);
 
 			expect(component.hide$).toBeUndefined();
 			expect(debugElementComponent.classes[starkMessagePaneDisplayAnimatedClass]).toBe(true);

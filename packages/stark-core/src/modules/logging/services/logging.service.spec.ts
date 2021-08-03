@@ -383,13 +383,13 @@ class LoggingServiceHelper extends StarkLoggingServiceImpl {
 	}
 
 	// override parent's implementation to prevent actual HTTP request to be sent!
-	public sendRequest(..._args: any[]): Observable<void> {
+	public override sendRequest(..._args: any[]): Observable<void> {
 		/* dummy function to be mocked */
 		return of(undefined);
 	}
 
 	// override parent's implementation to prevent logging to the console
-	public getConsole(): Function {
+	public override getConsole(): Function {
 		return (): void => {
 			/* noop */
 		};

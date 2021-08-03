@@ -495,7 +495,8 @@ export class StarkDatePickerComponent
 	/**
 	 * Component lifecycle hook
 	 */
-	public ngOnInit(): void {
+	public override ngOnInit(): void {
+		super.ngOnInit();
 		// tslint:disable-next-line:no-null-keyword
 		this.ngControl = this.injector.get<NgControl>(NgControl, <any>null);
 
@@ -508,7 +509,6 @@ export class StarkDatePickerComponent
 			this.placeholder = this.originalPlaceholder;
 		});
 
-		super.ngOnInit();
 		this.logger.debug(componentName + ": component initialized");
 	}
 

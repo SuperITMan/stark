@@ -245,7 +245,7 @@ describe("Repository: AbstractStarkHttpRepository", () => {
 });
 
 class AbstractHttpRepositoryTestHelper extends AbstractStarkHttpRepository<MockResource> {
-	public get serializer(): AbstractStarkHttpRepository<MockResource>["serializer"] {
+	public override get serializer(): AbstractStarkHttpRepository<MockResource>["serializer"] {
 		return super.serializer;
 	}
 
