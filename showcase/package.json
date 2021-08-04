@@ -26,7 +26,7 @@
     "npm": ">=7.12.1"
   },
   "scripts": {
-    "build:aot:prod": "npm run clean:dist && npm run clean:aot && npm run ng -- build --prod",
+    "build:aot:prod": "npm run clean:dist && npm run clean:aot && npm run ng -- build -c production",
     "build:aot": "npm run build:aot:prod",
     "build:aot:dev": "npm run build:dev -- --aot",
     "build:dev": "npm run clean:dist && npm run ng -- build",
@@ -118,11 +118,11 @@
     "@angular/platform-browser-dynamic": "^12.0.4",
     "@angular/platform-server": "^12.0.4",
     "@angular/router": "^12.0.4",
-    "@nationalbankbelgium/code-style": "^1.5.0",
+    "@nationalbankbelgium/code-style": "^1.6.0",
     "@nationalbankbelgium/ngx-form-errors": "^1.0.0",
-    "@nationalbankbelgium/stark-core": "file:../dist/packages-dist/stark-core/nationalbankbelgium-stark-core-10.2.0-643ebf91-1627313809.tgz",
-    "@nationalbankbelgium/stark-rbac": "file:../dist/packages-dist/stark-rbac/nationalbankbelgium-stark-rbac-10.2.0-643ebf91-1627313809.tgz",
-    "@nationalbankbelgium/stark-ui": "file:../dist/packages-dist/stark-ui/nationalbankbelgium-stark-ui-10.2.0-643ebf91-1627385867.tgz",
+    "@nationalbankbelgium/stark-core": "file:../dist/packages-dist/stark-core/nationalbankbelgium-stark-core-10.2.0-a3e92fc3-1628116295.tgz",
+    "@nationalbankbelgium/stark-rbac": "file:../dist/packages-dist/stark-rbac/nationalbankbelgium-stark-rbac-10.2.0-a3e92fc3-1628116295.tgz",
+    "@nationalbankbelgium/stark-ui": "file:../dist/packages-dist/stark-ui/nationalbankbelgium-stark-ui-10.2.0-a3e92fc3-1628116295.tgz",
     "@uirouter/visualizer": "~7.2.1",
     "angular-in-memory-web-api": "~0.11.0",
     "basscss": "~8.1.0",
@@ -151,6 +151,6 @@
     "npm-run-all": "~4.1.5",
     "parse5": "~6.0.1",
     "ts-node": "~10.0.0",
-    "typescript": "~4.2.3"
+    "typescript": "~4.3.5"
   }
 }
