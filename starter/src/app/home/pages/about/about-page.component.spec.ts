@@ -57,7 +57,7 @@ describe("About", () => {
 	);
 
 	it("should log ngOnInit", inject([AboutPageComponent], (about: AboutPageComponent) => {
-		logger = TestBed.get(STARK_LOGGING_SERVICE);
+		logger = TestBed.inject(STARK_LOGGING_SERVICE);
 
 		expect(logger.debug).not.toHaveBeenCalled();
 
