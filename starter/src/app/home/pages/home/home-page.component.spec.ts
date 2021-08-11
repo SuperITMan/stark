@@ -9,17 +9,15 @@ import {
 	STARK_LOGGING_SERVICE,
 	StarkApplicationConfig,
 	StarkBackend,
-	StarkBackendAuthenticationTypes,
-	StarkLoggingService
+	StarkBackendAuthenticationTypes
 } from "@nationalbankbelgium/stark-core";
 import { MockStarkHttpService, MockStarkLoggingService } from "@nationalbankbelgium/stark-core/testing";
 import { HomePageComponent } from "./home-page.component";
-import SpyObj = jasmine.SpyObj;
 
 describe(`Home`, () => {
 	let comp: HomePageComponent;
 	let fixture: ComponentFixture<HomePageComponent>;
-	let logger: SpyObj<StarkLoggingService>;
+	let logger: MockStarkLoggingService;
 
 	const mockBackend: Partial<StarkBackend> = {
 		authenticationType: StarkBackendAuthenticationTypes.PUBLIC,
@@ -60,7 +58,7 @@ describe(`Home`, () => {
 	 * Synchronous beforeEach.
 	 */
 	beforeEach(() => {
-		logger = TestBed.get(STARK_LOGGING_SERVICE);
+		logger = TestBed.inject<MockStarkLoggingService>(STARK_LOGGING_SERVICE);
 
 		fixture = TestBed.createComponent(HomePageComponent);
 		comp = fixture.componentInstance;

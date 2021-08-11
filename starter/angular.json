@@ -14,13 +14,20 @@
             "customWebpackConfig": {
               "path": "./node_modules/@nationalbankbelgium/stark-build/config/webpack.config.js"
             },
+            "subresourceIntegrity": false,
             "indexTransform": "./node_modules/@nationalbankbelgium/stark-build/config/index-html.transform.js",
             "outputPath": "dist",
+            "allowedCommonJsDependencies": ["validator", "@nationalbankbelgium/stark-core"],
+            "aot": true,
             "index": "src/index.html",
             "main": "src/main.browser.ts",
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.browser.ts",
-            "extractCss": true,
+            "buildOptimizer": false,
+            "optimization": false,
+            "vendorChunk": true,
+            "sourceMap": true,
+            "namedChunks": true,
             "assets": [
               {
                 "glob": "mdi.svg",
@@ -48,7 +55,13 @@
                 "output": "assets/stark-ui"
               }
             ],
-            "styles": ["node_modules/@nationalbankbelgium/stark-core/assets/css/pre-load-style.css", "src/styles/styles.scss"],
+            "styles": [
+              "node_modules/@nationalbankbelgium/stark-core/assets/css/pre-load-style.css",
+              {
+                "inject": false,
+                "input": "src/styles/styles.scss"
+              }
+            ],
             "scripts": [],
             "deployUrl": "/",
             "baseHref": "/"
@@ -62,11 +75,12 @@
                 }
               ]
             },
+            "development": {},
             "production": {
               "optimization": true,
+              "namedChunks": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -113,8 +127,12 @@
             },
             "e2e.prod": {
               "browserTarget": "starter:build:e2e.prod"
+            },
+            "development": {
+              "browserTarget": "starter:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -130,7 +148,7 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular-builders/custom-webpack:karma",
           "options": {
             "main": "base.spec.ts",
             "karmaConfig": "./karma.conf.js",
@@ -171,7 +189,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "pcss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
