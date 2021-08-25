@@ -3,6 +3,7 @@ name: Bump angular dependencies
 on:
   schedule:
     - cron: "20 * * * *"
+  workflow_dispatch:
 
 env:
   TZ: "Europe/Brussels"
