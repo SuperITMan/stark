@@ -5,7 +5,6 @@ name: Bump angular dependencies
 on:
   schedule:
     - cron: "0 0 * * *"
-  workflow_dispatch:
 
 env:
   TZ: "Europe/Brussels"
@@ -76,12 +75,17 @@ jobs:
             git commit -m "chore(deps-dev): bump \`@angular-builders/*\` dependencies" --no-verify
             npm run sync:packages-dependencies
           fi
-       
+
+      - name: Get tag name if exists
+        run: |
+          PR_BRANCH_NAME="nbb-bot/deps/angular-$( date +%Y%m%d )"
+          echo "PR_BRANCH_NAME=${PR_BRANCH_NAME}" >> $GITHUB_ENV
+      
       # See: https://github.com/marketplace/actions/create-pull-request    
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: nbb-bot/deps/angular-$(date +%Y%m%d)
+          branch: ${{ env.PR_BRANCH_NAME }}
           author: NBB Bot <83765996+nbb-bot@users.noreply.github.com>
           committer: NBB Bot <83765996+nbb-bot@users.noreply.github.com>
           title: "scheduled: bump `@angular(-(devkit|builders))` dependencies"
