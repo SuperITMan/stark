@@ -81,7 +81,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: nbb-bot/deps/angular-${{ date +%Y%m%d }}
+          branch: nbb-bot/deps/angular-$(date +%Y%m%d)
           author: NBB Bot <83765996+nbb-bot@users.noreply.github.com>
           committer: NBB Bot <83765996+nbb-bot@users.noreply.github.com>
           title: "scheduled: bump `@angular(-(devkit|builders))` dependencies"
