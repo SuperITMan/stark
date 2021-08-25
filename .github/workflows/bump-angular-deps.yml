@@ -46,7 +46,7 @@ jobs:
         run: |
           npx npm-check-updates -u "/^@angular\/.*$/"
           npm i
-          if [ -z $(git status --porcelain) ];
+          if [ -n $(git status --porcelain) ];
           then
             git add package.json package-lock.json
             git commit -m "chore(deps-dev): bump \`@angular/*\` dependencies" --no-verify
@@ -57,7 +57,7 @@ jobs:
         run: |
           npx npm-check-updates -u "/^@angular-devkit\/.*$/"
           npm i
-          if [ -z $(git status --porcelain) ];
+          if [ -n $(git status --porcelain) ];
           then
             git add package.json package-lock.json
             git commit -m "chore(deps-dev): bump \`@angular-devkit/*\` dependencies" --no-verify
@@ -68,7 +68,7 @@ jobs:
         run: |
           npx npm-check-updates -u "/^@angular-builders\/.*$/"
           npm i
-          if [ -z $(git status --porcelain) ];
+          if [ -n $(git status --porcelain) ];
           then
             git add package.json package-lock.json
             git commit -m "chore(deps-dev): bump \`@angular-builders/*\` dependencies" --no-verify
