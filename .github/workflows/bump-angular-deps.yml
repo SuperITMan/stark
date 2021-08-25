@@ -46,34 +46,44 @@ jobs:
         run: |
           npx npm-check-updates -u "/^@angular\/.*$/"
           npm i
-          if [ -n $(git status --porcelain) ];
+          if [[ -n $(git status --porcelain) ]];
           then
+            echo Let's commit ;-)
             git add package.json package-lock.json
             git commit -m "chore(deps-dev): bump \`@angular/*\` dependencies" --no-verify
             npm run sync:packages-dependencies
+          else
+            echo Nothing to commit
           fi
           
       - name: "Upgrade '@angular-devkit/*' deps thanks to 'npm-check-updates'"
         run: |
           npx npm-check-updates -u "/^@angular-devkit\/.*$/"
           npm i
-          if [ -n $(git status --porcelain) ];
+          if [[ -n $(git status --porcelain) ]];
           then
+            echo Let's commit ;-)
             git add package.json package-lock.json
             git commit -m "chore(deps-dev): bump \`@angular-devkit/*\` dependencies" --no-verify
             npm run sync:packages-dependencies
+          else
+            echo Nothing to commit
           fi
           
       - name: "Upgrade '@angular-builders/*' deps thanks to 'npm-check-updates'"
         run: |
           npx npm-check-updates -u "/^@angular-builders\/.*$/"
           npm i
-          if [ -n $(git status --porcelain) ];
+          if [[ -n $(git status --porcelain) ]];
           then
+            echo Let's commit ;-)
             git add package.json package-lock.json
             git commit -m "chore(deps-dev): bump \`@angular-builders/*\` dependencies" --no-verify
             npm run sync:packages-dependencies
+          else
+            echo Nothing to commit
           fi
+       
       # See: https://github.com/marketplace/actions/create-pull-request    
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
