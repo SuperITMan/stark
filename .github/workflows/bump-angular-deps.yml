@@ -46,6 +46,7 @@ jobs:
         run: |
           npx npm-check-updates -u "/^@angular-builders\/.*$/"
           npm i
+          git add package.json package-lock.json
           git commit -m "chore(deps-dev): bump \`@angular/*\` dependencies" --no-verify
           npm run sync:packages-dependencies
           
@@ -61,6 +62,7 @@ jobs:
         run: |
           npx npm-check-updates -u "/^@angular-builders\/.*$/"
           npm i
+          git add package.json package-lock.json
           git commit -m "chore(deps-dev): bump \`@angular-builders/*\` dependencies" --no-verify
           npm run sync:packages-dependencies
        
