@@ -1,8 +1,10 @@
 name: Bump angular dependencies
 
+# Based on https://github.com/dependabot/dependabot-core/issues/1296#issuecomment-657438154
+
 on:
   schedule:
-    - cron: "20 * * * *"
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 env:
@@ -48,12 +50,9 @@ jobs:
           npm i
           if [[ -n $(git status --porcelain) ]];
           then
-            echo "Let's commit ;-)"
             git add package.json package-lock.json
             git commit -m "chore(deps-dev): bump \`@angular/*\` dependencies" --no-verify
             npm run sync:packages-dependencies
-          else
-            echo Nothing to commit
           fi
           
       - name: "Upgrade '@angular-devkit/*' deps thanks to 'npm-check-updates'"
@@ -62,12 +61,9 @@ jobs:
           npm i
           if [[ -n $(git status --porcelain) ]];
           then
-            echo "Let's commit ;-)"
             git add package.json package-lock.json
             git commit -m "chore(deps-dev): bump \`@angular-devkit/*\` dependencies" --no-verify
             npm run sync:packages-dependencies
-          else
-            echo Nothing to commit
           fi
           
       - name: "Upgrade '@angular-builders/*' deps thanks to 'npm-check-updates'"
@@ -76,18 +72,20 @@ jobs:
           npm i
           if [[ -n $(git status --porcelain) ]];
           then
-            echo "Let's commit ;-)"
             git add package.json package-lock.json
             git commit -m "chore(deps-dev): bump \`@angular-builders/*\` dependencies" --no-verify
             npm run sync:packages-dependencies
-          else
-            echo Nothing to commit
           fi
        
       # See: https://github.com/marketplace/actions/create-pull-request    
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          branch: test-branch-upgrade
-          title: "bump `@angular` dependencies"
+          branch: nbb-bot/deps/angular-${{ date +%Y%m%d }}
+          author: NBB Bot <83765996+nbb-bot@users.noreply.github.com>
+          committer: NBB Bot <83765996+nbb-bot@users.noreply.github.com>
+          title: "scheduled: bump `@angular(-(devkit|builders))` dependencies"
+          body: |
+            Automated changes by @nbb-bot. Upgrade `angular/*`, `angular-devkit/*` and `angular-builders/*` dependencies.
+          labels: dependencies
       
