@@ -1,0 +1,12 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts",
+      "umdModuleIds": {
+        "@nationalbankbelgium/stark-core": "stark.core",
+        "angular2-text-mask": "ng2TextMask",
+        "text-mask-addons": "textMaskAddons"
+      }
+    }
+  }
+}

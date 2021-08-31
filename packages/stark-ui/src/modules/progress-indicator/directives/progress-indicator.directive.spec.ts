@@ -5,7 +5,7 @@ import { StarkProgressIndicatorActions } from "../actions";
 import { StarkProgressIndicatorFullConfig, StarkProgressIndicatorType } from "../entities";
 import { StarkProgressIndicatorServiceImpl } from "../services";
 import { progressIndicatorReducer } from "../reducers";
-import { StarkUIApplicationState } from "../../../common/store";
+import { StarkUIApplicationState } from "@nationalbankbelgium/stark-ui/src/common";
 import Spy = jasmine.Spy;
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { TestBed } from "@angular/core/testing";
@@ -101,7 +101,7 @@ describe("ProgressIndicatorService", () => {
 	describe("show", () => {
 		it(
 			"should dispatch the SHOW action in case the topic exists in the store but not yet visible " +
-			"and increase the pendingListenersCount by 1",
+				"and increase the pendingListenersCount by 1",
 			() => {
 				progressIndicatorService.register(dummyTopic, dummyType);
 				progressIndicatorService.show(dummyTopic);

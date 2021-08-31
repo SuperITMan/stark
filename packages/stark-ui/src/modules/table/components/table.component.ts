@@ -32,7 +32,7 @@ import { distinctUntilChanged } from "rxjs/operators";
 
 import { StarkTableColumnComponent } from "./column.component";
 import { StarkSortingRule, StarkTableMultisortDialogComponent, StarkTableMultisortDialogData } from "./dialogs/multisort.component";
-import { StarkAction, StarkActionBarConfig } from "../../action-bar/components";
+import { StarkAction, StarkActionBarConfig } from "@nationalbankbelgium/stark-ui/src/modules/action-bar";
 import {
 	StarkColumnCellClickedOutput,
 	StarkColumnFilterChangedOutput,
@@ -43,9 +43,9 @@ import {
 	StarkTableFilter,
 	StarkTableRowActions
 } from "../entities";
-import { AbstractStarkUiComponent } from "../../../common/classes/abstract-component";
-import { StarkPaginateEvent, StarkPaginationComponent, StarkPaginationConfig } from "../../pagination/components";
-import { StarkMinimapComponentMode, StarkMinimapItemProperties } from "../../minimap/components";
+import { AbstractStarkUiComponent } from "@nationalbankbelgium/stark-ui/src/internal-common";
+import { StarkPaginateEvent, StarkPaginationComponent, StarkPaginationConfig } from "@nationalbankbelgium/stark-ui/src/modules/pagination";
+import { StarkMinimapComponentMode, StarkMinimapItemProperties } from "@nationalbankbelgium/stark-ui/src/modules/minimap";
 import find from "lodash-es/find";
 import findIndex from "lodash-es/findIndex";
 import { trigger, state, style, transition, animate } from "@angular/animations";
@@ -922,7 +922,7 @@ export class StarkTableComponent extends AbstractStarkUiComponent implements OnI
 		const dialogRef: MatDialogRef<StarkTableMultisortDialogComponent, StarkSortingRule[]> = this.dialogService.open<
 			StarkTableMultisortDialogComponent,
 			StarkTableMultisortDialogData
-			>(StarkTableMultisortDialogComponent, {
+		>(StarkTableMultisortDialogComponent, {
 			panelClass: "stark-table-dialog-multisort-panel-class", // the width is set via CSS using this class
 			data: { columns: this.columns.filter((column: StarkTableColumnComponent) => column.sortable) }
 		});

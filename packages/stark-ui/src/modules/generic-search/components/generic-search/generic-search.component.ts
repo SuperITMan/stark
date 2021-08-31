@@ -26,11 +26,11 @@ import {
 	StarkActionBarConfig,
 	StarkCustomizablePredefinedAction,
 	StarkDefaultPredefinedAction
-} from "../../../action-bar/components";
+} from "@nationalbankbelgium/stark-ui/src/modules/action-bar";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
 import { FormGroup } from "@angular/forms";
 import { animate, AnimationTriggerMetadata, state, style, transition, trigger } from "@angular/animations";
-import { AbstractStarkUiComponent } from "../../../../common/classes/abstract-component";
+import { AbstractStarkUiComponent } from "@nationalbankbelgium/stark-ui/src/internal-common";
 import isEqual from "lodash-es/isEqual";
 
 /**
@@ -53,7 +53,7 @@ declare type UnusedIconProps = "iconActivated" | "iconSwitchFunction";
  */
 declare type StarkDefaultPredefinedActionBarGenericAction = Required<
 	Pick<StarkDefaultPredefinedAction, Exclude<keyof StarkDefaultPredefinedAction, UnusedLabelProps | UnusedIconProps>>
-	> &
+> &
 	Pick<StarkDefaultPredefinedAction, UnusedIconProps>;
 
 /**
@@ -61,7 +61,7 @@ declare type StarkDefaultPredefinedActionBarGenericAction = Required<
  */
 declare type StarkCustomizablePredefinedActionBarGenericAction = Required<
 	Pick<StarkCustomizablePredefinedAction, Exclude<keyof StarkCustomizablePredefinedAction, UnusedLabelProps | UnusedIconProps>>
-	> &
+> &
 	Partial<Pick<StarkCustomizablePredefinedAction, UnusedIconProps>>;
 
 /**
@@ -229,11 +229,7 @@ export class StarkGenericSearchComponent extends AbstractStarkUiComponent implem
 	 * @param renderer - Angular `Renderer2` wrapper for DOM manipulations.
 	 * @param elementRef - Reference to the DOM element where this component is attached to.
 	 */
-	public constructor(
-		@Inject(STARK_LOGGING_SERVICE) private logger: StarkLoggingService,
-		renderer: Renderer2,
-		elementRef: ElementRef
-	) {
+	public constructor(@Inject(STARK_LOGGING_SERVICE) private logger: StarkLoggingService, renderer: Renderer2, elementRef: ElementRef) {
 		super(renderer, elementRef);
 	}
 

@@ -11,7 +11,7 @@ import {
 	ViewEncapsulation
 } from "@angular/core";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
-import { AbstractStarkUiComponent } from "../../../common/classes/abstract-component";
+import { AbstractStarkUiComponent } from "@nationalbankbelgium/stark-ui/src/internal-common";
 
 /**
  * @ignore
@@ -96,11 +96,7 @@ export class StarkCollapsibleComponent extends AbstractStarkUiComponent implemen
 	 * @param renderer - Angular `Renderer2` wrapper for DOM manipulations.
 	 * @param elementRef - Reference to the DOM element where this component is attached to.
 	 */
-	public constructor(
-		@Inject(STARK_LOGGING_SERVICE) public logger: StarkLoggingService,
-		renderer: Renderer2,
-		elementRef: ElementRef
-	) {
+	public constructor(@Inject(STARK_LOGGING_SERVICE) public logger: StarkLoggingService, renderer: Renderer2, elementRef: ElementRef) {
 		super(renderer, elementRef);
 	}
 

@@ -1,0 +1,15 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts",
+      "umdModuleIds": {
+        "@nationalbankbelgium/stark-core": "stark.core",
+        "@ngx-translate/core": "ngxTranslate.core",
+        "lodash-es/find": "lodash-es.find",
+        "lodash-es/findIndex": "lodash-es.findIndex",
+        "lodash-es/get": "lodash-es.get",
+        "lodash-es/isEqual": "lodash-es.isEqual"
+      }
+    }
+  }
+}
