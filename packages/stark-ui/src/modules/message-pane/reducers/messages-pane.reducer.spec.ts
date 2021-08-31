@@ -1,8 +1,7 @@
 /* tslint:disable:completed-docs no-big-function no-duplicate-string max-union-size no-identical-functions */
-import { StarkMessage, StarkMessageType } from "../../../common/message";
+import { StarkMessage, StarkMessageCollection, StarkMessageType } from "@nationalbankbelgium/stark-ui/src/common";
 
 import { StarkMessagePaneActions } from "../actions";
-import { StarkMessageCollection } from "../entities";
 
 import { messagesReducer } from "./messages-pane.reducer";
 
@@ -121,7 +120,9 @@ describe("Reducer: MessagesReducer", () => {
 			deepFreeze(mockMessages); // Enforce immutability
 
 			deepFreeze(initialState); // Enforce immutability
-			expect(() => messagesReducer(initialState, StarkMessagePaneActions.addMessages({ messages: mockMessages }))).toThrowError(/Unknown/);
+			expect(() => messagesReducer(initialState, StarkMessagePaneActions.addMessages({ messages: mockMessages }))).toThrowError(
+				/Unknown/
+			);
 		});
 
 		it("should create an array with 1 message when the first message is added", () => {
@@ -334,7 +335,9 @@ describe("Reducer: MessagesReducer", () => {
 			deepFreeze(mockMessages); // Enforce immutability
 
 			deepFreeze(initialState); // Enforce immutability
-			expect(() => messagesReducer(initialState, StarkMessagePaneActions.removeMessages({ messages: mockMessages }))).toThrowError(/Unknown/);
+			expect(() => messagesReducer(initialState, StarkMessagePaneActions.removeMessages({ messages: mockMessages }))).toThrowError(
+				/Unknown/
+			);
 		});
 	});
 

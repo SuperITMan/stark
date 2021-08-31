@@ -6,9 +6,12 @@ import { AbstractStarkFormComponent } from "./abstract-form-component";
 import { StarkGenericSearchService } from "./generic-search.service.intf";
 import { StarkSearchState } from "../entities";
 import { StarkErrorImpl, StarkLoggingService } from "@nationalbankbelgium/stark-core";
-import { StarkFormUtil } from "../../../util/form";
-import { StarkProgressIndicatorConfig, StarkProgressIndicatorType } from "../../progress-indicator/entities";
-import { StarkProgressIndicatorService } from "../../progress-indicator/services";
+import { StarkFormUtil } from "@nationalbankbelgium/stark-ui/src/util";
+import {
+	StarkProgressIndicatorConfig,
+	StarkProgressIndicatorType,
+	StarkProgressIndicatorService
+} from "@nationalbankbelgium/stark-ui/src/modules/progress-indicator";
 
 /**
  * Default progress indicator configuration
@@ -25,7 +28,8 @@ const defaultProgressIndicatorConfig: StarkProgressIndicatorConfig = {
 // tslint:disable-next-line:directive-class-suffix
 export abstract class AbstractStarkSearchComponent<SearchResultsType, CriteriaType>
 	extends AbstractStarkFormComponent<CriteriaType>
-	implements OnInit, OnDestroy {
+	implements OnInit, OnDestroy
+{
 	/**
 	 * @internal
 	 * @ignore

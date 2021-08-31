@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnInit, 
 import { StarkActionBarConfig } from "./action-bar-config.intf";
 import { StarkAction, StarkActionBarButtonColor } from "./action.intf";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
-import { AbstractStarkUiComponent } from "../../../common/classes/abstract-component";
+import { AbstractStarkUiComponent } from "@nationalbankbelgium/stark-ui/src/internal-common";
 
 export type StarkActionBarComponentMode = "full" | "compact";
 
@@ -75,11 +75,7 @@ export class StarkActionBarComponent extends AbstractStarkUiComponent implements
 	 * @param renderer - Angular `Renderer2` wrapper for DOM manipulations.
 	 * @param elementRef - Reference to the DOM element where this component is attached to.
 	 */
-	public constructor(
-		@Inject(STARK_LOGGING_SERVICE) public logger: StarkLoggingService,
-		renderer: Renderer2,
-		elementRef: ElementRef
-	) {
+	public constructor(@Inject(STARK_LOGGING_SERVICE) public logger: StarkLoggingService, renderer: Renderer2, elementRef: ElementRef) {
 		super(renderer, elementRef);
 	}
 
@@ -123,7 +119,7 @@ export class StarkActionBarComponent extends AbstractStarkUiComponent implements
 	 */
 	public getActionIcon(action: StarkAction): string {
 		if (!!action.iconSwitchFunction && action.iconSwitchFunction()) {
-			return <string> action.iconActivated;
+			return <string>action.iconActivated;
 		}
 		return action.icon;
 	}
@@ -135,7 +131,7 @@ export class StarkActionBarComponent extends AbstractStarkUiComponent implements
 	 */
 	public getActionLabel(action: StarkAction): string {
 		if (!!action.labelSwitchFunction && action.labelSwitchFunction()) {
-			return <string> action.labelActivated;
+			return <string>action.labelActivated;
 		}
 		return action.label;
 	}

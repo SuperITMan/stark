@@ -17,7 +17,7 @@ import {
 	ViewEncapsulation
 } from "@angular/core";
 import { STARK_LOGGING_SERVICE, StarkLoggingService } from "@nationalbankbelgium/stark-core";
-import { AbstractStarkUiComponent } from "../../../common/classes/abstract-component";
+import { AbstractStarkUiComponent } from "@nationalbankbelgium/stark-ui/src/internal-common";
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NgControl, ValidationErrors, Validator, Validators } from "@angular/forms";
 import { Subject, Subscription } from "rxjs";
 import { MatFormField, MatFormFieldControl } from "@angular/material/form-field";
@@ -60,7 +60,8 @@ const componentName = "stark-dropdown";
 })
 export class StarkDropdownComponent
 	extends AbstractStarkUiComponent
-	implements OnInit, OnChanges, OnInit, OnDestroy, ControlValueAccessor, MatFormFieldControl<any | any[]>, Validator {
+	implements OnInit, OnChanges, OnInit, OnDestroy, ControlValueAccessor, MatFormFieldControl<any | any[]>, Validator
+{
 	/**
 	 * Variable that will be incremented automatically to serve as unique id for every new instance of this component
 	 */

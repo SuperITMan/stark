@@ -1,0 +1,12 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts",
+      "umdModuleIds": {
+        "@nationalbankbelgium/stark-core": "stark.core",
+        "@ngx-translate/core": "ngxTranslate.core",
+        "@uirouter/angular": "uirouter.angular"
+      }
+    }
+  }
+}
