@@ -111,7 +111,7 @@ jobs:
             git commit -m "chore(deps): bump \`@angular/*\` dependencies in showcase" --no-verify
             echo "UPDATED_DEPS=1" >> $GITHUB_ENV
           else
-            git commit -m 'chore(showcase): update "package-lock.json" file'
+            git commit -m 'chore(showcase): update "package-lock.json" file' --no-verify
           fi
 
       - name: Set PR branch name based on current date
