@@ -83,6 +83,12 @@ jobs:
             npm run sync:packages-dependencies
           fi
 
+      - name: Create file & folder for GitHub Actions logs
+        run: |
+          # cfr scripts/_ghactions-group.sh
+          mkdir -p ${{ env.LOGS_DIR }}
+          touch ${{ env.LOGS_FILE }}
+
       - name: "Upgrade '@angular/*' deps thanks to 'npm-check-updates' or update package-lock.json file"
         run: |
           npx npm-check-updates -t minor -u "/^@angular\/.*$/" --packageFile ./showcase/package.json
