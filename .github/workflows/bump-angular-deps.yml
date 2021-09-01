@@ -105,7 +105,7 @@ jobs:
           npm install --package-lock-only --ignore-scripts
           git add package-lock.json
 
-          if [[ SHOWCASE_UPDATED_DEPS == 1 ]];
+          if [[ SHOWCASE_UPDATED_DEPS -eq 1 ]];
           then
             git add package.json
             git commit -m "chore(deps): bump \`@angular/*\` dependencies in showcase" --no-verify
