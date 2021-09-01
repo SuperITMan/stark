@@ -99,6 +99,8 @@ jobs:
             SHOWCASE_UPDATED_DEPS=1
           fi
 
+          echo "SHOWCASE_UPDATED_DEPS: $SHOWCASE_UPDATED_DEPS"
+
           npm run build
           npm run clean:modules:showcase
           cd showcase
