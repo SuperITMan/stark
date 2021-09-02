@@ -102,6 +102,7 @@ jobs:
           echo "SHOWCASE_UPDATED_DEPS: $SHOWCASE_UPDATED_DEPS"
 
           npm run build
+          git checkout starter/package.json
           npm run clean:modules:showcase
           cd showcase
           npm install --package-lock-only --ignore-scripts
