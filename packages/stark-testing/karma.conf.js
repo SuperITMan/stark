@@ -2,6 +2,8 @@
 const helpers = require("./helpers");
 const ciDetect = require("@npmcli/ci-detect");
 const isCI = process.argv.indexOf("--watch=false") > -1 || !!ciDetect();
+process.env.CHROME_BIN = require("playwright").chromium.executablePath();
+process.env.FIREFOX_BIN = require("playwright").firefox.executablePath();
 
 const rawKarmaConfig = {
 	// base path that will be used to resolve all patterns (e.g. files, exclude)
