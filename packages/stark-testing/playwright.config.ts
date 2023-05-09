@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { PlaywrightTestConfig } from "@playwright/test/types/test";
 
 /**
  * Read environment variables from file.
@@ -9,8 +10,9 @@ import { defineConfig, devices } from "@playwright/test";
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+const rawPlaywrightConfig: PlaywrightTestConfig = {
 	testDir: "./tests",
+	timeout: 60000,
 	/* Run tests in files in parallel */
 	fullyParallel: true,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -66,12 +68,18 @@ export default defineConfig({
 		//   name: 'Google Chrome',
 		//   use: { ..devices['Desktop Chrome'], channel: 'chrome' },
 		// },
-	]
+	],
 
 	/* Run your local dev server before starting the tests */
-	// webServer: {
-	//   command: 'npm run start',
-	//   url: 'http://127.0.0.1:3000',
-	//   reuseExistingServer: !process.env.CI,
-	// },
-});
+	webServer: {
+		command: "npm run start",
+		url: "http://127.0.0.1:3000",
+		reuseExistingServer: !process.env.CI,
+		timeout: 1800000
+	}
+};
+
+export = {
+	default: defineConfig(rawPlaywrightConfig),
+	rawPlaywrightConfig: rawPlaywrightConfig
+};
