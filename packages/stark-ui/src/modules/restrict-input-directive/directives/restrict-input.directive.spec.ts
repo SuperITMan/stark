@@ -49,6 +49,13 @@ describe("RestrictInputDirective", () => {
 		clipboardData.setData("text/plain", value);
 		const pasteEvent: ClipboardEvent = new ClipboardEvent("paste", { clipboardData: clipboardData, cancelable: true });
 
+		// tslint:disable-next-line:ban-ts-ignore
+		// @ts-ignore
+		if (typeof <any>InstallTrigger !== 'undefined') {
+			// Since the "paste" event cannot be properly mocked on Firefox, the test is skipped
+			pending("'paste' event cannot be tested properly on Firefox");
+		}
+
 		return !(<HTMLInputElement>inputElement.nativeElement).dispatchEvent(pasteEvent);
 	}
 
