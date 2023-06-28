@@ -120,7 +120,7 @@
     "@angular/router": "^12.2.16",
     "@nationalbankbelgium/code-style": "^1.6.0",
     "@nationalbankbelgium/ngx-form-errors": "^1.0.0",
-    "@nationalbankbelgium/stark-core": "file:../dist/packages-dist/stark-core/nationalbankbelgium-stark-core-10.2.0-00a15457-1645624098.tgz",
+    "@nationalbankbelgium/stark-core": "10.2.0",
     "@nationalbankbelgium/stark-rbac": "file:../dist/packages-dist/stark-rbac/nationalbankbelgium-stark-rbac-10.2.0-00a15457-1645624098.tgz",
     "@nationalbankbelgium/stark-ui": "file:../dist/packages-dist/stark-ui/nationalbankbelgium-stark-ui-10.2.0-00a15457-1645624098.tgz",
     "@uirouter/visualizer": "~7.2.1",
