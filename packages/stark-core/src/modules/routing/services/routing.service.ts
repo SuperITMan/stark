@@ -154,9 +154,23 @@ export class StarkRoutingServiceImpl implements StarkRoutingService {
 	public getStateConfigByUrlPath(urlPath: string): StarkStateConfigWithParams | undefined {
 		let targetRoute: StarkStateConfigWithParams | undefined;
 
-		// separate path from hash
-		const [, path = urlPath, hash]: string[] = urlPath.match(/(.*)#(.*)/) || [];
-
+		let path: string;
+		let hash: string | undefined;
+		const paramValues: RawParams = {};
+		
+		// When there is no match, null is set to each variable.
+		// 3 different RegEx are required to extract the path, the params and the hash.
+		if (urlPath.includes("?")) {
+			let params: string;
+			[, path = urlPath, params, hash] = (urlPath.includes("#") ? urlPath.match(/(.*)\?(.*)#(.*)/) : urlPath.match(/(.*)\?(.*)/)) || [];
+			params.split("&").forEach((param: string) => {
+				const keyValue = param.split("=");
+				paramValues[keyValue[0]] = keyValue[1];
+			});
+		} else {
+			[, path = urlPath, hash] = urlPath.match(/(.*)#(.*)/) || [];
+		}
+		
 		const matchedState: StateDeclaration[] = this.getStatesConfig().filter((state: StateDeclaration) => {
 			return (<Function>state.$$state)().url && (<Function>state.$$state)().url.exec(path, undefined, hash);
 		});
@@ -164,7 +178,10 @@ export class StarkRoutingServiceImpl implements StarkRoutingService {
 		if (matchedState.length) {
 			targetRoute = {
 				state: matchedState[0],
-				paramValues: (<Function>matchedState[0].$$state)().url.exec(path, undefined, hash)
+				paramValues: {
+					...(<Function>matchedState[0].$$state)().url.exec(path, undefined, hash),
+					...paramValues
+				}
 			};
 		}
 
