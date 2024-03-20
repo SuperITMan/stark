@@ -65,7 +65,7 @@ export function resolveTargetRoute(
  * @param targetRoute - Returned value of `resolveTargetRoute` method
  */
 export function resolveTargetState(targetRoute?: StarkStateConfigWithParams): Promise<string | undefined> {
-	return of(targetRoute?.state.name).toPromise();
+	return of(typeof targetRoute !== "undefined" ? targetRoute.state.name : undefined).toPromise();
 }
 
 /**
@@ -73,7 +73,7 @@ export function resolveTargetState(targetRoute?: StarkStateConfigWithParams): Pr
  * @param targetRoute - Returned value of `resolveTargetRoute` method
  */
 export function resolveTargetStateParams(targetRoute?: StarkStateConfigWithParams): Promise<RawParams | undefined> {
-	return of(targetRoute?.paramValues).toPromise();
+	return of(typeof targetRoute !== "undefined" ? targetRoute.paramValues : undefined).toPromise();
 }
 
 /**
