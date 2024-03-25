@@ -154,19 +154,22 @@ export class StarkRoutingServiceImpl implements StarkRoutingService {
 	public getStateConfigByUrlPath(urlPath: string): StarkStateConfigWithParams | undefined {
 		let targetRoute: StarkStateConfigWithParams | undefined;
 
-		let path: string = urlPath;
+		let path!: string;
+		let params: string | undefined;
 		let hash: string | undefined;
-		let params: string = "";
 		const paramValues: RawParams = {};
 
-		[, path = path, params = params, hash, path = path, params = params, path = path, hash = hash, path = path] = urlPath.match(
+		// tslint:disable-next-line:no-self-assignment no-non-null-assertion no-dead-store
+		[, path, params, hash, path = path, params = params, path = path, hash = hash, path = path] = urlPath.match(
 			/(.*)\?(.*)#(.*)|(.*)\?(.*)|(.*)#(.*)|(.*)/
 		)!;
 
-		params.split("&").forEach((param: string) => {
-			const keyValue = param.split("=");
-			paramValues[keyValue[0]] = keyValue[1];
-		});
+		if (typeof params === "string") {
+			params.split("&").forEach((param: string) => {
+				const keyValue = param.split("=");
+				paramValues[keyValue[0]] = keyValue[1];
+			});
+		}
 
 		const matchedState: StateDeclaration[] = this.getStatesConfig().filter(
 			(state: StateDeclaration) => (<Function>state.$$state)().url && (<Function>state.$$state)().url.exec(path, undefined, hash)
